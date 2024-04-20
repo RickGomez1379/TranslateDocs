@@ -31,6 +31,10 @@ For new developers looking to contribute to TranslateDocs, follow these steps to
 Clone the repository from GitHub, Open the project in Android Studio, Ensure that Firebase ML Kit and Google Cloud Translation API dependencies are correctly configured, Build and compile the project to generate an initial build
 
 
+License
+TranslateDocs is licensed under the MIT License.
+
+
 Contributors
 
 Ricardo Gomez (maintainer)
