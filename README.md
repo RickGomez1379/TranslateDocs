@@ -6,14 +6,12 @@ TranslateDocs is a revolutionary application designed to simplify the process of
 
 Features
 
-Extract text from photos and documents
-Seamlessly translate extracted text into the user's preferred language
-User-friendly interface with intuitive navigation
-Supports multiple file formats including images and documents
+Extract text from photos and documents, Seamlessly translate extracted text into the user's preferred language, User-friendly interface with intuitive navigation, Supports multiple file formats including images and documents
 
 Technologies
 
 TranslateDocs is built using:
+
 Android Studio: for Android application development
 Firebase ML Kit: for text extraction from photos
 Google Cloud Translation API: for text translation services
@@ -25,10 +23,7 @@ To install TranslateDocs on your Android device, simply download the APK file fr
 Development Setup
 
 For new developers looking to contribute to TranslateDocs, follow these steps to set up your development environment:
-Clone the repository from GitHub
-Open the project in Android Studio
-Ensure that Firebase ML Kit and Google Cloud Translation API dependencies are correctly configured
-Build and compile the project to generate an initial build
+Clone the repository from GitHub, Open the project in Android Studio, Ensure that Firebase ML Kit and Google Cloud Translation API dependencies are correctly configured, Build and compile the project to generate an initial build
 
 Contributors
 
@@ -41,4 +36,5 @@ TranslateDocs is currently in the early stage of development. Further improvemen
 Support
 
 Creating First Android Studio app using NO ACTIVITY - https://www.youtube.com/watch?v=_NEUnBgYTvU&t=1180s
+
 Extract Text From Image using Android and Google ML Kit - https://www.youtube.com/watch?v=-7pM5ficYoc&t=585s
