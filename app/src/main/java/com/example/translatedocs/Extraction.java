@@ -24,11 +24,13 @@ public class Extraction extends Activity {
     TextView extracted;
     ImageView photo;
     Uri imageUri;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.extraction_activity);
 
+        // Assign Views Accordingly
         photo = findViewById(R.id.userPhoto);
         extracted = findViewById(R.id.extractedText);
 
@@ -57,7 +59,8 @@ public class Extraction extends Activity {
             // Return the Bitmap
             return bitmap;
         } catch (IOException e) {
-            e.printStackTrace();
+
+            Toast.makeText(this, e.toString(),Toast.LENGTH_SHORT).show();
             // Handle any errors that may occur
             return null;
         }
@@ -67,20 +70,27 @@ public class Extraction extends Activity {
     public void getTextFromImage(Bitmap bitmap){
         TextRecognizer textRecognizer = new TextRecognizer.Builder(getApplicationContext()).build();
 
+        // Check if the TextRecognizer is operational
         if(!textRecognizer.isOperational()){
             Toast.makeText(getApplicationContext(), "Could not get the text", Toast.LENGTH_SHORT).show();
         }
-        else{
-            Frame frame = new Frame.Builder().setBitmap(bitmap).build();
 
+        else{
+            // Create a Frame from the Bitmap
+            Frame frame = new Frame.Builder().setBitmap(bitmap).build();
+            // Use the TextRecognizer to detect text in the frame
             SparseArray<TextBlock> items = textRecognizer.detect(frame);
 
+            // Initialize a StringBuilder to store the extracted text
             StringBuilder stringBuilder = new StringBuilder();
+
+            // Iterate through the detected text blocks
             for (int i = 0; i < items.size(); i++){
                 TextBlock myItem = items.valueAt(i);
                 stringBuilder.append(myItem.getValue());
                 stringBuilder.append("\n");
             }
+            // Set the extracted text to the TextView
             extracted.setText(stringBuilder.toString());
         }
     }
