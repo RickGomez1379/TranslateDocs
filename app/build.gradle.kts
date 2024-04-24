@@ -29,7 +29,7 @@ android {
 }
 
 dependencies {
-
+    implementation(libs.play.services.vision)
     implementation(libs.appcompat)
     implementation(libs.material)
     testImplementation(libs.junit)
