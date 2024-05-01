@@ -15,13 +15,24 @@ import androidx.annotation.Nullable;
 import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
+import com.google.mlkit.common.model.DownloadConditions;
+import com.google.mlkit.common.model.RemoteModelManager;
+import com.google.mlkit.nl.languageid.LanguageIdentification;
+import com.google.mlkit.nl.translate.TranslateLanguage;
+import com.google.mlkit.nl.translate.TranslateRemoteModel;
+import com.google.mlkit.nl.translate.Translation;
+import com.google.mlkit.nl.translate.Translator;
+import com.google.mlkit.nl.translate.TranslatorOptions;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Locale;
+import java.util.Objects;
 
 
 public class Extraction extends Activity {
-    TextView extracted;
+    TextView extractedTView;
+    TextView translatedTView;
     ImageView photo;
     Uri imageUri;
 
@@ -32,7 +43,8 @@ public class Extraction extends Activity {
 
         // Assign Views Accordingly
         photo = findViewById(R.id.userPhoto);
-        extracted = findViewById(R.id.extractedText);
+        extractedTView = findViewById(R.id.extractedText);
+        translatedTView = findViewById(R.id.translatedText);
 
         // Retrieve the image URI passed from the HomeActivity
         String imageUriString = getIntent().getStringExtra("imageUri");
@@ -41,6 +53,8 @@ public class Extraction extends Activity {
             // Set the selected image to the ImageView
             photo.setImageURI(imageUri);
         }
+
+
         // Assuming you have obtained the Bitmap from the previous activity
         Bitmap bitmap = getBitmapFromUri(imageUri);
 
@@ -91,7 +105,49 @@ public class Extraction extends Activity {
                 stringBuilder.append("\n");
             }
             // Set the extracted text to the TextView
-            extracted.setText(stringBuilder.toString());
+            extractedTView.setText(stringBuilder.toString());
+
+            //Identify Language and Create Translator
+            LanguageIdentification.getClient().identifyLanguage(stringBuilder.toString())
+                    .addOnSuccessListener(sourceLanguage -> {
+
+                //Download User's Preferred Language Model
+                String userLanguage = Locale.getDefault().getLanguage();
+                TranslateRemoteModel userModel = new TranslateRemoteModel
+                        .Builder(Objects.requireNonNull(TranslateLanguage.fromLanguageTag(userLanguage)))
+                        .build();
+
+                RemoteModelManager manager = RemoteModelManager.getInstance();
+                manager.download(userModel, new DownloadConditions
+                        .Builder()
+                        .build());
+
+                //Create Translator
+                TranslatorOptions options = new TranslatorOptions
+                        .Builder()
+                        .setSourceLanguage(sourceLanguage)
+                        .setTargetLanguage(userLanguage).build();
+
+                Translator translator = Translation.getClient(options);
+
+                DownloadConditions conditions = new DownloadConditions
+                        .Builder()
+                        .requireWifi()
+                        .build();
+
+                translator.downloadModelIfNeeded(conditions)
+                        .addOnSuccessListener(unused -> translator.translate(stringBuilder.toString())
+                                .addOnSuccessListener(translation -> {
+
+                                    Toast.makeText(Extraction.this, "Successfully Translated",Toast.LENGTH_LONG).show();
+                                    translatedTView.setText(translation);
+
+                        }))
+                        .addOnFailureListener(e ->
+                                Toast.makeText(Extraction.this, "Fail to Download: " + e,Toast.LENGTH_LONG).show());
+
+
+            });
         }
     }
 

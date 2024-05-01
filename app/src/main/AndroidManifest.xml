@@ -26,6 +26,10 @@
         <activity android:name=".Extraction" />
         <meta-data
             android:name="com.google.android.gms.vision.DEPENDENCIES"
-            android:value="orc" />
+            android:value="orc"
+            />
+        <meta-data
+            android:name="com.google.mlkit.vision.DEPENDENCIES"
+            android:value="langid" />
 </application>
 </manifest>

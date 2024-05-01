@@ -29,6 +29,16 @@ android {
 }
 
 dependencies {
+
+    // Use this dependency to bundle the model with your app
+    implementation ("com.google.mlkit:language-id:17.0.5")
+
+    // Use this dependency to use the dynamically downloaded model in Google Play Services
+    implementation ("com.google.android.gms:play-services-mlkit-language-id:17.0.0")
+
+    // Use this dependency to use the translate text
+    implementation ("com.google.mlkit:translate:17.0.2")
+    
     implementation(libs.play.services.vision)
     implementation(libs.appcompat)
     implementation(libs.material)
