@@ -45,6 +45,8 @@ public class TranslatorActivity extends Activity {
             //Set Language Codes
             translateFrom = ChosenLanguage(languagesFrom.getSelectedItem().toString());
             translateTo = ChosenLanguage(languagesTo.getSelectedItem().toString());
+
+            //Translate
             Translate(Objects.requireNonNull(textToTranslateFrom.getText()).toString(), translateFrom,translateTo);
         });
     }
