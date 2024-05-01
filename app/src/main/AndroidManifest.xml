@@ -24,6 +24,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".Extraction" />
+        <activity android:name=".TranslatorActivity"/>
         <meta-data
             android:name="com.google.android.gms.vision.DEPENDENCIES"
             android:value="orc"
