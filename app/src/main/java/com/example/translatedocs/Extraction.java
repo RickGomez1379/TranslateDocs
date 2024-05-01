@@ -69,6 +69,7 @@ public class Extraction extends Activity {
             // Decode the InputStream into a Bitmap using BitmapFactory
             Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
             // Close the InputStream
+            assert inputStream != null;
             inputStream.close();
             // Return the Bitmap
             return bitmap;
@@ -107,48 +108,53 @@ public class Extraction extends Activity {
             // Set the extracted text to the TextView
             extractedTView.setText(stringBuilder.toString());
 
-            //Identify Language and Create Translator
-            LanguageIdentification.getClient().identifyLanguage(stringBuilder.toString())
-                    .addOnSuccessListener(sourceLanguage -> {
-
-                //Download User's Preferred Language Model
-                String userLanguage = Locale.getDefault().getLanguage();
-                TranslateRemoteModel userModel = new TranslateRemoteModel
-                        .Builder(Objects.requireNonNull(TranslateLanguage.fromLanguageTag(userLanguage)))
-                        .build();
-
-                RemoteModelManager manager = RemoteModelManager.getInstance();
-                manager.download(userModel, new DownloadConditions
-                        .Builder()
-                        .build());
-
-                //Create Translator
-                TranslatorOptions options = new TranslatorOptions
-                        .Builder()
-                        .setSourceLanguage(sourceLanguage)
-                        .setTargetLanguage(userLanguage).build();
-
-                Translator translator = Translation.getClient(options);
-
-                DownloadConditions conditions = new DownloadConditions
-                        .Builder()
-                        .requireWifi()
-                        .build();
-
-                translator.downloadModelIfNeeded(conditions)
-                        .addOnSuccessListener(unused -> translator.translate(stringBuilder.toString())
-                                .addOnSuccessListener(translation -> {
-
-                                    Toast.makeText(Extraction.this, "Successfully Translated",Toast.LENGTH_LONG).show();
-                                    translatedTView.setText(translation);
-
-                        }))
-                        .addOnFailureListener(e ->
-                                Toast.makeText(Extraction.this, "Fail to Download: " + e,Toast.LENGTH_LONG).show());
-
-
-            });
+            //Translate Text
+            Translate(stringBuilder.toString());
         }
+    }
+
+    private void Translate(String textToTranslate) {
+        //Identify Language and Create Translator
+        LanguageIdentification.getClient().identifyLanguage(textToTranslate)
+                .addOnSuccessListener(sourceLanguage -> {
+
+            //Download User's Preferred Language Model
+            String userLanguage = Locale.getDefault().getLanguage();
+            TranslateRemoteModel userModel = new TranslateRemoteModel
+                    .Builder(Objects.requireNonNull(TranslateLanguage.fromLanguageTag(userLanguage)))
+                    .build();
+
+            RemoteModelManager manager = RemoteModelManager.getInstance();
+            manager.download(userModel, new DownloadConditions
+                    .Builder()
+                    .build());
+
+            //Create Translator
+            TranslatorOptions options = new TranslatorOptions
+                    .Builder()
+                    .setSourceLanguage(sourceLanguage)
+                    .setTargetLanguage(userLanguage).build();
+
+            Translator translator = Translation.getClient(options);
+
+            DownloadConditions conditions = new DownloadConditions
+                    .Builder()
+                    .requireWifi()
+                    .build();
+
+            translator.downloadModelIfNeeded(conditions)
+                    .addOnSuccessListener(unused -> translator.translate(textToTranslate)
+                            .addOnSuccessListener(translation -> {
+                                Toast.makeText(Extraction.this, sourceLanguage,Toast.LENGTH_LONG).show();
+                                Toast.makeText(Extraction.this, "Successfully Translated",Toast.LENGTH_LONG).show();
+                                translatedTView.setText(translation);
+
+                    }))
+                    .addOnFailureListener(e ->
+                            Toast.makeText(Extraction.this, "Fail to Download: " + e,Toast.LENGTH_LONG).show());
+
+
+        });
     }
 
 }
