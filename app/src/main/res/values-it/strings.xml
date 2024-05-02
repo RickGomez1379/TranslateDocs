@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TranslateDocs</string>
+    <string name="choose_picture_from_gallery">Scegli Immagine dalla Galleria</string>
+    <string name="take_photo">Fare foto</string>
+    <string name="translator">Tradurre</string>
+    <string name="settings">Impostazioni</string>
+    <string name="user_s_photo">Foto dell\'utente</string>
+    <string name="enter_text_to_translate_from">Inserisci il testo da cui tradurre</string>
+    <string name="language_of_text">Linguaggio del testo</string>
+    <string name="text_translation_here">Traduzione del testo qui</string>
+    <string name="translate">Tradurre</string>
+    <string-array name="languages">
+        <item>Inglese</item>
+        <item>Spagnolo</item>
+        <item>Francese</item>
+        <item>Tedesco</item>
+        <item>Portoghese</item>
+        <item>Italiano</item>
+        <item>Rumeno</item>
+    </string-array>
+</resources>
