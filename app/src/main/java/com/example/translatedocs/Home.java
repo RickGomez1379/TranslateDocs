@@ -17,10 +17,14 @@ public class Home extends Activity{
         setContentView(R.layout.home_activity);
         galleryButton = findViewById(R.id.photoFromGalleryBtn);
         translatorButton = findViewById(R.id.translatorBtn);
+
+        //Navigate to User's Gallery
         galleryButton.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             startActivityForResult(intent, 1);
         });
+
+        //Navigate to Translator Screen
         translatorButton.setOnClickListener(v -> {
             Intent intent = new Intent(this, TranslatorActivity.class);
             startActivity(intent);
@@ -33,6 +37,7 @@ public class Home extends Activity{
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
             Uri selectedImageUri = data.getData();
+
             // Pass the selected image URI to the next activity
             Intent intent = new Intent(Home.this, Extraction.class);
             intent.putExtra("imageUri", selectedImageUri.toString());
