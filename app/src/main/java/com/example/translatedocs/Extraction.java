@@ -33,7 +33,7 @@ import java.util.Objects;
 public class Extraction extends Activity {
     TextView extractedTView;
     TextView translatedTView;
-    ImageView photo;
+    ImageView imageView;
     Uri imageUri;
 
     @Override
@@ -42,24 +42,46 @@ public class Extraction extends Activity {
         setContentView(R.layout.extraction_activity);
 
         // Assign Views Accordingly
-        photo = findViewById(R.id.userPhoto);
+        imageView = findViewById(R.id.userPhoto);
         extractedTView = findViewById(R.id.extractedText);
         translatedTView = findViewById(R.id.translatedText);
 
-        // Retrieve the image URI passed from the HomeActivity
-        String imageUriString = getIntent().getStringExtra("imageUri");
-        if (imageUriString != null) {
-            imageUri = Uri.parse(imageUriString);
-            // Set the selected image to the ImageView
-            photo.setImageURI(imageUri);
+        // Retrieve Image URI passed from Home
+        String galleryUri = getIntent().getStringExtra("galleryUri");
+
+        //Retrieve Image Bitmap passed from Home
+        Bundle photoExtras = getIntent().getExtras();
+
+        //If User decide to use their Gallery
+        if (galleryUri != null) {
+
+            //Convert Image from Uri
+            imageUri = Uri.parse(galleryUri);
+
+            // Set Image to ImageView
+            imageView.setImageURI(imageUri);
+
+            //Convert Bitmap from Uri
+            Bitmap galleryBitmap = getBitmapFromUri(imageUri);
+
+            // Process text from image
+            getTextFromImage(galleryBitmap);
         }
 
+        //Else if User decides to use Camera
+        else if(photoExtras != null){
 
-        // Assuming you have obtained the Bitmap from the previous activity
-        Bitmap bitmap = getBitmapFromUri(imageUri);
+            //Extract passed data from Home
+            Bitmap photoBitmap = (Bitmap) photoExtras.get("photoBitmap");
 
-        // Call the method to process the text from the image
-        getTextFromImage(bitmap);
+            // Set Image to ImageView
+            imageView.setImageBitmap(photoBitmap);
+
+            // Process text from image
+            getTextFromImage(photoBitmap);
+
+        }
+
     }
 
     public Bitmap getBitmapFromUri(Uri uri) {
@@ -114,6 +136,7 @@ public class Extraction extends Activity {
     }
 
     private void Translate(String textToTranslate) {
+
         //Identify Language and Create Translator
         LanguageIdentification.getClient().identifyLanguage(textToTranslate)
                 .addOnSuccessListener(sourceLanguage -> {

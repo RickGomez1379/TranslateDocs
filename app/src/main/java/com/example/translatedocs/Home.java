@@ -2,6 +2,8 @@ package com.example.translatedocs;
 
 import android.app.Activity;
 import android.content.Intent;
+
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -11,24 +13,41 @@ import android.widget.Button;
 public class Home extends Activity{
     Button galleryButton;
     Button translatorButton;
+    Button photoButton;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_activity);
+
+        //Assigned Buttons Accordingly
         galleryButton = findViewById(R.id.photoFromGalleryBtn);
         translatorButton = findViewById(R.id.translatorBtn);
+        photoButton = findViewById(R.id.takePhotoBtn);
 
-        //Navigate to User's Gallery
+        //Choose From Gallery
+        //Starts Extraction Activity
         galleryButton.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             startActivityForResult(intent, 1);
         });
 
-        //Navigate to Translator Screen
+        //Take Photo
+        //Navigate to User's Camera
+        //Starts Extraction Activity
+        photoButton.setOnClickListener(v -> {
+            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            startActivityForResult(takePictureIntent, 2);
+        });
+
+        //Translator
+        //Starts Translator Activity
         translatorButton.setOnClickListener(v -> {
             Intent intent = new Intent(this, TranslatorActivity.class);
             startActivity(intent);
         });
+
+
     }
 
 
@@ -40,8 +59,18 @@ public class Home extends Activity{
 
             // Pass the selected image URI to the next activity
             Intent intent = new Intent(Home.this, Extraction.class);
-            intent.putExtra("imageUri", selectedImageUri.toString());
+            intent.putExtra("galleryUri", selectedImageUri.toString());
             startActivity(intent);
+        }
+        else if(requestCode == 2 && resultCode == RESULT_OK && data != null){
+
+            // Photo captured successfully
+            Bitmap photoBitmap = (Bitmap) data.getExtras().get("data");
+
+            // Pass the URI of the saved photo file to the next activity
+                Intent intent = new Intent(this, Extraction.class);
+                intent.putExtra("photoBitmap", photoBitmap);
+                startActivity(intent);
         }
     }
 }
