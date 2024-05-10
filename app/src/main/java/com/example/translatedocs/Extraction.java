@@ -4,7 +4,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.SparseArray;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -13,9 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.google.android.gms.vision.Frame;
-import com.google.android.gms.vision.text.TextBlock;
-import com.google.android.gms.vision.text.TextRecognizer;
+import com.google.android.gms.tasks.Task;
 import com.google.mlkit.common.model.DownloadConditions;
 import com.google.mlkit.common.model.RemoteModelManager;
 import com.google.mlkit.nl.languageid.LanguageIdentification;
@@ -24,6 +21,11 @@ import com.google.mlkit.nl.translate.TranslateRemoteModel;
 import com.google.mlkit.nl.translate.Translation;
 import com.google.mlkit.nl.translate.Translator;
 import com.google.mlkit.nl.translate.TranslatorOptions;
+import com.google.mlkit.vision.common.InputImage;
+import com.google.mlkit.vision.text.Text;
+import com.google.mlkit.vision.text.TextRecognition;
+import com.google.mlkit.vision.text.TextRecognizer;
+import com.google.mlkit.vision.text.latin.TextRecognizerOptions;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -69,8 +71,8 @@ public class Extraction extends AppCompatActivity {
             //Convert Bitmap from Uri
             Bitmap galleryBitmap = getBitmapFromUri(imageUri);
 
-            // Process text from image
-            getTextFromImage(galleryBitmap);
+            // Process text from image and translate
+            FirebaseDetectText(galleryBitmap);
         }
 
         //Else if User decides to use Camera
@@ -82,8 +84,8 @@ public class Extraction extends AppCompatActivity {
             // Set Image to ImageView
             imageView.setImageBitmap(photoBitmap);
 
-            // Process text from image
-            getTextFromImage(photoBitmap);
+            // Process text from image and translate
+            FirebaseDetectText(photoBitmap);
 
         }
 
@@ -108,35 +110,27 @@ public class Extraction extends AppCompatActivity {
         }
     }
 
-    public void getTextFromImage(Bitmap bitmap){
-        TextRecognizer textRecognizer = new TextRecognizer.Builder(getApplicationContext()).build();
+    public void FirebaseDetectText(Bitmap bitmap){
+        // Using Latin script library
+        TextRecognizer recognizer =
+                TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS);
 
-        // Check if the TextRecognizer is operational
-        if(!textRecognizer.isOperational()){
-            Toast.makeText(getApplicationContext(), "Could not get the text", Toast.LENGTH_SHORT).show();
-        }
+    InputImage image = InputImage.fromBitmap(bitmap, 0);
+        Task<Text> result = recognizer.process(image)
+                .addOnSuccessListener(visionText -> {
 
-        else{
-            // Create a Frame from the Bitmap
-            Frame frame = new Frame.Builder().setBitmap(bitmap).build();
-            // Use the TextRecognizer to detect text in the frame
-            SparseArray<TextBlock> items = textRecognizer.detect(frame);
+                            // Task completed successfully
+                            extractedTView.setText(visionText.getText());
+                            Translate(visionText.getText());
 
-            // Initialize a StringBuilder to store the extracted text
-            StringBuilder stringBuilder = new StringBuilder();
+                        })
+                .addOnFailureListener(
+                                e -> {
 
-            // Iterate through the detected text blocks
-            for (int i = 0; i < items.size(); i++){
-                TextBlock myItem = items.valueAt(i);
-                stringBuilder.append(myItem.getValue());
-                stringBuilder.append("\n");
-            }
-            // Set the extracted text to the TextView
-            extractedTView.setText(stringBuilder.toString());
+                                    // Task failed with an exception
 
-            //Translate Text
-            Translate(stringBuilder.toString());
-        }
+                                });
+
     }
 
     private void Translate(String textToTranslate) {

@@ -26,11 +26,10 @@
         <activity android:name=".Extraction" />
         <activity android:name=".TranslatorActivity"/>
         <meta-data
-            android:name="com.google.android.gms.vision.DEPENDENCIES"
-            android:value="orc"
-            />
-        <meta-data
             android:name="com.google.mlkit.vision.DEPENDENCIES"
             android:value="langid" />
+        <meta-data
+            android:name="com.google.firebase.ml.vision.DEPENDENCIES"
+            android:value="ocr" />
 </application>
 </manifest>

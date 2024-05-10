@@ -38,6 +38,9 @@ dependencies {
 
     // Use this dependency to use the translate text
     implementation ("com.google.mlkit:translate:17.0.2")
+
+    // To recognize Latin script
+    implementation ("com.google.mlkit:text-recognition:16.0.0")
     
     implementation(libs.play.services.vision)
     implementation(libs.appcompat)
