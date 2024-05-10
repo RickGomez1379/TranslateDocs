@@ -1,6 +1,5 @@
 package com.example.translatedocs;
 
-import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -11,6 +10,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.text.TextBlock;
@@ -30,11 +31,12 @@ import java.util.Locale;
 import java.util.Objects;
 
 
-public class Extraction extends Activity {
+public class Extraction extends AppCompatActivity {
     TextView extractedTView;
     TextView translatedTView;
     ImageView imageView;
     Uri imageUri;
+    Toolbar nav;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,6 +47,9 @@ public class Extraction extends Activity {
         imageView = findViewById(R.id.userPhoto);
         extractedTView = findViewById(R.id.extractedText);
         translatedTView = findViewById(R.id.translatedText);
+        nav = findViewById(R.id.TopBar);
+
+        setSupportActionBar(nav);
 
         // Retrieve Image URI passed from Home
         String galleryUri = getIntent().getStringExtra("galleryUri");
@@ -102,7 +107,6 @@ public class Extraction extends Activity {
             return null;
         }
     }
-
 
     public void getTextFromImage(Bitmap bitmap){
         TextRecognizer textRecognizer = new TextRecognizer.Builder(getApplicationContext()).build();

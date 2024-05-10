@@ -1,6 +1,5 @@
 package com.example.translatedocs;
 
-import android.app.Activity;
 import android.content.Intent;
 
 import android.graphics.Bitmap;
@@ -8,13 +7,18 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import androidx.annotation.Nullable;
-import android.widget.Button;
+import androidx.appcompat.app.AppCompatActivity;
 
-public class Home extends Activity{
+import android.widget.Button;
+import androidx.appcompat.widget.Toolbar;
+
+
+
+public class Home extends AppCompatActivity {
     Button galleryButton;
     Button translatorButton;
     Button photoButton;
-
+    Toolbar nav;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,6 +28,9 @@ public class Home extends Activity{
         galleryButton = findViewById(R.id.photoFromGalleryBtn);
         translatorButton = findViewById(R.id.translatorBtn);
         photoButton = findViewById(R.id.takePhotoBtn);
+        nav = findViewById(R.id.TopBar);
+
+        setSupportActionBar(nav);
 
         //Choose From Gallery
         //Starts Extraction Activity
