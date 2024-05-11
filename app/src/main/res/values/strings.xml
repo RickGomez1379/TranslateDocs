@@ -9,6 +9,8 @@
     <string name="language_of_text">Language of Text</string>
     <string name="text_translation_here">Text Translation Here</string>
     <string name="translate">Translate</string>
+    <string name="detected_text">Detected Text</string>
+    <string name="translated_text">Translated Text</string>
     <string-array name="languages">
         <item>English</item>
         <item>Spanish</item>

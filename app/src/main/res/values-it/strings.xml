@@ -5,11 +5,13 @@
     <string name="take_photo">Fare foto</string>
     <string name="translator">Tradurre</string>
     <string name="settings">Impostazioni</string>
-    <string name="user_s_photo">Foto dell\'utente</string>
-    <string name="enter_text_to_translate_from">Inserisci il testo da cui tradurre</string>
-    <string name="language_of_text">Linguaggio del testo</string>
-    <string name="text_translation_here">Traduzione del testo qui</string>
+    <string name="user_s_photo">Foto Dell\'Utente</string>
+    <string name="enter_text_to_translate_from">Inserisci il Testo da Cui Tradurre</string>
+    <string name="language_of_text">Linguaggio del Testo</string>
+    <string name="text_translation_here">Traduzione del Testo Qui</string>
     <string name="translate">Tradurre</string>
+    <string name="detected_text">Testo Rilevato</string>
+    <string name="translated_text">Testo Tradotto</string>
     <string-array name="languages">
         <item>Inglese</item>
         <item>Spagnolo</item>

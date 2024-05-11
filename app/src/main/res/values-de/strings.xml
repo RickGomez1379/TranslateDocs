@@ -10,6 +10,8 @@
     <string name="language_of_text">Sprache des Textes</string>
     <string name="text_translation_here">Textübersetzung hier</string>
     <string name="translate">Übersetzen</string>
+    <string name="detected_text">Erkannter Text</string>
+    <string name="translated_text">Übersetzter Text</string>
     <string-array name="languages">
         <item>Englisch</item>
         <item>Spanisch</item>
