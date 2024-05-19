@@ -1,13 +1,14 @@
 package com.example.translatedocs;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.appcompat.widget.Toolbar;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.mlkit.common.model.DownloadConditions;
@@ -20,7 +21,7 @@ import com.google.mlkit.nl.translate.TranslatorOptions;
 
 import java.util.Objects;
 
-public class TranslatorActivity extends Activity {
+public class TranslatorActivity extends AppCompatActivity {
     Button translateButton;
     Spinner languagesFrom;
     Spinner languagesTo;
@@ -28,6 +29,7 @@ public class TranslatorActivity extends Activity {
     String translateTo;
     TextView translationTextView;
     TextInputEditText textToTranslateFrom;
+    Toolbar nav;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,7 +40,10 @@ public class TranslatorActivity extends Activity {
         languagesTo = findViewById(R.id.languagesToSpinner);
         translationTextView = findViewById(R.id.translationTA);
         textToTranslateFrom = findViewById(R.id.textToTranslate);
+        nav = findViewById(R.id.TopBar);
 
+        setSupportActionBar(nav);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
 
         translateButton.setOnClickListener(v -> {

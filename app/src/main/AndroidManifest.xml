@@ -23,8 +23,10 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".Extraction" />
-        <activity android:name=".TranslatorActivity"/>
+        <activity android:name=".Extraction"
+            android:parentActivityName=".Home"/>
+        <activity android:name=".TranslatorActivity"
+            android:parentActivityName=".Home"/>
         <meta-data
             android:name="com.google.mlkit.vision.DEPENDENCIES"
             android:value="langid" />

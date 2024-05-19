@@ -52,6 +52,7 @@ public class Extraction extends AppCompatActivity {
         nav = findViewById(R.id.TopBar);
 
         setSupportActionBar(nav);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         // Retrieve Image URI passed from Home
         String galleryUri = getIntent().getStringExtra("galleryUri");
