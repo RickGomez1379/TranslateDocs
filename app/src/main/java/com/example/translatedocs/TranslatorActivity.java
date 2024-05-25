@@ -1,6 +1,7 @@
 package com.example.translatedocs;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.widget.Button;
@@ -8,11 +9,15 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.Manifest;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.mlkit.common.model.DownloadConditions;
@@ -36,7 +41,8 @@ public class TranslatorActivity extends AppCompatActivity {
     TextView translationTextView;
     TextInputEditText textToTranslateFrom;
     Toolbar nav;
-    int SPEECH_CODE = 102;
+    final int SPEECH_CODE = 102;
+    final int REQUEST_MICROPHONE_PERMISSION = 101;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,8 +59,19 @@ public class TranslatorActivity extends AppCompatActivity {
         setSupportActionBar(nav);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
-        mic.setOnClickListener(v -> OpenMicrophone());
-
+        mic.setOnClickListener(v -> {
+            // Check if the RECORD_AUDIO permission is granted
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
+                    != PackageManager.PERMISSION_GRANTED) {
+                // If permission is not granted, request the permission
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.RECORD_AUDIO},
+                        REQUEST_MICROPHONE_PERMISSION);
+            } else {
+                // Permission already granted, you can proceed with the microphone functionality
+                OpenMicrophone();
+            }
+        });
 
         translateButton.setOnClickListener(v -> {
             //Set Language Codes
@@ -86,6 +103,20 @@ public class TranslatorActivity extends AppCompatActivity {
 
             String [] result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS).toArray(new String[0]);
             textToTranslateFrom.setText(result[0]);
+        }
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_MICROPHONE_PERMISSION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission granted, you can proceed with the microphone functionality
+                OpenMicrophone();
+            } else {
+                // Permission denied, show a message to the user
+                Toast.makeText(this, "Microphone permission is required to record audio", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
