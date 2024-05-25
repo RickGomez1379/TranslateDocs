@@ -26,6 +26,15 @@
         android:layout_marginTop="50dp"
         android:entries="@array/languages"/>
 
+    <ImageView
+        android:id="@+id/microphoneImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/microphoneicon25" />
+
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
