@@ -9,35 +9,35 @@ import android.provider.MediaStore;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.widget.Button;
 import androidx.appcompat.widget.Toolbar;
-
+import androidx.cardview.widget.CardView;
 
 
 public class Home extends AppCompatActivity {
-    Button galleryButton;
-    Button translatorButton;
-    Button photoButton;
+    CardView galleryButton;
+    CardView translatorButton;
+    CardView photoButton;
     Toolbar nav;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_activity);
 
-        //Assigned Buttons Accordingly
-        galleryButton = findViewById(R.id.photoFromGalleryBtn);
-        translatorButton = findViewById(R.id.translatorBtn);
-        photoButton = findViewById(R.id.takePhotoBtn);
-        nav = findViewById(R.id.TopBar);
+        //Assigned CardView Accordingly
+       galleryButton = findViewById(R.id.galleryCardView);
+       photoButton = findViewById(R.id.takePhotoCardView);
+       translatorButton = findViewById(R.id.translatorCardView);
 
-        setSupportActionBar(nav);
+       nav = findViewById(R.id.TopBar);
+
+       setSupportActionBar(nav);
 
         //Choose From Gallery
         //Starts Extraction Activity
         galleryButton.setOnClickListener(v -> {
-            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+           Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             startActivityForResult(intent, 1);
-        });
+       });
 
         //Take Photo
         //Navigate to User's Camera
@@ -47,16 +47,13 @@ public class Home extends AppCompatActivity {
             startActivityForResult(takePictureIntent, 2);
         });
 
-        //Translator
-        //Starts Translator Activity
+       //Translator
+       //Starts Translator Activity
         translatorButton.setOnClickListener(v -> {
             Intent intent = new Intent(this, TranslatorActivity.class);
             startActivity(intent);
-        });
-
-
+       });
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
