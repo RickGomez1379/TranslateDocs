@@ -25,6 +25,7 @@ import com.google.mlkit.vision.common.InputImage;
 import com.google.mlkit.vision.text.Text;
 import com.google.mlkit.vision.text.TextRecognition;
 import com.google.mlkit.vision.text.TextRecognizer;
+import com.google.mlkit.vision.text.japanese.JapaneseTextRecognizerOptions;
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions;
 
 import java.io.IOException;
@@ -113,25 +114,34 @@ public class Extraction extends AppCompatActivity {
 
     public void FirebaseDetectText(Bitmap bitmap){
         // Using Latin script library
-        TextRecognizer recognizer =
+        TextRecognizer latinRecognizer =
                 TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS);
+        TextRecognizer japaneseRecognizer = 
+                TextRecognition.getClient(new JapaneseTextRecognizerOptions.Builder().build());
 
     InputImage image = InputImage.fromBitmap(bitmap, 0);
-        Task<Text> result = recognizer.process(image)
+
+    TextRecognizerTask(latinRecognizer, image);
+    if(extractedTView.getText() == ""){
+        TextRecognizerTask(japaneseRecognizer,image);
+    }
+    }
+
+    private void SetTextViewAndTranslate(Text visionText) {
+        // Task completed successfully
+        extractedTView.setText(visionText.getText());
+        Translate(visionText.getText());
+    }
+
+    private void TextRecognizerTask(TextRecognizer textRecognizer, InputImage image) {
+        // Task completed successfully
+        Task<Text> task = textRecognizer.process(image)
                 .addOnSuccessListener(visionText -> {
-
-                            // Task completed successfully
-                            extractedTView.setText(visionText.getText());
-                            Translate(visionText.getText());
-
-                        })
-                .addOnFailureListener(
-                                e -> {
-
-                                    // Task failed with an exception
-
-                                });
-
+                    if(!visionText.getTextBlocks().isEmpty()){
+                        SetTextViewAndTranslate(visionText);
+                    }
+                })
+                .addOnFailureListener(e2 -> Toast.makeText(this, e2.toString(), Toast.LENGTH_LONG).show());
     }
 
     private void Translate(String textToTranslate) {

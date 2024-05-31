@@ -41,7 +41,10 @@ dependencies {
 
     // To recognize Latin script
     implementation ("com.google.mlkit:text-recognition:16.0.0")
-    
+
+    // To recognize Japanese script
+    implementation ("com.google.mlkit:text-recognition-japanese:16.0.0")
+
     implementation(libs.play.services.vision)
     implementation(libs.appcompat)
     implementation(libs.material)
