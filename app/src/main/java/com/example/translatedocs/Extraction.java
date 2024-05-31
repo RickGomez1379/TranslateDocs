@@ -12,7 +12,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.google.android.gms.tasks.Task;
 import com.google.mlkit.common.model.DownloadConditions;
 import com.google.mlkit.common.model.RemoteModelManager;
 import com.google.mlkit.nl.languageid.LanguageIdentification;
@@ -25,6 +24,7 @@ import com.google.mlkit.vision.common.InputImage;
 import com.google.mlkit.vision.text.Text;
 import com.google.mlkit.vision.text.TextRecognition;
 import com.google.mlkit.vision.text.TextRecognizer;
+import com.google.mlkit.vision.text.chinese.ChineseTextRecognizerOptions;
 import com.google.mlkit.vision.text.japanese.JapaneseTextRecognizerOptions;
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions;
 
@@ -40,11 +40,24 @@ public class Extraction extends AppCompatActivity {
     ImageView imageView;
     Uri imageUri;
     Toolbar nav;
+    TextRecognizer [] textRecognizers = new TextRecognizer[3];
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.extraction_activity);
+
+        //Populate Text Recognizer Array
+        TextRecognizer latinRecognizer =
+                TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS);
+        TextRecognizer japaneseRecognizer =
+                TextRecognition.getClient(new JapaneseTextRecognizerOptions.Builder().build());
+        TextRecognizer chineseRecognizer =
+                TextRecognition.getClient(new ChineseTextRecognizerOptions.Builder().build());
+
+        textRecognizers[0] = latinRecognizer;
+        textRecognizers[1] = japaneseRecognizer;
+        textRecognizers[2] = chineseRecognizer;
 
         // Assign Views Accordingly
         imageView = findViewById(R.id.userPhoto);
@@ -113,17 +126,15 @@ public class Extraction extends AppCompatActivity {
     }
 
     public void FirebaseDetectText(Bitmap bitmap){
-        // Using Latin script library
-        TextRecognizer latinRecognizer =
-                TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS);
-        TextRecognizer japaneseRecognizer = 
-                TextRecognition.getClient(new JapaneseTextRecognizerOptions.Builder().build());
 
     InputImage image = InputImage.fromBitmap(bitmap, 0);
-
-    TextRecognizerTask(latinRecognizer, image);
-    if(extractedTView.getText() == ""){
-        TextRecognizerTask(japaneseRecognizer,image);
+    int i = 0;
+    while(extractedTView.getText() == "" || i >= textRecognizers.length){
+        if(i >= textRecognizers.length && extractedTView.getText()== "") {
+            break;
+        }
+        TextRecognizerTask(textRecognizers[i], image);
+        ++i;
     }
     }
 
@@ -135,7 +146,7 @@ public class Extraction extends AppCompatActivity {
 
     private void TextRecognizerTask(TextRecognizer textRecognizer, InputImage image) {
         // Task completed successfully
-        Task<Text> task = textRecognizer.process(image)
+                textRecognizer.process(image)
                 .addOnSuccessListener(visionText -> {
                     if(!visionText.getTextBlocks().isEmpty()){
                         SetTextViewAndTranslate(visionText);
