@@ -128,14 +128,28 @@ public class Extraction extends AppCompatActivity {
     public void FirebaseDetectText(Bitmap bitmap){
 
     InputImage image = InputImage.fromBitmap(bitmap, 0);
-    int i = 0;
-    while(extractedTView.getText() == "" || i >= textRecognizers.length){
-        if(i >= textRecognizers.length && extractedTView.getText()== "") {
-            break;
-        }
-        TextRecognizerTask(textRecognizers[i], image);
-        ++i;
+    tryRecognizersSequentially(image, 0);
     }
+    private void tryRecognizersSequentially(InputImage image, int index) {
+        if (index >= textRecognizers.length) {
+            // If all recognizers have been tried and none succeeded
+            return;
+        }
+        TextRecognizer recognizer = textRecognizers[index];
+        recognizer.process(image)
+                .addOnSuccessListener(visionText -> {
+                    if (!visionText.getTextBlocks().isEmpty()) {
+                        // Successfully recognized text
+                        SetTextViewAndTranslate(visionText);
+                    } else {
+                        // No text detected, try the next recognizer
+                        tryRecognizersSequentially(image, index + 1);
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    // Recognition failed, try the next recognizer
+                    tryRecognizersSequentially(image, index + 1);
+                });
     }
 
     private void SetTextViewAndTranslate(Text visionText) {
@@ -144,16 +158,6 @@ public class Extraction extends AppCompatActivity {
         Translate(visionText.getText());
     }
 
-    private void TextRecognizerTask(TextRecognizer textRecognizer, InputImage image) {
-        // Task completed successfully
-                textRecognizer.process(image)
-                .addOnSuccessListener(visionText -> {
-                    if(!visionText.getTextBlocks().isEmpty()){
-                        SetTextViewAndTranslate(visionText);
-                    }
-                })
-                .addOnFailureListener(e2 -> Toast.makeText(this, e2.toString(), Toast.LENGTH_LONG).show());
-    }
 
     private void Translate(String textToTranslate) {
 
