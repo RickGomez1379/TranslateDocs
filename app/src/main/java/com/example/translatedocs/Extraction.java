@@ -24,23 +24,19 @@ import com.google.mlkit.vision.common.InputImage;
 import com.google.mlkit.vision.text.Text;
 import com.google.mlkit.vision.text.TextRecognition;
 import com.google.mlkit.vision.text.TextRecognizer;
-import com.google.mlkit.vision.text.chinese.ChineseTextRecognizerOptions;
 import com.google.mlkit.vision.text.japanese.JapaneseTextRecognizerOptions;
-import com.google.mlkit.vision.text.latin.TextRecognizerOptions;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
 import java.util.Objects;
-
-
 public class Extraction extends AppCompatActivity {
     TextView extractedTView;
     TextView translatedTView;
     ImageView imageView;
     Uri imageUri;
     Toolbar nav;
-    TextRecognizer [] textRecognizers = new TextRecognizer[3];
+    TextRecognizer japaneseRecognizer;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,16 +44,8 @@ public class Extraction extends AppCompatActivity {
         setContentView(R.layout.extraction_activity);
 
         //Populate Text Recognizer Array
-        TextRecognizer latinRecognizer =
-                TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS);
-        TextRecognizer japaneseRecognizer =
+        japaneseRecognizer =
                 TextRecognition.getClient(new JapaneseTextRecognizerOptions.Builder().build());
-        TextRecognizer chineseRecognizer =
-                TextRecognition.getClient(new ChineseTextRecognizerOptions.Builder().build());
-
-        textRecognizers[0] = latinRecognizer;
-        textRecognizers[1] = japaneseRecognizer;
-        textRecognizers[2] = chineseRecognizer;
 
         // Assign Views Accordingly
         imageView = findViewById(R.id.userPhoto);
@@ -76,7 +64,6 @@ public class Extraction extends AppCompatActivity {
 
         //If User decide to use their Gallery
         if (galleryUri != null) {
-
             //Convert Image from Uri
             imageUri = Uri.parse(galleryUri);
 
@@ -92,7 +79,6 @@ public class Extraction extends AppCompatActivity {
 
         //Else if User decides to use Camera
         else if(photoExtras != null){
-
             //Extract passed data from Home
             Bitmap photoBitmap = (Bitmap) photoExtras.get("photoBitmap");
 
@@ -101,9 +87,7 @@ public class Extraction extends AppCompatActivity {
 
             // Process text from image and translate
             FirebaseDetectText(photoBitmap);
-
         }
-
     }
 
     public Bitmap getBitmapFromUri(Uri uri) {
@@ -127,30 +111,20 @@ public class Extraction extends AppCompatActivity {
 
     public void FirebaseDetectText(Bitmap bitmap){
 
-    InputImage image = InputImage.fromBitmap(bitmap, 0);
-    tryRecognizersSequentially(image, 0);
-    }
-    private void tryRecognizersSequentially(InputImage image, int index) {
-        if (index >= textRecognizers.length) {
-            // If all recognizers have been tried and none succeeded
-            return;
-        }
-        TextRecognizer recognizer = textRecognizers[index];
+        InputImage image = InputImage.fromBitmap(bitmap, 0);
+        TextRecognizer recognizer = japaneseRecognizer;
         recognizer.process(image)
                 .addOnSuccessListener(visionText -> {
                     if (!visionText.getTextBlocks().isEmpty()) {
                         // Successfully recognized text
                         SetTextViewAndTranslate(visionText);
-                    } else {
-                        // No text detected, try the next recognizer
-                        tryRecognizersSequentially(image, index + 1);
                     }
                 })
                 .addOnFailureListener(e -> {
                     // Recognition failed, try the next recognizer
-                    tryRecognizersSequentially(image, index + 1);
                 });
     }
+
 
     private void SetTextViewAndTranslate(Text visionText) {
         // Task completed successfully
@@ -160,7 +134,6 @@ public class Extraction extends AppCompatActivity {
 
 
     private void Translate(String textToTranslate) {
-
         //Identify Language and Create Translator
         LanguageIdentification.getClient().identifyLanguage(textToTranslate)
                 .addOnSuccessListener(sourceLanguage -> {
