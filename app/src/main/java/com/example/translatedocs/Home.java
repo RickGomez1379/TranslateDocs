@@ -4,9 +4,9 @@ import android.Manifest;
 import android.content.Intent;
 
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.widget.Toast;
 
@@ -18,15 +18,21 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
+
+import java.io.File;
+import java.io.IOException;
 
 
 public class Home extends AppCompatActivity {
     final int REQUEST_READ_EXTERNAL_STORAGE = 101;
     final int REQUEST_CAMERA_PERMISSION = 102;
+    final int START_CAMERA_CODE = 2;
     CardView galleryButton;
     CardView translatorButton;
     CardView photoButton;
     Toolbar nav;
+    String currentPhotoPath;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,7 +45,6 @@ public class Home extends AppCompatActivity {
         translatorButton = findViewById(R.id.translatorCardView);
 
         nav = findViewById(R.id.TopBar);
-
         setSupportActionBar(nav);
 
         //Choose From Gallery
@@ -50,7 +55,8 @@ public class Home extends AppCompatActivity {
                 ActivityCompat.requestPermissions(this,
                         new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                         REQUEST_READ_EXTERNAL_STORAGE);
-            } else {
+            }
+            else {
                 OpenGallery();
             }
         });
@@ -65,7 +71,8 @@ public class Home extends AppCompatActivity {
                 ActivityCompat.requestPermissions(this,
                         new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE},
                         REQUEST_CAMERA_PERMISSION);
-            } else {
+            }
+            else {
                 // Permissions already granted, you can proceed with the camera functionality
                 OpenCamera();
             }
@@ -83,8 +90,19 @@ public class Home extends AppCompatActivity {
     }
 
     private void OpenCamera() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(takePictureIntent, 2);
+        String fileName = "photo";
+        File storageDirectory = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        try {
+            File imageFile = File.createTempFile(fileName, ".jpg", storageDirectory);
+            currentPhotoPath = imageFile.getAbsolutePath();
+            Uri imageUri = FileProvider.getUriForFile(this,"com.example.translatedocs", imageFile);
+
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+            startActivityForResult(intent, START_CAMERA_CODE);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void OpenGallery() {
@@ -102,14 +120,10 @@ public class Home extends AppCompatActivity {
             Intent intent = new Intent(Home.this, Extraction.class);
             intent.putExtra("galleryUri", selectedImageUri.toString());
             startActivity(intent);
-        } else if (requestCode == 2 && resultCode == RESULT_OK && data != null) {
-
-            // Photo captured successfully
-            Bitmap photoBitmap = (Bitmap) data.getExtras().get("data");
-
-            // Pass the URI of the saved photo file to the next activity
+        }
+        else if (requestCode == START_CAMERA_CODE && resultCode == RESULT_OK){
             Intent intent = new Intent(this, Extraction.class);
-            intent.putExtra("photoBitmap", photoBitmap);
+            intent.putExtra("photoBitmap", currentPhotoPath);
             startActivity(intent);
         }
     }

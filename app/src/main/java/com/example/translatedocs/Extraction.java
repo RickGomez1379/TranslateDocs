@@ -56,14 +56,11 @@ public class Extraction extends AppCompatActivity {
         setSupportActionBar(nav);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
-        // Retrieve Image URI passed from Home
-        String galleryUri = getIntent().getStringExtra("galleryUri");
-
-        //Retrieve Image Bitmap passed from Home
-        Bundle photoExtras = getIntent().getExtras();
-
         //If User decide to use their Gallery
-        if (galleryUri != null) {
+        if (getIntent().getStringExtra("galleryUri") != null) {
+            // Retrieve Image URI passed from Home
+            String galleryUri = getIntent().getStringExtra("galleryUri");
+
             //Convert Image from Uri
             imageUri = Uri.parse(galleryUri);
 
@@ -78,9 +75,10 @@ public class Extraction extends AppCompatActivity {
         }
 
         //Else if User decides to use Camera
-        else if(photoExtras != null){
+        else if(getIntent().getStringExtra("photoBitmap") != null ){
+            String filePath = getIntent().getStringExtra("photoBitmap");
             //Extract passed data from Home
-            Bitmap photoBitmap = (Bitmap) photoExtras.get("photoBitmap");
+            Bitmap photoBitmap = BitmapFactory.decodeFile(filePath);
 
             // Set Image to ImageView
             imageView.setImageBitmap(photoBitmap);
@@ -172,8 +170,6 @@ public class Extraction extends AppCompatActivity {
                     }))
                     .addOnFailureListener(e ->
                             Toast.makeText(Extraction.this, "Fail to Download: " + e,Toast.LENGTH_LONG).show());
-
-
         });
     }
 
