@@ -21,7 +21,6 @@ import com.google.mlkit.nl.translate.Translation;
 import com.google.mlkit.nl.translate.Translator;
 import com.google.mlkit.nl.translate.TranslatorOptions;
 import com.google.mlkit.vision.common.InputImage;
-import com.google.mlkit.vision.text.Text;
 import com.google.mlkit.vision.text.TextRecognition;
 import com.google.mlkit.vision.text.TextRecognizer;
 import com.google.mlkit.vision.text.japanese.JapaneseTextRecognizerOptions;
@@ -37,6 +36,7 @@ public class Extraction extends AppCompatActivity {
     Uri imageUri;
     Toolbar nav;
     TextRecognizer japaneseRecognizer;
+    String detectedText = "";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -63,28 +63,30 @@ public class Extraction extends AppCompatActivity {
 
             //Convert Image from Uri
             imageUri = Uri.parse(galleryUri);
-
             // Set Image to ImageView
             imageView.setImageURI(imageUri);
-
             //Convert Bitmap from Uri
             Bitmap galleryBitmap = getBitmapFromUri(imageUri);
 
             // Process text from image and translate
-            FirebaseDetectText(galleryBitmap);
+            String text = FirebaseDetectText(galleryBitmap);
+            extractedTView.setText(text);
+            Translate(text);
         }
 
         //Else if User decides to use Camera
         else if(getIntent().getStringExtra("photoBitmap") != null ){
             String filePath = getIntent().getStringExtra("photoBitmap");
+
             //Extract passed data from Home
             Bitmap photoBitmap = BitmapFactory.decodeFile(filePath);
-
             // Set Image to ImageView
             imageView.setImageBitmap(photoBitmap);
 
             // Process text from image and translate
-            FirebaseDetectText(photoBitmap);
+            String text = FirebaseDetectText(photoBitmap);
+            extractedTView.setText(text);
+            Translate(text);
         }
     }
 
@@ -100,38 +102,37 @@ public class Extraction extends AppCompatActivity {
             // Return the Bitmap
             return bitmap;
         } catch (IOException e) {
-
             Toast.makeText(this, e.toString(),Toast.LENGTH_SHORT).show();
             // Handle any errors that may occur
             return null;
         }
     }
 
-    public void FirebaseDetectText(Bitmap bitmap){
-
+    public String FirebaseDetectText(Bitmap bitmap){
         InputImage image = InputImage.fromBitmap(bitmap, 0);
         TextRecognizer recognizer = japaneseRecognizer;
+
         recognizer.process(image)
                 .addOnSuccessListener(visionText -> {
                     if (!visionText.getTextBlocks().isEmpty()) {
                         // Successfully recognized text
-                        SetTextViewAndTranslate(visionText);
-                    }
-                })
+                        detectedText = visionText.getText();
+                    }})
                 .addOnFailureListener(e -> {
                     // Recognition failed, try the next recognizer
+                    Toast.makeText(this, e.toString(),Toast.LENGTH_LONG).show();
                 });
-    }
 
-
-    private void SetTextViewAndTranslate(Text visionText) {
-        // Task completed successfully
-        extractedTView.setText(visionText.getText());
-        Translate(visionText.getText());
+        return detectedText;
     }
 
 
     private void Translate(String textToTranslate) {
+
+        if(textToTranslate.isEmpty()){
+            Toast.makeText(this, "No Text to Translate", Toast.LENGTH_LONG).show();
+            return;
+        }
         //Identify Language and Create Translator
         LanguageIdentification.getClient().identifyLanguage(textToTranslate)
                 .addOnSuccessListener(sourceLanguage -> {

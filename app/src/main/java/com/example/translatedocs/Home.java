@@ -44,12 +44,13 @@ public class Home extends AppCompatActivity {
         photoButton = findViewById(R.id.takePhotoCardView);
         translatorButton = findViewById(R.id.translatorCardView);
 
+        //Setup TopBar
         nav = findViewById(R.id.TopBar);
         setSupportActionBar(nav);
 
         //Choose From Gallery
-        //Starts Extraction Activity
         galleryButton.setOnClickListener(v -> {
+            //Check if READ_EXTERNAL_STORAGE permissions are granted to Access Gallery
             if (ContextCompat.checkSelfPermission(Home.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 // If permission is not granted, request the permission
                 ActivityCompat.requestPermissions(this,
@@ -63,7 +64,6 @@ public class Home extends AppCompatActivity {
 
         //Take Photo
         //Navigate to User's Camera
-        //Starts Extraction Activity
         photoButton.setOnClickListener(v -> {
             // Check if the CAMERA and WRITE_EXTERNAL_STORAGE permissions are granted
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
@@ -76,7 +76,6 @@ public class Home extends AppCompatActivity {
                 // Permissions already granted, you can proceed with the camera functionality
                 OpenCamera();
             }
-
         });
 
         //Translator
