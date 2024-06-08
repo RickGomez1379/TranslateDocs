@@ -12,22 +12,24 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.google.mlkit.common.model.DownloadConditions;
-import com.google.mlkit.common.model.RemoteModelManager;
 import com.google.mlkit.nl.languageid.LanguageIdentification;
-import com.google.mlkit.nl.translate.TranslateLanguage;
-import com.google.mlkit.nl.translate.TranslateRemoteModel;
+import com.google.mlkit.nl.languageid.LanguageIdentifier;
 import com.google.mlkit.nl.translate.Translation;
 import com.google.mlkit.nl.translate.Translator;
 import com.google.mlkit.nl.translate.TranslatorOptions;
 import com.google.mlkit.vision.common.InputImage;
+import com.google.mlkit.vision.text.Text;
 import com.google.mlkit.vision.text.TextRecognition;
 import com.google.mlkit.vision.text.TextRecognizer;
-import com.google.mlkit.vision.text.japanese.JapaneseTextRecognizerOptions;
+import com.google.mlkit.vision.text.latin.TextRecognizerOptions;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
 public class Extraction extends AppCompatActivity {
     TextView extractedTView;
@@ -35,8 +37,9 @@ public class Extraction extends AppCompatActivity {
     ImageView imageView;
     Uri imageUri;
     Toolbar nav;
-    TextRecognizer japaneseRecognizer;
-    String detectedText = "";
+    TextRecognizer textRecognizer;
+    List<String> originalTexts = new ArrayList<>();
+    Map<String,String> translatedTexts = new LinkedHashMap<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,8 +47,8 @@ public class Extraction extends AppCompatActivity {
         setContentView(R.layout.extraction_activity);
 
         //Populate Text Recognizer Array
-        japaneseRecognizer =
-                TextRecognition.getClient(new JapaneseTextRecognizerOptions.Builder().build());
+        textRecognizer =
+                TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS);
 
         // Assign Views Accordingly
         imageView = findViewById(R.id.userPhoto);
@@ -69,9 +72,7 @@ public class Extraction extends AppCompatActivity {
             Bitmap galleryBitmap = getBitmapFromUri(imageUri);
 
             // Process text from image and translate
-            String text = FirebaseDetectText(galleryBitmap);
-            extractedTView.setText(text);
-            Translate(text);
+            FirebaseDetectText(galleryBitmap);
         }
 
         //Else if User decides to use Camera
@@ -84,9 +85,7 @@ public class Extraction extends AppCompatActivity {
             imageView.setImageBitmap(photoBitmap);
 
             // Process text from image and translate
-            String text = FirebaseDetectText(photoBitmap);
-            extractedTView.setText(text);
-            Translate(text);
+            FirebaseDetectText(photoBitmap);
         }
     }
 
@@ -108,22 +107,27 @@ public class Extraction extends AppCompatActivity {
         }
     }
 
-    public String FirebaseDetectText(Bitmap bitmap){
+    public void FirebaseDetectText(Bitmap bitmap){
         InputImage image = InputImage.fromBitmap(bitmap, 0);
-        TextRecognizer recognizer = japaneseRecognizer;
+        TextRecognizer recognizer = textRecognizer;
 
         recognizer.process(image)
                 .addOnSuccessListener(visionText -> {
                     if (!visionText.getTextBlocks().isEmpty()) {
-                        // Successfully recognized text
-                        detectedText = visionText.getText();
+                        StringBuilder stringBuilder = new StringBuilder();
+                        for(Text.TextBlock textBlock : visionText.getTextBlocks()) {
+                            // Successfully recognized text
+                            String text = textBlock.getText();
+                            stringBuilder.append(text).append('\n');
+                            originalTexts.add(text);
+                            Translate(text);
+                        }
+                        extractedTView.append(stringBuilder.toString().trim());
                     }})
                 .addOnFailureListener(e -> {
                     // Recognition failed, try the next recognizer
-                    Toast.makeText(this, e.toString(),Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, "Text recognition failed: " + e,Toast.LENGTH_LONG).show();
                 });
-
-        return detectedText;
     }
 
 
@@ -133,45 +137,56 @@ public class Extraction extends AppCompatActivity {
             Toast.makeText(this, "No Text to Translate", Toast.LENGTH_LONG).show();
             return;
         }
-        //Identify Language and Create Translator
-        LanguageIdentification.getClient().identifyLanguage(textToTranslate)
-                .addOnSuccessListener(sourceLanguage -> {
+        LanguageIdentifier languageIdentifier = LanguageIdentification.getClient();
 
-            //Download User's Preferred Language Model
-            String userLanguage = Locale.getDefault().getLanguage();
-            TranslateRemoteModel userModel = new TranslateRemoteModel
-                    .Builder(Objects.requireNonNull(TranslateLanguage.fromLanguageTag(userLanguage)))
-                    .build();
+        languageIdentifier.identifyPossibleLanguages(textToTranslate)
+                .addOnSuccessListener(identifiedLanguages -> {
+                    if (!identifiedLanguages.isEmpty()) {
+                        String detectedLanguage = identifiedLanguages.get(0).getLanguageTag();
+                        float confidence = identifiedLanguages.get(0).getConfidence();
+                        //Toast.makeText(this, "Detected Language: " + detectedLanguage + ", Confidence: " + confidence, Toast.LENGTH_LONG).show();
 
-            RemoteModelManager manager = RemoteModelManager.getInstance();
-            manager.download(userModel, new DownloadConditions
-                    .Builder()
-                    .build());
+                        if (!detectedLanguage.equals("und") && confidence > 0.5) {
+                            translateText(textToTranslate, detectedLanguage);
+                        }
+                    }
+                })
+                .addOnFailureListener(e -> Toast.makeText(this, "Language identification failed."+ e,Toast.LENGTH_LONG).show());
+    }
+    private void translateText(String text, String sourceLang) {
+        TranslatorOptions options = new TranslatorOptions.Builder()
+                .setSourceLanguage(sourceLang)
+                .setTargetLanguage(Locale.getDefault().getLanguage())
+                .build();
+        final Translator translator = Translation.getClient(options);
 
-            //Create Translator
-            TranslatorOptions options = new TranslatorOptions
-                    .Builder()
-                    .setSourceLanguage(sourceLanguage)
-                    .setTargetLanguage(userLanguage).build();
+        translator.downloadModelIfNeeded()
+                .addOnSuccessListener(unused -> translator.translate(text)
+                        .addOnSuccessListener(translatedText -> {
+                            runOnUiThread(() -> {
+                                // Store the translation in the map
+                                translatedTexts.put(text, translatedText);
 
-            Translator translator = Translation.getClient(options);
-
-            DownloadConditions conditions = new DownloadConditions
-                    .Builder()
-                    .requireWifi()
-                    .build();
-
-            translator.downloadModelIfNeeded(conditions)
-                    .addOnSuccessListener(unused -> translator.translate(textToTranslate)
-                            .addOnSuccessListener(translation -> {
-                                Toast.makeText(Extraction.this, sourceLanguage,Toast.LENGTH_LONG).show();
-                                Toast.makeText(Extraction.this, "Successfully Translated",Toast.LENGTH_LONG).show();
-                                translatedTView.setText(translation);
-
-                    }))
-                    .addOnFailureListener(e ->
-                            Toast.makeText(Extraction.this, "Fail to Download: " + e,Toast.LENGTH_LONG).show());
-        });
+                                // Update translatedTView with all translations
+                                updateTranslatedTextView();
+                            });
+                            translator.close();
+                        })
+                        .addOnFailureListener(e -> {
+                            Toast.makeText(Extraction.this, "Translation failed." + e, Toast.LENGTH_LONG).show();
+                            translator.close();
+                        }))
+                .addOnFailureListener(e ->  Toast.makeText(Extraction.this, "Model download failed."+ e,Toast.LENGTH_LONG).show());
     }
 
+    private void updateTranslatedTextView() {
+        StringBuilder translatedText = new StringBuilder();
+        for (String text : originalTexts) {
+            String translation = translatedTexts.get(text);
+            if (translation != null) {
+                translatedText.append(translation).append("\n");
+            }
+        }
+        translatedTView.setText(translatedText.toString().trim());
+    }
 }
