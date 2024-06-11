@@ -28,9 +28,10 @@ public class Home extends AppCompatActivity {
     final int REQUEST_READ_EXTERNAL_STORAGE = 101;
     final int REQUEST_CAMERA_PERMISSION = 102;
     final int START_CAMERA_CODE = 2;
-    CardView galleryButton;
-    CardView translatorButton;
-    CardView photoButton;
+    CardView galleryCardView;
+    CardView translatorCardView;
+    CardView photoCardView;
+    CardView settingsCardView;
     Toolbar nav;
     String currentPhotoPath;
 
@@ -40,16 +41,17 @@ public class Home extends AppCompatActivity {
         setContentView(R.layout.home_activity);
 
         //Assigned CardView Accordingly
-        galleryButton = findViewById(R.id.galleryCardView);
-        photoButton = findViewById(R.id.takePhotoCardView);
-        translatorButton = findViewById(R.id.translatorCardView);
+        galleryCardView = findViewById(R.id.galleryCardView);
+        photoCardView = findViewById(R.id.takePhotoCardView);
+        translatorCardView = findViewById(R.id.translatorCardView);
+        settingsCardView = findViewById(R.id.settingsCardView);
 
         //Setup TopBar
         nav = findViewById(R.id.topbar);
         setSupportActionBar(nav);
 
         //Choose From Gallery
-        galleryButton.setOnClickListener(v -> {
+        galleryCardView.setOnClickListener(v -> {
             //Check if READ_EXTERNAL_STORAGE permissions are granted to Access Gallery
             if (ContextCompat.checkSelfPermission(Home.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 // If permission is not granted, request the permission
@@ -64,7 +66,7 @@ public class Home extends AppCompatActivity {
 
         //Take Photo
         //Navigate to User's Camera
-        photoButton.setOnClickListener(v -> {
+        photoCardView.setOnClickListener(v -> {
             // Check if the CAMERA and WRITE_EXTERNAL_STORAGE permissions are granted
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                 // If permissions are not granted, request the permissions
@@ -80,7 +82,13 @@ public class Home extends AppCompatActivity {
 
         //Translator
         //Starts Translator Activity
-        translatorButton.setOnClickListener(v -> StartTranslatorActivity());
+        translatorCardView.setOnClickListener(v -> StartTranslatorActivity());
+
+        //Starts Setting Activity
+        settingsCardView.setOnClickListener(v -> {
+            Intent intent = new Intent(this, Settings.class);
+            startActivity(intent);
+        });
     }
 
     private void StartTranslatorActivity() {
