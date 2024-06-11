@@ -54,8 +54,8 @@ public class Extraction extends AppCompatActivity {
         imageView = findViewById(R.id.userPhoto);
         extractedTView = findViewById(R.id.extractedText);
         translatedTView = findViewById(R.id.translatedText);
-        nav = findViewById(R.id.TopBar);
 
+        nav = findViewById(R.id.TopBar);
         setSupportActionBar(nav);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
@@ -143,10 +143,7 @@ public class Extraction extends AppCompatActivity {
                 .addOnSuccessListener(identifiedLanguages -> {
                     if (!identifiedLanguages.isEmpty()) {
                         String detectedLanguage = identifiedLanguages.get(0).getLanguageTag();
-                        float confidence = identifiedLanguages.get(0).getConfidence();
-                        //Toast.makeText(this, "Detected Language: " + detectedLanguage + ", Confidence: " + confidence, Toast.LENGTH_LONG).show();
-
-                        if (!detectedLanguage.equals("und") && confidence > 0.5) {
+                        if (!detectedLanguage.equals("und")) {
                             translateText(textToTranslate, detectedLanguage);
                         }
                     }
@@ -181,10 +178,12 @@ public class Extraction extends AppCompatActivity {
 
     private void updateTranslatedTextView() {
         StringBuilder translatedText = new StringBuilder();
-        for (String text : originalTexts) {
-            String translation = translatedTexts.get(text);
-            if (translation != null) {
-                translatedText.append(translation).append("\n");
+        if(originalTexts.size() == translatedTexts.size()) {
+            for (String text : originalTexts) {
+                String translation = translatedTexts.get(text);
+                if (translation != null) {
+                    translatedText.append(translation).append("\n");
+                }
             }
         }
         translatedTView.setText(translatedText.toString().trim());

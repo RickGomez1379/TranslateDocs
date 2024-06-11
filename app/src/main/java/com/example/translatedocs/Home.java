@@ -45,7 +45,7 @@ public class Home extends AppCompatActivity {
         translatorButton = findViewById(R.id.translatorCardView);
 
         //Setup TopBar
-        nav = findViewById(R.id.TopBar);
+        nav = findViewById(R.id.topbar);
         setSupportActionBar(nav);
 
         //Choose From Gallery
