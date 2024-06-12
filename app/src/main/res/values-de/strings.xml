@@ -13,6 +13,7 @@
     <string name="detected_text">Erkannter Text</string>
     <string name="translated_text">Übersetzter Text</string>
     <string name="language_saved_message">Bevorzugte Sprache gespeichert: %s</string>
+    <string name="preference_reset">Einstellungen Zurücksetzen</string>
 
     <string name="language_english">Englisch</string>
     <string name="language_spanish">Spanisch</string>

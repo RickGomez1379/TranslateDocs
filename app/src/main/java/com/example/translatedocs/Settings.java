@@ -19,7 +19,7 @@ public class Settings extends AppCompatActivity {
     SharedPreferences preferences;
     Spinner spinner;
     Button saveButton;
-
+    Button resetButton;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +27,7 @@ public class Settings extends AppCompatActivity {
 
         spinner = findViewById(R.id.language_spinner);
         saveButton = findViewById(R.id.save_button);
+        resetButton = findViewById(R.id.reset_button);
 
         nav = findViewById(R.id.TopBar);
         setSupportActionBar(nav);
@@ -48,7 +49,13 @@ public class Settings extends AppCompatActivity {
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
         });
 
-
+        resetButton.setOnClickListener(v -> {
+            SharedPreferences sharedPreferences = getSharedPreferences("AppPreferences", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.clear();
+            editor.apply();
+            Toast.makeText(this, getString(R.string.preference_reset), Toast.LENGTH_SHORT).show();
+        });
     }
 
     private int getSpinnerPosition(String language){
