@@ -12,6 +12,22 @@
     <string name="translate">Traducir</string>
     <string name="detected_text">Texto Detectado</string>
     <string name="translated_text">Texto Traducido</string>
+    <string name="language_english">Inglés</string>
+    <string name="language_spanish">Español</string>
+    <string name="language_french">Francés</string>
+    <string name="language_german">Alemán</string>
+    <string name="language_portuguese">Portugués</string>
+    <string name="language_italian">Italiano</string>
+    <string name="language_romanian">Rumano</string>
+    <string-array name="language_array">
+        <item>@string/language_english</item>
+        <item>@string/language_spanish</item>
+        <item>@string/language_french</item>
+        <item>@string/language_german</item>
+        <item>@string/language_portuguese</item>
+        <item>@string/language_italian</item>
+        <item>@string/language_romanian</item>
+    </string-array>
     <string-array name="languages">
         <item>Ingles</item>
         <item>Espanol</item>

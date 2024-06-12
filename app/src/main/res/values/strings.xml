@@ -11,6 +11,22 @@
     <string name="translate">Translate</string>
     <string name="detected_text">Detected Text</string>
     <string name="translated_text">Translated Text</string>
+    <string name="language_english">English</string>
+    <string name="language_spanish">Spanish</string>
+    <string name="language_french">French</string>
+    <string name="language_german">German</string>
+    <string name="language_portuguese">Portuguese</string>
+    <string name="language_italian">Italian</string>
+    <string name="language_romanian">Romanian</string>
+    <string-array name="language_array">
+        <item>@string/language_english</item>
+        <item>@string/language_spanish</item>
+        <item>@string/language_french</item>
+        <item>@string/language_german</item>
+        <item>@string/language_portuguese</item>
+        <item>@string/language_italian</item>
+        <item>@string/language_romanian</item>
+    </string-array>
     <string-array name="languages">
         <item>English</item>
         <item>Spanish</item>
