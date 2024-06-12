@@ -17,7 +17,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"/>
     <Spinner
-        android:id="@+id/languagesFromSpinner"
+        android:id="@+id/languages_From_Spinner"
         android:textAlignment="center"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
@@ -27,7 +27,7 @@
         android:entries="@array/languages"/>
 
     <ImageView
-        android:id="@+id/microphoneImageView"
+        android:id="@+id/microphone_Image_View"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -40,7 +40,7 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/textToTranslate"
+            android:id="@+id/text_To_Translate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -55,7 +55,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Spinner
-        android:id="@+id/languagesToSpinner"
+        android:id="@+id/languages_To_Spinner"
         android:textAlignment="center"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
@@ -66,7 +66,7 @@
 
 
     <TextView
-        android:id="@+id/translationTA"
+        android:id="@+id/translation_Text_View"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -78,7 +78,7 @@
         android:scrollHorizontally="false" />
 
     <Button
-        android:id="@+id/translateBtn"
+        android:id="@+id/translate_Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/translate"

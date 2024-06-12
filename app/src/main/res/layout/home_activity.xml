@@ -13,7 +13,7 @@
         layout="@layout/topbar" />
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/galleryCardView"
+        android:id="@+id/gallery_Card_View"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
@@ -30,12 +30,12 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/takePhotoCardView"
+        android:id="@+id/take_Photo_Card_View"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
         android:text="@string/translator"
-        app:layout_constraintBottom_toTopOf="@+id/translatorCardView"
+        app:layout_constraintBottom_toTopOf="@+id/translator_Card_View"
         app:layout_constraintTop_toBottomOf="@+id/topbar"
         app:layout_constraintVertical_bias="1.0"
         tools:layout_editor_absoluteX="15dp">
@@ -51,12 +51,12 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/translatorCardView"
+        android:id="@+id/translator_Card_View"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
         android:text="@string/take_photo"
-        app:layout_constraintBottom_toTopOf="@+id/settingsCardView"
+        app:layout_constraintBottom_toTopOf="@+id/settings_Card_View"
         app:layout_constraintTop_toBottomOf="@+id/topbar"
         app:layout_constraintVertical_bias="1.0"
         tools:layout_editor_absoluteX="29dp">
@@ -73,7 +73,7 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/settingsCardView"
+        android:id="@+id/settings_Card_View"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"

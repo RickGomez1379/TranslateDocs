@@ -41,10 +41,10 @@ public class Home extends AppCompatActivity {
         setContentView(R.layout.home_activity);
 
         //Assigned CardView Accordingly
-        galleryCardView = findViewById(R.id.galleryCardView);
-        photoCardView = findViewById(R.id.takePhotoCardView);
-        translatorCardView = findViewById(R.id.translatorCardView);
-        settingsCardView = findViewById(R.id.settingsCardView);
+        galleryCardView = findViewById(R.id.gallery_Card_View);
+        photoCardView = findViewById(R.id.take_Photo_Card_View);
+        translatorCardView = findViewById(R.id.translator_Card_View);
+        settingsCardView = findViewById(R.id.settings_Card_View);
 
         //Setup TopBar
         nav = findViewById(R.id.topbar);

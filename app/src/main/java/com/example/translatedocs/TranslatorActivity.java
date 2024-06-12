@@ -49,12 +49,12 @@ public class TranslatorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.translator_activity);
 
-        translateButton = findViewById(R.id.translateBtn);
-        mic = findViewById(R.id.microphoneImageView);
-        languagesFrom = findViewById(R.id.languagesFromSpinner);
-        languagesTo = findViewById(R.id.languagesToSpinner);
-        translationTextView = findViewById(R.id.translationTA);
-        textToTranslateFrom = findViewById(R.id.textToTranslate);
+        translateButton = findViewById(R.id.translate_Button);
+        mic = findViewById(R.id.microphone_Image_View);
+        languagesFrom = findViewById(R.id.languages_From_Spinner);
+        languagesTo = findViewById(R.id.languages_To_Spinner);
+        translationTextView = findViewById(R.id.translation_Text_View);
+        textToTranslateFrom = findViewById(R.id.text_To_Translate);
 
         //Setup TopBar
         nav = findViewById(R.id.TopBar);

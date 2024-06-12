@@ -10,7 +10,7 @@
         <include layout="@layout/topbar"/>
 
             <ImageView
-                android:id="@+id/userPhoto"
+                android:id="@+id/user_Photo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/user_s_photo"
@@ -25,7 +25,7 @@
             android:layout_marginBottom="5dp"
             android:gravity="center"/>
         <TextView
-            android:id="@+id/extractedText"
+            android:id="@+id/extracted_Text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="20dp"
@@ -41,7 +41,7 @@
             android:layout_marginBottom="5dp"
             android:gravity="center"/>
         <TextView
-            android:id="@+id/translatedText"
+            android:id="@+id/translated_Text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="20dp"

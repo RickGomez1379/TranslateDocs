@@ -51,9 +51,9 @@ public class Extraction extends AppCompatActivity {
                 TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS);
 
         // Assign Views Accordingly
-        imageView = findViewById(R.id.userPhoto);
-        extractedTView = findViewById(R.id.extractedText);
-        translatedTView = findViewById(R.id.translatedText);
+        imageView = findViewById(R.id.user_Photo);
+        extractedTView = findViewById(R.id.extracted_Text);
+        translatedTView = findViewById(R.id.translated_Text);
 
         nav = findViewById(R.id.TopBar);
         setSupportActionBar(nav);

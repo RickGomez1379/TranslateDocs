@@ -5,12 +5,12 @@
     android:layout_height="match_parent">
     <include layout="@layout/topbar"/>
     <TextView
-        android:id="@+id/language_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Select Preferred Language"
         android:textSize="18sp"
-        android:layout_marginBottom="8dp"/>
+        android:layout_marginBottom="8dp"
+        android:layout_gravity="center"/>
 
     <Spinner
         android:id="@+id/language_spinner"
