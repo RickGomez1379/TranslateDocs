@@ -14,6 +14,9 @@
     <string name="translated_text">Texto Traduzido</string>
     <string name="language_saved_message">Idioma preferido guardado: %s</string>
     <string name="preference_reset">Preferências Redefinidas</string>
+    <string name="select_preferred_language">Selecionar Idioma Preferido</string>
+    <string name="save">Salvar</string>
+    <string name="reset_preferences">Redefinir Preferências</string>
 
     <string name="language_english">Inglês</string>
     <string name="language_spanish">Espanhol</string>

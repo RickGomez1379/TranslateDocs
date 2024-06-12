@@ -13,6 +13,7 @@
     <string name="translated_text">Translated Text</string>
     <string name="language_saved_message">Preferred language saved: %s</string>
     <string name="preference_reset">Preference Reset</string>
+
     <string name="language_english">English</string>
     <string name="language_spanish">Spanish</string>
     <string name="language_french">French</string>
@@ -20,6 +21,9 @@
     <string name="language_portuguese">Portuguese</string>
     <string name="language_italian">Italian</string>
     <string name="language_romanian">Romanian</string>
+    <string name="select_preferred_language">Select Preferred Language</string>
+    <string name="save">Save</string>
+    <string name="reset_preferences">Reset Preferences</string>
     <string-array name="language_array">
         <item>@string/language_english</item>
         <item>@string/language_spanish</item>

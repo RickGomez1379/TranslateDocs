@@ -7,7 +7,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Select Preferred Language"
+        android:text="@string/select_preferred_language"
         android:textSize="18sp"
         android:layout_marginBottom="8dp"
         android:layout_gravity="center"/>
@@ -23,13 +23,13 @@
         android:id="@+id/save_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Save"
+        android:text="@string/save"
         android:layout_marginTop="16dp"
         android:layout_gravity="center"/>
     <Button
         android:id="@+id/reset_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Reset Preferences"
+        android:text="@string/reset_preferences"
         android:layout_gravity="center"/>
 </LinearLayout>
