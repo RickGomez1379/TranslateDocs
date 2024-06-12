@@ -16,7 +16,7 @@
         android:id="@+id/language_spinner"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
-        android:entries="@array/languages"
+        android:entries="@array/language_array"
         android:layout_gravity="center"/>
 
     <Button

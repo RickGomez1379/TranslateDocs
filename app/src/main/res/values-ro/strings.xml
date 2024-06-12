@@ -12,6 +12,8 @@
     <string name="translate">Traduceți</string>
     <string name="detected_text">Text Detectat</string>
     <string name="translated_text">Text Tradus</string>
+    <string name="language_saved_message">Limba preferată salvată: %s</string>
+
     <string name="language_english">Engleză</string>
     <string name="language_spanish">Spaniolă</string>
     <string name="language_french">Franceză</string>

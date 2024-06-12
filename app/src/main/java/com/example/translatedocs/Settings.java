@@ -3,7 +3,9 @@ package com.example.translatedocs;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +18,7 @@ public class Settings extends AppCompatActivity {
     Toolbar nav;
     SharedPreferences preferences;
     Spinner spinner;
+    Button saveButton;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -23,6 +26,7 @@ public class Settings extends AppCompatActivity {
         setContentView(R.layout.settings_activity);
 
         spinner = findViewById(R.id.language_spinner);
+        saveButton = findViewById(R.id.save_button);
 
         nav = findViewById(R.id.TopBar);
         setSupportActionBar(nav);
@@ -30,9 +34,19 @@ public class Settings extends AppCompatActivity {
 
         preferences = getSharedPreferences("AppPreferences", Context.MODE_PRIVATE);
         String preferredLanguage = preferences
-                .getString("preferred_languages", Locale.getDefault().getLanguage());
+                .getString("preferred_languages",GetLanguageFromCode(Locale.getDefault().getLanguage()));
 
-        int spinnerPosition = getSpinnerPosition(GetLanguageFromCode(preferredLanguage));
+        int spinnerPosition = getSpinnerPosition(preferredLanguage);
+        spinner.setSelection(spinnerPosition);
+
+        saveButton.setOnClickListener(v -> {
+            String languageToSet = spinner.getSelectedItem().toString();
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString("preferred_languages", languageToSet);
+            editor.apply();
+            String message = getString(R.string.language_saved_message, languageToSet);
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        });
 
 
     }

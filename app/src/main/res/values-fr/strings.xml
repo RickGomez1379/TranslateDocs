@@ -12,6 +12,8 @@
     <string name="translate">Traduire</string>
     <string name="detected_text">Texte Détecté</string>
     <string name="translated_text">Texte Traduit</string>
+    <string name="language_saved_message">Langue préférée enregistrée: %s</string>
+
     <string name="language_english">Anglais</string>
     <string name="language_spanish">Espagnol</string>
     <string name="language_french">Français</string>
