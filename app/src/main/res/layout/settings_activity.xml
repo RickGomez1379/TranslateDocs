@@ -4,5 +4,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <include layout="@layout/topbar"/>
+    <TextView
+        android:id="@+id/language_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select Preferred Language"
+        android:textSize="18sp"
+        android:layout_marginBottom="8dp"/>
 
+    <Spinner
+        android:id="@+id/language_spinner"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:entries="@array/languages"
+        android:layout_gravity="center"/>
+
+    <Button
+        android:id="@+id/save_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Save"
+        android:layout_marginTop="16dp" />
 </LinearLayout>
