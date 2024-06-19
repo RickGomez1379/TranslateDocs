@@ -1,7 +1,9 @@
 package com.example.translatedocs;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -27,6 +29,8 @@ public class Settings extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_activity);
+
+        applySavedLanguage();
         languageFlagSpinner = findViewById(R.id.language_flag_spinner);
         saveButton = findViewById(R.id.save_button);
         resetButton = findViewById(R.id.reset_button);
@@ -54,6 +58,8 @@ public class Settings extends AppCompatActivity {
             SharedPreferences.Editor editor = preferences.edit();
             editor.putString("preferred_languages", current.getLanguageCode().toLowerCase());
             editor.apply();
+            
+            setLocale(current.getLanguageCode().toLowerCase());
             String message = getString(R.string.language_saved_message, current.getLanguageCode().toLowerCase());
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
         });
@@ -63,8 +69,33 @@ public class Settings extends AppCompatActivity {
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.clear();
             editor.apply();
+
+            // Reset to default locale
+            setLocale(Locale.getDefault().getLanguage());
             Toast.makeText(this, getString(R.string.preference_reset), Toast.LENGTH_SHORT).show();
         });
+    }
+
+    private void setLocale(String _languageCode) {
+        Locale locale = new Locale(_languageCode);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.setLocale(locale);
+        getResources().updateConfiguration(config, getResources().getDisplayMetrics());
+
+        // Refresh activity to apply the new language
+        Intent refresh = new Intent(this, Settings.class);
+        startActivity(refresh);
+        finish();
+    }
+    private void applySavedLanguage() {
+        SharedPreferences sharedPreferences = getSharedPreferences("AppPreferences", Context.MODE_PRIVATE);
+        String languageCode = sharedPreferences.getString("preferred_languages", Locale.getDefault().getLanguage());
+        Locale locale = new Locale(languageCode);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.setLocale(locale);
+        getResources().updateConfiguration(config, getResources().getDisplayMetrics());
     }
 
     private int getSpinnerPosition(LanguageSpinnerAdapter _adapter, String language){
