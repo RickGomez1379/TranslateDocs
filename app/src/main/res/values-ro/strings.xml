@@ -34,13 +34,10 @@
         <item>@string/language_italian</item>
         <item>@string/language_romanian</item>
     </string-array>
-    <string-array name="languages">
-        <item>Engleză</item>
-        <item>Spaniolă</item>
-        <item>Limba Franceza</item>
-        <item>Limba Germana</item>
-        <item>Portugheză</item>
-        <item>Italiană</item>
-        <item>Română</item>
+    <string-array name="time_intervals">
+        <item>5 sec</item>
+        <item>15 sec</item>
+        <item>1 min</item>
+        <item>3 min</item>
     </string-array>
 </resources>

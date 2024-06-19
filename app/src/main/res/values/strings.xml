@@ -33,13 +33,10 @@
         <item>@string/language_italian</item>
         <item>@string/language_romanian</item>
     </string-array>
-    <string-array name="languages">
-        <item>English</item>
-        <item>Spanish</item>
-        <item>French</item>
-        <item>German</item>
-        <item>Portuguese</item>
-        <item>Italian</item>
-        <item>Romanian</item>
+    <string-array name="time_intervals">
+        <item>5 sec</item>
+        <item>15 sec</item>
+        <item>1 min</item>
+        <item>3 mins</item>
     </string-array>
 </resources>

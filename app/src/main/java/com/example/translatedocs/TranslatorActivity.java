@@ -28,7 +28,7 @@ import com.google.mlkit.nl.translate.Translator;
 import com.google.mlkit.nl.translate.TranslatorOptions;
 
 import java.util.Objects;
-
+//TODO: Change variable names to avoid/reduce confusion
 public class TranslatorActivity extends AppCompatActivity {
     Button translateDownButton;
     Button translateUpButton;
@@ -50,8 +50,8 @@ public class TranslatorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.translator_activity);
 
-        translateDownButton = findViewById(R.id.translate_Button);
-        translateUpButton = findViewById(R.id.translate_Button2);
+        translateDownButton = findViewById(R.id.translate_down_button);
+        translateUpButton = findViewById(R.id.translate_up_button);
         firstMic = findViewById(R.id.microphone_start);
         secondMic = findViewById(R.id.microphone_respond);
         languagesFrom = findViewById(R.id.languages_From_Spinner);
@@ -106,7 +106,15 @@ public class TranslatorActivity extends AppCompatActivity {
             translateTo = ChosenLanguage(languagesTo.getSelectedItemPosition());
 
             //Translate
-            Translate(Objects.requireNonNull(textToTranslateFrom.getText()).toString(), translateFrom,translateTo);
+            Translate(Objects.requireNonNull(textToTranslateFrom.getText()).toString(), translateFrom,translateTo, textToTranslateTo);
+        });
+        translateUpButton.setOnClickListener(v -> {
+            //Set Language Codes
+            translateFrom = ChosenLanguage(languagesTo.getSelectedItemPosition());
+            translateTo = ChosenLanguage(languagesFrom.getSelectedItemPosition());
+
+            //Translate
+            Translate(Objects.requireNonNull(textToTranslateTo.getText()).toString(), translateFrom,translateTo, textToTranslateFrom);
         });
     }
 
@@ -170,15 +178,15 @@ public class TranslatorActivity extends AppCompatActivity {
                 return "en";
         }
     }
-    private void Translate(String textToTranslate, String from, String to) {
-        if(textToTranslate.isEmpty())
+    private void Translate(String _textToTranslate, String _from, String _to, TextInputEditText _textTranslated) {
+        if(_textToTranslate.isEmpty())
         {
             Toast.makeText(this, "No text to translate. ", Toast.LENGTH_LONG).show();
             return;
         }
         //Download User's Preferred Language Model
         TranslateRemoteModel userModel = new TranslateRemoteModel
-                .Builder(Objects.requireNonNull(TranslateLanguage.fromLanguageTag(to)))
+                .Builder(Objects.requireNonNull(TranslateLanguage.fromLanguageTag(_to)))
                 .build();
         RemoteModelManager manager = RemoteModelManager.getInstance();
         manager.download(userModel, new DownloadConditions
@@ -188,18 +196,18 @@ public class TranslatorActivity extends AppCompatActivity {
         //Create Translator
         TranslatorOptions options = new TranslatorOptions
                 .Builder()
-                .setSourceLanguage(from)
-                .setTargetLanguage(to).build();
+                .setSourceLanguage(_from)
+                .setTargetLanguage(_to).build();
         Translator translator = Translation.getClient(options);
         DownloadConditions conditions = new DownloadConditions
                 .Builder()
                 .requireWifi()
                 .build();
         translator.downloadModelIfNeeded(conditions)
-                .addOnSuccessListener(unused -> translator.translate(textToTranslate)
+                .addOnSuccessListener(unused -> translator.translate(_textToTranslate)
                         .addOnSuccessListener(translation -> {
                             Toast.makeText(TranslatorActivity.this, "Successfully Translated",Toast.LENGTH_LONG).show();
-                            textToTranslateTo.setText(translation);
+                            _textTranslated.setText(translation);
                                     }))
                 .addOnFailureListener(e ->
                         Toast.makeText(TranslatorActivity.this, "Fail to Download: " + e,Toast.LENGTH_LONG).show());
