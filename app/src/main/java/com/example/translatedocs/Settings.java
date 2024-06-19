@@ -11,23 +11,32 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
 public class Settings extends AppCompatActivity {
     Toolbar nav;
     SharedPreferences preferences;
-    Spinner spinner;
+
     Button saveButton;
     Button resetButton;
+    Spinner languageFlagSpinner;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_activity);
-
-        spinner = findViewById(R.id.language_spinner);
+        languageFlagSpinner = findViewById(R.id.language_flag_spinner);
         saveButton = findViewById(R.id.save_button);
         resetButton = findViewById(R.id.reset_button);
+
+        List<LanguageItem> languageList = new ArrayList<>();
+        languageList.add(new LanguageItem("EN", R.drawable.flag_us));
+        languageList.add(new LanguageItem("ES", R.drawable.flag_mex));
+
+        LanguageSpinnerAdapter adapter = new LanguageSpinnerAdapter(this, languageList);
+        languageFlagSpinner.setAdapter(adapter);
 
         nav = findViewById(R.id.TopBar);
         setSupportActionBar(nav);
@@ -35,17 +44,17 @@ public class Settings extends AppCompatActivity {
 
         preferences = getSharedPreferences("AppPreferences", Context.MODE_PRIVATE);
         String preferredLanguage = preferences
-                .getString("preferred_languages",GetLanguageFromCode(Locale.getDefault().getLanguage()));
+                .getString("preferred_languages",Locale.getDefault().getLanguage());
 
-        int spinnerPosition = getSpinnerPosition(preferredLanguage);
-        spinner.setSelection(spinnerPosition);
+        int spinnerPosition = getSpinnerPosition(adapter,preferredLanguage);
+        languageFlagSpinner.setSelection(spinnerPosition);
 
         saveButton.setOnClickListener(v -> {
-            String languageToSet = spinner.getSelectedItem().toString();
+            LanguageItem current = (LanguageItem) languageFlagSpinner.getSelectedItem();
             SharedPreferences.Editor editor = preferences.edit();
-            editor.putString("preferred_languages", languageToSet);
+            editor.putString("preferred_languages", current.getLanguageCode().toLowerCase());
             editor.apply();
-            String message = getString(R.string.language_saved_message, languageToSet);
+            String message = getString(R.string.language_saved_message, current.getLanguageCode().toLowerCase());
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
         });
 
@@ -58,33 +67,13 @@ public class Settings extends AppCompatActivity {
         });
     }
 
-    private int getSpinnerPosition(String language){
-        String[] languages = getResources().getStringArray(R.array.language_array);
-        for (int i = 0; i < languages.length; i++) {
-            if (languages[i].equals(language)) {
+    private int getSpinnerPosition(LanguageSpinnerAdapter _adapter, String language){
+        for (int i = 0; i < _adapter.getCount(); i++) {
+            if (_adapter.getItem(i).getLanguageCode().equals(language.toUpperCase())) {
                 return i;
             }
         }
-        // Default to the first language if not found
-        return 0;
+        return 0; // Value not found // Value not found
     }
 
-    private String GetLanguageFromCode(String languageCode){
-        switch (languageCode){
-            case "es":
-                return getString(R.string.language_spanish);
-            case "de":
-                return getString(R.string.language_german);
-            case "fr":
-                return getString(R.string.language_french);
-            case "it":
-                return getString(R.string.language_italian);
-            case "pt":
-                return getString(R.string.language_portuguese);
-            case "ro":
-                return getString(R.string.language_romanian);
-            default:
-                return getString(R.string.language_english);
-        }
-    }
 }

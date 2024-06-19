@@ -13,10 +13,9 @@
         android:layout_gravity="center"/>
 
     <Spinner
-        android:id="@+id/language_spinner"
-        android:layout_width="350dp"
+        android:id="@+id/language_flag_spinner"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:entries="@array/language_array"
         android:layout_gravity="center"/>
 
     <Button
