@@ -38,6 +38,11 @@ public class Settings extends AppCompatActivity {
         List<LanguageItem> languageList = new ArrayList<>();
         languageList.add(new LanguageItem("EN", R.drawable.flag_us));
         languageList.add(new LanguageItem("ES", R.drawable.flag_mex));
+        languageList.add(new LanguageItem("FR", R.drawable.flag_fr));
+        languageList.add(new LanguageItem("DE", R.drawable.flag_de));
+        languageList.add(new LanguageItem("IT", R.drawable.flag_it));
+        languageList.add(new LanguageItem("PO", R.drawable.flag_br));
+        languageList.add(new LanguageItem("RO", R.drawable.flag_ro));
 
         LanguageSpinnerAdapter adapter = new LanguageSpinnerAdapter(this, languageList);
         languageFlagSpinner.setAdapter(adapter);
