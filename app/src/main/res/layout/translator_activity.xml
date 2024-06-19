@@ -27,13 +27,14 @@
         android:entries="@array/languages"/>
 
     <ImageView
-        android:id="@+id/microphone_Image_View"
+        android:id="@+id/microphone_start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:clickable="true"
         android:focusable="true"
-        android:src="@drawable/microphoneicon25" />
+        android:src="@drawable/microphoneicon25"
+        android:background="@drawable/border"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
@@ -47,12 +48,41 @@
             android:layout_marginEnd="16dp"
             android:background="#DDDDDD"
             android:gravity="top"
-            android:hint="@string/enter_text_to_translate_from"
+            android:hint="@string/enter_text_to_translate"
             android:inputType="textMultiLine"
             android:lines="6"
             android:scrollHorizontally="false" />
 
     </com.google.android.material.textfield.TextInputLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp">
+        <Button
+            android:id="@+id/translate_Button"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/translate"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:drawableEnd="@drawable/up_arrow"/>
+
+        <Button
+            android:id="@+id/translate_Button2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:drawableEnd="@drawable/down_arrow"
+            android:text="@string/translate" />
+    </LinearLayout>
 
     <Spinner
         android:id="@+id/languages_To_Spinner"
@@ -64,27 +94,38 @@
         android:layout_marginTop="50dp"
         android:entries="@array/languages"/>
 
-
-    <TextView
-        android:id="@+id/translation_Text_View"
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/microphone_respond"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="#DDDDDD"
-        android:gravity="top"
-        android:hint="@string/text_translation_here"
-        android:lines="6"
-        android:scrollHorizontally="false" />
+        android:layout_gravity="center"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/microphoneicon25"
+        android:background="@drawable/border"/>
 
-    <Button
-        android:id="@+id/translate_Button"
+
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/translate"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"/>
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/text_To_Translate_To"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="#DDDDDD"
+            android:gravity="top"
+            android:hint="@string/enter_text_to_translate"
+            android:inputType="textMultiLine"
+            android:lines="6"
+            android:scrollHorizontally="false" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+
 
 
 </LinearLayout>

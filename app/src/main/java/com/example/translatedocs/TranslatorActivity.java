@@ -8,7 +8,6 @@ import android.speech.SpeechRecognizer;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 import android.Manifest;
 
@@ -38,7 +37,7 @@ public class TranslatorActivity extends AppCompatActivity {
     Spinner languagesTo;
     String translateFrom;
     String translateTo;
-    TextView translationTextView;
+    TextInputEditText textToTranslateTo;
     TextInputEditText textToTranslateFrom;
     Toolbar nav;
     final int SPEECH_CODE = 102;
@@ -50,10 +49,10 @@ public class TranslatorActivity extends AppCompatActivity {
         setContentView(R.layout.translator_activity);
 
         translateButton = findViewById(R.id.translate_Button);
-        mic = findViewById(R.id.microphone_Image_View);
+        mic = findViewById(R.id.microphone_start);
         languagesFrom = findViewById(R.id.languages_From_Spinner);
         languagesTo = findViewById(R.id.languages_To_Spinner);
-        translationTextView = findViewById(R.id.translation_Text_View);
+        textToTranslateTo = findViewById(R.id.text_To_Translate_To);
         textToTranslateFrom = findViewById(R.id.text_To_Translate);
 
         //Setup TopBar
@@ -173,7 +172,7 @@ public class TranslatorActivity extends AppCompatActivity {
                 .addOnSuccessListener(unused -> translator.translate(textToTranslate)
                         .addOnSuccessListener(translation -> {
                             Toast.makeText(TranslatorActivity.this, "Successfully Translated",Toast.LENGTH_LONG).show();
-                            translationTextView.setText(translation);
+                            textToTranslateTo.setText(translation);
                                     }))
                 .addOnFailureListener(e ->
                         Toast.makeText(TranslatorActivity.this, "Fail to Download: " + e,Toast.LENGTH_LONG).show());

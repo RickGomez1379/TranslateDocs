@@ -6,7 +6,7 @@
     <string name="translator">Übersetzen</string>
     <string name="settings">Einstellungen</string>
     <string name="user_s_photo">Foto des Benutzers</string>
-    <string name="enter_text_to_translate_from">Geben Sie den zu übersetzenden Text ein</string>
+    <string name="enter_text_to_translate">Geben Sie den zu übersetzenden Text ein</string>
     <string name="language_of_text">Sprache des Textes</string>
     <string name="text_translation_here">Textübersetzung hier</string>
     <string name="translate">Übersetzen</string>

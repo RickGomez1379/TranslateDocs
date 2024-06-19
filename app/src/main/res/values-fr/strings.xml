@@ -6,7 +6,7 @@
     <string name="translator">Traduire</string>
     <string name="settings">Paramètres</string>
     <string name="user_s_photo">Photo de L\'Utilisateur</string>
-    <string name="enter_text_to_translate_from">Saisir le Texte à Partir Duquel Traduire</string>
+    <string name="enter_text_to_translate">Saisir le Texte à Partir Duquel Traduire</string>
     <string name="language_of_text">Langue du Texte</string>
     <string name="text_translation_here">Traduction du Texte ici</string>
     <string name="translate">Traduire</string>
