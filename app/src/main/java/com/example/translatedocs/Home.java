@@ -1,13 +1,16 @@
 package com.example.translatedocs;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -34,7 +37,8 @@ public class Home extends AppCompatActivity {
     CardView settingsCardView;
     Toolbar nav;
     String currentPhotoPath;
-
+    TextView recognizerTextView;
+    SharedPreferences preferences;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +49,7 @@ public class Home extends AppCompatActivity {
         photoCardView = findViewById(R.id.take_Photo_Card_View);
         translatorCardView = findViewById(R.id.translator_Card_View);
         settingsCardView = findViewById(R.id.settings_Card_View);
+        recognizerTextView = findViewById(R.id.recognizer_in_use);
 
         //Setup TopBar
         nav = findViewById(R.id.topbar);
@@ -89,6 +94,17 @@ public class Home extends AppCompatActivity {
             Intent intent = new Intent(this, Settings.class);
             startActivity(intent);
         });
+        preferences = getSharedPreferences("AppPreferences", Context.MODE_PRIVATE);
+        if(preferences.getString("preferred_recognizer", "Latin").equals("Chinese")){
+            recognizerTextView.setText("Using Chinese Text Recognizer");
+        }
+        else if(preferences.getString("preferred_recognizer", "Latin").equals("Japanese")){
+            recognizerTextView.setText("Using Japanese Text Recognizer");
+        }
+        else{
+            recognizerTextView.setText("Using Latin Text Recognizer");
+        }
+
     }
 
     private void StartTranslatorActivity() {
