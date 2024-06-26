@@ -22,6 +22,8 @@ import com.google.mlkit.vision.common.InputImage;
 import com.google.mlkit.vision.text.Text;
 import com.google.mlkit.vision.text.TextRecognition;
 import com.google.mlkit.vision.text.TextRecognizer;
+import com.google.mlkit.vision.text.chinese.ChineseTextRecognizerOptions;
+import com.google.mlkit.vision.text.japanese.JapaneseTextRecognizerOptions;
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions;
 
 import java.io.IOException;
@@ -41,15 +43,28 @@ public class Extraction extends AppCompatActivity {
     TextRecognizer textRecognizer;
     List<String> originalTexts = new ArrayList<>();
     Map<String,String> translatedTexts = new LinkedHashMap<>();
+    SharedPreferences preferences;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.extraction_activity);
+        preferences = getSharedPreferences("AppPreferences", MODE_PRIVATE);
 
-        //Populate Text Recognizer Array
-        textRecognizer =
-                TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS);
+        String currentRecognizer = preferences.getString("preferred_recognizer", "Latin");
+
+        if (currentRecognizer.equals("Latin")) {
+            textRecognizer =
+                    TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS);
+        }
+        else if(currentRecognizer.equals("Japanese")){
+            textRecognizer = TextRecognition.getClient(new JapaneseTextRecognizerOptions.Builder().build());
+        }
+        else{
+            textRecognizer = TextRecognition.getClient(new ChineseTextRecognizerOptions.Builder().build());
+        }
+
+
 
         // Assign Views Accordingly
         imageView = findViewById(R.id.user_Photo);
@@ -110,9 +125,8 @@ public class Extraction extends AppCompatActivity {
 
     public void FirebaseDetectText(Bitmap bitmap){
         InputImage image = InputImage.fromBitmap(bitmap, 0);
-        TextRecognizer recognizer = textRecognizer;
 
-        recognizer.process(image)
+        textRecognizer.process(image)
                 .addOnSuccessListener(visionText -> {
                     if (!visionText.getTextBlocks().isEmpty()) {
                         StringBuilder stringBuilder = new StringBuilder();
@@ -152,7 +166,6 @@ public class Extraction extends AppCompatActivity {
                 .addOnFailureListener(e -> Toast.makeText(this, "Language identification failed."+ e,Toast.LENGTH_LONG).show());
     }
     private void translateText(String text, String sourceLang) {
-        SharedPreferences preferences = getSharedPreferences("AppPreferences", MODE_PRIVATE);
         String preferredLanguage = preferences.getString("preferred_languages", Locale.getDefault().getLanguage());
             if(!preferredLanguage.equals(Locale.getDefault().getLanguage())){
                 preferredLanguage = GetLanguageCodeFromLanguage(preferredLanguage);

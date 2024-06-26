@@ -25,6 +25,7 @@ public class Settings extends AppCompatActivity {
     Button saveButton;
     Button resetButton;
     Spinner languageFlagSpinner;
+    Spinner textRecognizerSpinner;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,20 +33,31 @@ public class Settings extends AppCompatActivity {
 
         applySavedLanguage();
         languageFlagSpinner = findViewById(R.id.language_flag_spinner);
+        textRecognizerSpinner = findViewById(R.id.text_recognizer_spinner);
         saveButton = findViewById(R.id.save_button);
         resetButton = findViewById(R.id.reset_button);
 
-        List<LanguageItem> languageList = new ArrayList<>();
-        languageList.add(new LanguageItem("EN", R.drawable.flag_us));
-        languageList.add(new LanguageItem("ES", R.drawable.flag_mex));
-        languageList.add(new LanguageItem("FR", R.drawable.flag_fr));
-        languageList.add(new LanguageItem("DE", R.drawable.flag_de));
-        languageList.add(new LanguageItem("IT", R.drawable.flag_it));
-        languageList.add(new LanguageItem("PO", R.drawable.flag_br));
-        languageList.add(new LanguageItem("RO", R.drawable.flag_ro));
+        List<IconAndStringItem> languageList = new ArrayList<>();
+        List<IconAndStringItem> textRecognizer = new ArrayList<>();
+        languageList.add(new IconAndStringItem("EN", R.drawable.flag_us));
+        languageList.add(new IconAndStringItem("ES", R.drawable.flag_mex));
+        languageList.add(new IconAndStringItem("FR", R.drawable.flag_fr));
+        languageList.add(new IconAndStringItem("DE", R.drawable.flag_de));
+        languageList.add(new IconAndStringItem("IT", R.drawable.flag_it));
+        languageList.add(new IconAndStringItem("PO", R.drawable.flag_br));
+        languageList.add(new IconAndStringItem("RO", R.drawable.flag_ro));
 
-        LanguageSpinnerAdapter adapter = new LanguageSpinnerAdapter(this, languageList);
+
+
+        textRecognizer.add(new IconAndStringItem("Latin", R.drawable.latin_a));
+        textRecognizer.add(new IconAndStringItem("Japanese", R.drawable.hiragana_a));
+        textRecognizer.add(new IconAndStringItem("Chinese", R.drawable.chinese_che));
+
+        CustomSpinnerAdapter adapter = new CustomSpinnerAdapter(this, languageList);
+        CustomSpinnerAdapter textAdapter = new CustomSpinnerAdapter(this, textRecognizer);
+
         languageFlagSpinner.setAdapter(adapter);
+        textRecognizerSpinner.setAdapter(textAdapter);
 
         nav = findViewById(R.id.TopBar);
         setSupportActionBar(nav);
@@ -59,13 +71,16 @@ public class Settings extends AppCompatActivity {
         languageFlagSpinner.setSelection(spinnerPosition);
 
         saveButton.setOnClickListener(v -> {
-            LanguageItem current = (LanguageItem) languageFlagSpinner.getSelectedItem();
+            IconAndStringItem current = (IconAndStringItem) languageFlagSpinner.getSelectedItem();
+            String currentRecognizer = textRecognizerSpinner.getSelectedItem().toString();
+
             SharedPreferences.Editor editor = preferences.edit();
-            editor.putString("preferred_languages", current.getLanguageCode().toLowerCase());
+            editor.putString("preferred_languages", current.getString().toLowerCase());
+            editor.putString("preferred_recognizer", currentRecognizer);
             editor.apply();
             
-            setLocale(current.getLanguageCode().toLowerCase());
-            String message = getString(R.string.language_saved_message, current.getLanguageCode().toLowerCase());
+            setLocale(current.getString().toLowerCase());
+            String message = getString(R.string.language_saved_message, current.getString().toLowerCase());
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
         });
 
@@ -103,9 +118,9 @@ public class Settings extends AppCompatActivity {
         getResources().updateConfiguration(config, getResources().getDisplayMetrics());
     }
 
-    private int getSpinnerPosition(LanguageSpinnerAdapter _adapter, String language){
+    private int getSpinnerPosition(CustomSpinnerAdapter _adapter, String language){
         for (int i = 0; i < _adapter.getCount(); i++) {
-            if (_adapter.getItem(i).getLanguageCode().equals(language.toUpperCase())) {
+            if (_adapter.getItem(i).getString().equals(language.toUpperCase())) {
                 return i;
             }
         }

@@ -13,8 +13,8 @@ import androidx.annotation.Nullable;
 
 import java.util.List;
 
-public class LanguageSpinnerAdapter extends ArrayAdapter<LanguageItem> {
-    public LanguageSpinnerAdapter(Context context, List<LanguageItem> languageList){
+public class CustomSpinnerAdapter extends ArrayAdapter<IconAndStringItem> {
+    public CustomSpinnerAdapter(Context context, List<IconAndStringItem> languageList){
         super(context,0, languageList);
     }
 
@@ -38,11 +38,11 @@ public class LanguageSpinnerAdapter extends ArrayAdapter<LanguageItem> {
         ImageView imageViewFlag = convertView.findViewById(R.id.imageViewFlag);
         TextView textViewLanguageCode = convertView.findViewById(R.id.textViewLanguageCode);
 
-        LanguageItem currentItem = getItem(position);
+        IconAndStringItem currentItem = getItem(position);
 
         if (currentItem != null) {
-            imageViewFlag.setImageResource(currentItem.getFlagImage());
-            textViewLanguageCode.setText(currentItem.getLanguageCode());
+            imageViewFlag.setImageResource(currentItem.getIcon());
+            textViewLanguageCode.setText(currentItem.getString());
         }
 
         return convertView;
