@@ -44,6 +44,7 @@ public class TranslatorActivity extends AppCompatActivity {
     final int SPEECH_CODE = 102;
     final int REQUEST_MICROPHONE_PERMISSION = 101;
     boolean usingFirstMic = true;
+    private StringBuilder recognizedTextBuilder = new StringBuilder();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -132,10 +133,17 @@ public class TranslatorActivity extends AppCompatActivity {
         if (requestCode == SPEECH_CODE && resultCode == RESULT_OK && data != null){
             String [] result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS).toArray(new String[0]);
             if(usingFirstMic) {
-                textToTranslateFrom.setText(result[0]);
+                //textToTranslateFrom.setText(result[0]);
+                // Append the new recognized text to the existing text
+                recognizedTextBuilder.append(result[0]).append(" ");
+                textToTranslateFrom.setText(recognizedTextBuilder.toString());
+                OpenMicrophone(ChosenLanguage(languagesFrom.getSelectedItemPosition()));
             }
             else{
-                textToTranslateTo.setText(result[0]);
+                //textToTranslateTo.setText(result[0]);
+                recognizedTextBuilder.append(result[0]).append(" ");
+                textToTranslateTo.setText(recognizedTextBuilder.toString());
+                OpenMicrophone(ChosenLanguage(languagesTo.getSelectedItemPosition()));
             }
         }
     }
