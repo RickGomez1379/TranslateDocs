@@ -167,9 +167,6 @@ public class Extraction extends AppCompatActivity {
     }
     private void translateText(String text, String sourceLang) {
         String preferredLanguage = preferences.getString("preferred_languages", Locale.getDefault().getLanguage());
-            if(!preferredLanguage.equals(Locale.getDefault().getLanguage())){
-                preferredLanguage = GetLanguageCodeFromLanguage(preferredLanguage);
-            }
 
         TranslatorOptions options = new TranslatorOptions.Builder()
                 .setSourceLanguage(sourceLang)
@@ -194,23 +191,6 @@ public class Extraction extends AppCompatActivity {
                             translator.close();
                         }))
                 .addOnFailureListener(e ->  Toast.makeText(Extraction.this, "Model download failed."+ e,Toast.LENGTH_LONG).show());
-    }
-    private String GetLanguageCodeFromLanguage(String language){
-        if (language.equals(getString(R.string.language_spanish))) {
-            return "es";
-        } else if (language.equals(getString(R.string.language_german))) {
-            return "de";
-        } else if (language.equals(getString(R.string.language_french))) {
-            return "fr";
-        } else if (language.equals(getString(R.string.language_italian))) {
-            return "it";
-        } else if (language.equals(getString(R.string.language_portuguese))) {
-            return "pt";
-        } else if (language.equals(getString(R.string.language_romanian))) {
-            return "ro";
-        } else {
-            return "en"; // Default to English
-        }
     }
 
     private void updateTranslatedTextView() {
