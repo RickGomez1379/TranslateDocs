@@ -66,17 +66,22 @@ public class Settings extends AppCompatActivity {
         preferences = getSharedPreferences("AppPreferences", Context.MODE_PRIVATE);
         String preferredLanguage = preferences
                 .getString("preferred_languages",Locale.getDefault().getLanguage());
+        String preferredRecognizer = preferences
+                .getString("preferred_recognizer", "Latin");
 
+        //Set Spinner Position to Saved Preferences
         int spinnerPosition = getSpinnerPosition(adapter,preferredLanguage);
         languageFlagSpinner.setSelection(spinnerPosition);
+        spinnerPosition = getSpinnerPosition(textAdapter, preferredRecognizer);
+        textRecognizerSpinner.setSelection(spinnerPosition);
 
         saveButton.setOnClickListener(v -> {
             IconAndStringItem current = (IconAndStringItem) languageFlagSpinner.getSelectedItem();
-            String currentRecognizer = textRecognizerSpinner.getSelectedItem().toString();
+            IconAndStringItem currentRecognizer = (IconAndStringItem) textRecognizerSpinner.getSelectedItem();
 
             SharedPreferences.Editor editor = preferences.edit();
             editor.putString("preferred_languages", current.getString().toLowerCase());
-            editor.putString("preferred_recognizer", currentRecognizer);
+            editor.putString("preferred_recognizer", currentRecognizer.getString());
             editor.apply();
             
             setLocale(current.getString().toLowerCase());
@@ -120,7 +125,7 @@ public class Settings extends AppCompatActivity {
 
     private int getSpinnerPosition(CustomSpinnerAdapter _adapter, String language){
         for (int i = 0; i < _adapter.getCount(); i++) {
-            if (_adapter.getItem(i).getString().equals(language.toUpperCase())) {
+            if (_adapter.getItem(i).getString().toUpperCase().equals(language.toUpperCase())) {
                 return i;
             }
         }
