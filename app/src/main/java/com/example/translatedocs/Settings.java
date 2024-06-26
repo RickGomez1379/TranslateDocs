@@ -47,6 +47,12 @@ public class Settings extends AppCompatActivity {
         languageList.add(new IconAndStringItem("PO", R.drawable.flag_br));
         languageList.add(new IconAndStringItem("RO", R.drawable.flag_ro));
 
+        languageList.add(new IconAndStringItem("AR", R.drawable.flag_sa));
+        languageList.add(new IconAndStringItem("HI", R.drawable.flag_in));
+        languageList.add(new IconAndStringItem("JA", R.drawable.flag_ja));
+        languageList.add(new IconAndStringItem("RU", R.drawable.flag_ru));
+        languageList.add(new IconAndStringItem("ZH", R.drawable.flag_chi));
+
 
 
         textRecognizer.add(new IconAndStringItem("Latin", R.drawable.latin_a));

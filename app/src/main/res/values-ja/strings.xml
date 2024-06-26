@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TranslateDocs</string>
+    <string name="choose_picture_from_gallery">ギャラリーから画像を選択</string>
+    <string name="take_photo">写真を撮る</string>
+    <string name="translator">翻訳者</string>
+    <string name="settings">設定</string>
+    <string name="user_s_photo">ユーザーの写真</string>
+    <string name="enter_text_to_translate">翻訳するテキストを入力</string>
+    <string name="language_of_text">テキストの言語</string>
+    <string name="text_translation_here">ここにテキストの翻訳</string>
+    <string name="translate">翻訳する</string>
+    <string name="detected_text">検出されたテキスト</string>
+    <string name="translated_text">翻訳されたテキスト</string>
+    <string name="language_saved_message">選択した言語が保存されました：%s</string>
+    <string name="preference_reset">設定のリセット</string>
+
+    <string name="language_english">英語</string>
+    <string name="language_spanish">スペイン語</string>
+    <string name="language_french">フランス語</string>
+    <string name="language_german">ドイツ語</string>
+    <string name="language_portuguese">ポルトガル語</string>
+    <string name="language_italian">イタリア語</string>
+    <string name="language_romanian">ルーマニア語</string>
+    <string name="language_japanese">日本語</string>
+    <string name="language_chinese">中国語</string>
+    <string name="language_russian">ロシア語</string>
+    <string name="language_arabic">アラビア語</string>
+    <string name="language_hindi">ヒンディー語</string>
+
+    <string name="select_preferred_language">好みの言語を選択</string>
+    <string name="save">保存</string>
+    <string name="reset_preferences">設定をリセット</string>
+    <string name="set_text_recognizer">テキスト認識器を設定する</string>
+
+    <string-array name="language_array">
+        <item>@string/language_english</item>
+        <item>@string/language_spanish</item>
+        <item>@string/language_french</item>
+        <item>@string/language_german</item>
+        <item>@string/language_portuguese</item>
+        <item>@string/language_italian</item>
+        <item>@string/language_romanian</item>
+        <item>@string/language_japanese</item>
+        <item>@string/language_chinese</item>
+        <item>@string/language_russian</item>
+        <item>@string/language_arabic</item>
+        <item>@string/language_hindi</item>
+    </string-array>
+    <string-array name="time_intervals">
+        <item>5 秒</item>
+        <item>15 秒</item>
+        <item>1 分</item>
+        <item>3 分</item>
+    </string-array>
+</resources>

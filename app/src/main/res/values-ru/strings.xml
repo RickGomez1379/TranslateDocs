@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TranslateDocs</string>
+    <string name="choose_picture_from_gallery">Выбрать изображение из галереи</string>
+    <string name="take_photo">Сделать фото</string>
+    <string name="translator">Переводчик</string>
+    <string name="settings">Настройки</string>
+    <string name="user_s_photo">Фото пользователя</string>
+    <string name="enter_text_to_translate">Введите текст для перевода</string>
+    <string name="language_of_text">Язык текста</string>
+    <string name="text_translation_here">Перевод текста здесь</string>
+    <string name="translate">Перевести</string>
+    <string name="detected_text">Обнаруженный текст</string>
+    <string name="translated_text">Переведённый текст</string>
+    <string name="language_saved_message">Выбранный язык сохранён: %s</string>
+    <string name="preference_reset">Сброс настроек</string>
+
+    <string name="language_english">Английский</string>
+    <string name="language_spanish">Испанский</string>
+    <string name="language_french">Французский</string>
+    <string name="language_german">Немецкий</string>
+    <string name="language_portuguese">Португальский</string>
+    <string name="language_italian">Итальянский</string>
+    <string name="language_romanian">Румынский</string>
+    <string name="language_japanese">Японский</string>
+    <string name="language_chinese">Китайский</string>
+    <string name="language_russian">Русский</string>
+    <string name="language_arabic">Арабский</string>
+    <string name="language_hindi">Хинди</string>
+
+    <string name="select_preferred_language">Выберите предпочитаемый язык</string>
+    <string name="save">Сохранить</string>
+    <string name="reset_preferences">Сбросить настройки</string>
+    <string name="set_text_recognizer">Настроить распознаватель текста</string>
+
+    <string-array name="language_array">
+        <item>@string/language_english</item>
+        <item>@string/language_spanish</item>
+        <item>@string/language_french</item>
+        <item>@string/language_german</item>
+        <item>@string/language_portuguese</item>
+        <item>@string/language_italian</item>
+        <item>@string/language_romanian</item>
+        <item>@string/language_japanese</item>
+        <item>@string/language_chinese</item>
+        <item>@string/language_russian</item>
+        <item>@string/language_arabic</item>
+        <item>@string/language_hindi</item>
+    </string-array>
+    <string-array name="time_intervals">
+        <item>5 сек</item>
+        <item>15 сек</item>
+        <item>1 мин</item>
+        <item>3 мин</item>
+    </string-array>
+</resources>

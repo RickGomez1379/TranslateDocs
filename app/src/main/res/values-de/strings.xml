@@ -25,6 +25,14 @@
     <string name="language_portuguese">Portugiesisch</string>
     <string name="language_italian">Italienisch</string>
     <string name="language_romanian">Rumänisch</string>
+    <string name="language_japanese">Japanisch</string>
+    <string name="language_chinese">Chinesisch</string>
+    <string name="language_russian">Russisch</string>
+    <string name="language_arabic">Arabisch</string>
+    <string name="language_hindi">Hindi</string>
+
+    <string name="set_text_recognizer">Text-Erkenner einstellen</string>
+
     <string-array name="language_array">
         <item>@string/language_english</item>
         <item>@string/language_spanish</item>
@@ -33,6 +41,11 @@
         <item>@string/language_portuguese</item>
         <item>@string/language_italian</item>
         <item>@string/language_romanian</item>
+        <item>@string/language_japanese</item>
+        <item>@string/language_chinese</item>
+        <item>@string/language_russian</item>
+        <item>@string/language_arabic</item>
+        <item>@string/language_hindi</item>
     </string-array>
     <string-array name="time_intervals">
         <item>5 Sek</item>

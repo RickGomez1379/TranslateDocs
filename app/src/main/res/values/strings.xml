@@ -21,9 +21,16 @@
     <string name="language_portuguese">Portuguese</string>
     <string name="language_italian">Italian</string>
     <string name="language_romanian">Romanian</string>
+    <string name="language_japanese">Japanese</string>
+    <string name="language_chinese">Chinese</string>
+    <string name="language_russian">Russian</string>
+    <string name="language_arabic">Arabic</string>
+    <string name="language_hindi">Hindi</string>
     <string name="select_preferred_language">Select Preferred Language</string>
     <string name="save">Save</string>
     <string name="reset_preferences">Reset Preferences</string>
+    <string name="set_text_recognizer">Set Text Recognizer</string>
+
     <string-array name="language_array">
         <item>@string/language_english</item>
         <item>@string/language_spanish</item>
@@ -32,6 +39,11 @@
         <item>@string/language_portuguese</item>
         <item>@string/language_italian</item>
         <item>@string/language_romanian</item>
+        <item>@string/language_japanese</item>
+        <item>@string/language_chinese</item>
+        <item>@string/language_russian</item>
+        <item>@string/language_arabic</item>
+        <item>@string/language_hindi</item>
     </string-array>
     <string-array name="time_intervals">
         <item>5 sec</item>

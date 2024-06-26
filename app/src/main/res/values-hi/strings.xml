@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TranslateDocs</string>
+    <string name="choose_picture_from_gallery">गैलरी से चित्र चुनें</string>
+    <string name="take_photo">फ़ोटो लें</string>
+    <string name="translator">अनुवादक</string>
+    <string name="settings">सेटिंग्स</string>
+    <string name="user_s_photo">उपयोगकर्ता की फोटो</string>
+    <string name="enter_text_to_translate">अनुवाद के लिए पाठ दर्ज करें</string>
+    <string name="language_of_text">पाठ की भाषा</string>
+    <string name="text_translation_here">यहाँ पाठ का अनुवाद करें</string>
+    <string name="translate">अनुवाद करें</string>
+    <string name="detected_text">पहचाना गया पाठ</string>
+    <string name="translated_text">अनुवादित पाठ</string>
+    <string name="language_saved_message">पसंदीदा भाषा सहेजी गई: %s</string>
+    <string name="preference_reset">प्राथमिकताएँ रीसेट करें</string>
+
+    <string name="language_english">अंग्रेज़ी</string>
+    <string name="language_spanish">स्पेनिश</string>
+    <string name="language_french">फ़्रेंच</string>
+    <string name="language_german">जर्मन</string>
+    <string name="language_portuguese">पुर्तगाली</string>
+    <string name="language_italian">इतालवी</string>
+    <string name="language_romanian">रोमानियाई</string>
+    <string name="language_japanese">जापानी</string>
+    <string name="language_chinese">चीनी</string>
+    <string name="language_russian">रूसी</string>
+    <string name="language_arabic">अरबी</string>
+    <string name="language_hindi">हिंदी</string>
+
+    <string name="select_preferred_language">पसंदीदा भाषा चुनें</string>
+    <string name="save">सहेजें</string>
+    <string name="reset_preferences">प्राथमिकताएँ रीसेट करें</string>
+    <string name="set_text_recognizer">पाठ पहचानकर्ता सेट करें</string>
+
+    <string-array name="language_array">
+        <item>@string/language_english</item>
+        <item>@string/language_spanish</item>
+        <item>@string/language_french</item>
+        <item>@string/language_german</item>
+        <item>@string/language_portuguese</item>
+        <item>@string/language_italian</item>
+        <item>@string/language_romanian</item>
+        <item>@string/language_japanese</item>
+        <item>@string/language_chinese</item>
+        <item>@string/language_russian</item>
+        <item>@string/language_arabic</item>
+        <item>@string/language_hindi</item>
+    </string-array>
+    <string-array name="time_intervals">
+        <item>5 सेकंड</item>
+        <item>15 सेकंड</item>
+        <item>1 मिनट</item>
+        <item>3 मिनट</item>
+    </string-array>
+</resources>

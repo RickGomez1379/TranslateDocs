@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TranslateDocs</string>
+    <string name="choose_picture_from_gallery">从相册选择图片</string>
+    <string name="take_photo">拍照</string>
+    <string name="translator">翻译</string>
+    <string name="settings">设置</string>
+    <string name="user_s_photo">用户照片</string>
+    <string name="enter_text_to_translate">输入要翻译的文本</string>
+    <string name="language_of_text">文本语言</string>
+    <string name="text_translation_here">这里显示翻译文本</string>
+    <string name="translate">翻译</string>
+    <string name="detected_text">检测到的文本</string>
+    <string name="translated_text">翻译文本</string>
+    <string name="language_saved_message">首选语言已保存: %s</string>
+    <string name="preference_reset">重置偏好</string>
+
+    <string name="language_english">英语</string>
+    <string name="language_spanish">西班牙语</string>
+    <string name="language_french">法语</string>
+    <string name="language_german">德语</string>
+    <string name="language_portuguese">葡萄牙语</string>
+    <string name="language_italian">意大利语</string>
+    <string name="language_romanian">罗马尼亚语</string>
+    <string name="language_japanese">日语</string>
+    <string name="language_chinese">中文</string>
+    <string name="language_russian">俄语</string>
+    <string name="language_arabic">阿拉伯语</string>
+    <string name="language_hindi">印地语</string>
+
+    <string name="select_preferred_language">选择首选语言</string>
+    <string name="save">保存</string>
+    <string name="reset_preferences">重置偏好</string>
+    <string name="set_text_recognizer">设置文本识别器</string>
+
+    <string-array name="language_array">
+        <item>@string/language_english</item>
+        <item>@string/language_spanish</item>
+        <item>@string/language_french</item>
+        <item>@string/language_german</item>
+        <item>@string/language_portuguese</item>
+        <item>@string/language_italian</item>
+        <item>@string/language_romanian</item>
+        <item>@string/language_japanese</item>
+        <item>@string/language_chinese</item>
+        <item>@string/language_russian</item>
+        <item>@string/language_arabic</item>
+        <item>@string/language_hindi</item>
+    </string-array>
+    <string-array name="time_intervals">
+        <item>5 秒</item>
+        <item>15 秒</item>
+        <item>1 分钟</item>
+        <item>3 分钟</item>
+    </string-array>
+</resources>

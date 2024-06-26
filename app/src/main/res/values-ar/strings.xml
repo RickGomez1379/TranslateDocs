@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TranslateDocs</string>
+    <string name="choose_picture_from_gallery">اختر صورة من المعرض</string>
+    <string name="take_photo">التقاط صورة</string>
+    <string name="translator">مترجم</string>
+    <string name="settings">الإعدادات</string>
+    <string name="user_s_photo">صورة المستخدم</string>
+    <string name="enter_text_to_translate">أدخل النص للترجمة</string>
+    <string name="language_of_text">لغة النص</string>
+    <string name="text_translation_here">ترجمة النص هنا</string>
+    <string name="translate">ترجمة</string>
+    <string name="detected_text">النص المكتشف</string>
+    <string name="translated_text">النص المترجم</string>
+    <string name="language_saved_message">تم حفظ اللغة المفضلة: %s</string>
+    <string name="preference_reset">إعادة تعيين التفضيلات</string>
+
+    <string name="language_english">الإنجليزية</string>
+    <string name="language_spanish">الإسبانية</string>
+    <string name="language_french">الفرنسية</string>
+    <string name="language_german">الألمانية</string>
+    <string name="language_portuguese">البرتغالية</string>
+    <string name="language_italian">الإيطالية</string>
+    <string name="language_romanian">الرومانية</string>
+    <string name="language_japanese">اليابانية</string>
+    <string name="language_chinese">الصينية</string>
+    <string name="language_russian">الروسية</string>
+    <string name="language_arabic">العربية</string>
+    <string name="language_hindi">الهندية</string>
+
+    <string name="select_preferred_language">اختر اللغة المفضلة</string>
+    <string name="save">حفظ</string>
+    <string name="reset_preferences">إعادة تعيين التفضيلات</string>
+    <string name="set_text_recognizer">تعيين مُعرف النص</string>
+
+    <string-array name="language_array">
+        <item>@string/language_english</item>
+        <item>@string/language_spanish</item>
+        <item>@string/language_french</item>
+        <item>@string/language_german</item>
+        <item>@string/language_portuguese</item>
+        <item>@string/language_italian</item>
+        <item>@string/language_romanian</item>
+        <item>@string/language_japanese</item>
+        <item>@string/language_chinese</item>
+        <item>@string/language_russian</item>
+        <item>@string/language_arabic</item>
+        <item>@string/language_hindi</item>
+    </string-array>
+    <string-array name="time_intervals">
+        <item>5 ثوان</item>
+        <item>15 ثانية</item>
+        <item>1 دقيقة</item>
+        <item>3 دقائق</item>
+    </string-array>
+</resources>
