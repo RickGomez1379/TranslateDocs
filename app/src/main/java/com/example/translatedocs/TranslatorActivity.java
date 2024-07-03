@@ -40,8 +40,8 @@ public class TranslatorActivity extends AppCompatActivity {
     Spinner languagesTo;
     String translateFrom;
     String translateTo;
-    TextInputEditText textToTranslateTo;
-    TextInputEditText textToTranslateFrom;
+    TextInputEditText bottomTextToTranslate;
+    TextInputEditText topTextToTranslate;
     Toolbar nav;
     final int SPEECH_CODE = 102;
     final int REQUEST_MICROPHONE_PERMISSION = 101;
@@ -59,11 +59,11 @@ public class TranslatorActivity extends AppCompatActivity {
         translateDownButton = findViewById(R.id.translate_down_button);
         translateUpButton = findViewById(R.id.translate_up_button);
         firstMic = findViewById(R.id.microphone_top);
-        secondMic = findViewById(R.id.microphone_respond);
-        languagesFrom = findViewById(R.id.spinner_top);
-        languagesTo = findViewById(R.id.languages_To_Spinner);
-        textToTranslateTo = findViewById(R.id.text_To_Translate_To);
-        textToTranslateFrom = findViewById(R.id.text_To_Translate);
+        secondMic = findViewById(R.id.microphone_bottom);
+        languagesFrom = findViewById(R.id.top_languages_spinner);
+        languagesTo = findViewById(R.id.bottom_languages_spinner);
+        bottomTextToTranslate = findViewById(R.id.bottom_text_to_translate);
+        topTextToTranslate = findViewById(R.id.top_text_to_translate);
         topSpeaker = findViewById(R.id.speaker_top);
         bottomSpeaker = findViewById(R.id.speaker_bottom);
 
@@ -72,7 +72,9 @@ public class TranslatorActivity extends AppCompatActivity {
         setSupportActionBar(nav);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
+        //Top Mic Button Click
         firstMic.setOnClickListener(v -> {
+
             // Check if the RECORD_AUDIO permission is granted
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
                     != PackageManager.PERMISSION_GRANTED) {
@@ -90,7 +92,9 @@ public class TranslatorActivity extends AppCompatActivity {
             }
         });
 
+        //Bottom Mic Button Click
         secondMic.setOnClickListener(v -> {
+
             // Check if the RECORD_AUDIO permission is granted
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
                     != PackageManager.PERMISSION_GRANTED) {
@@ -108,33 +112,40 @@ public class TranslatorActivity extends AppCompatActivity {
             }
         });
 
+        //Top Speaker Icon Click
         topSpeaker.setOnClickListener(v -> {
-            if(!textToTranslateFrom.getText().toString().isEmpty()){
+
+            //if Text View is not Empty, Set-up and Active Text-To-Speech
+            if(!Objects.requireNonNull(topTextToTranslate.getText()).toString().isEmpty()){
+                //Initialize Text-To-Speech with Bottom Language Spinner and Speaks
                 tts = new TextToSpeech(this, status -> {
                     tts.setLanguage(Locale.forLanguageTag((ChosenLanguage(languagesFrom.getSelectedItemPosition()))));
-                    tts.speak(textToTranslateFrom.getText().toString(), TextToSpeech.QUEUE_FLUSH, null);
+                    tts.speak(topTextToTranslate.getText().toString(), TextToSpeech.QUEUE_FLUSH, null);
                 });
             }
-
         });
 
+        //Bottom Speaker Icon Click
         bottomSpeaker.setOnClickListener(v -> {
-            if(!textToTranslateTo.getText().toString().isEmpty()){
+
+            //if Text View is not Empty, Set-up and Active Text-To-Speech
+            if(!Objects.requireNonNull(bottomTextToTranslate.getText()).toString().isEmpty()){
+                //Initialize Text-To-Speech with Bottom Language Spinner and Speaks
                 tts = new TextToSpeech(this, status -> {
                     tts.setLanguage(Locale.forLanguageTag((ChosenLanguage(languagesTo.getSelectedItemPosition()))));
-                    tts.speak(textToTranslateTo.getText().toString(), TextToSpeech.QUEUE_FLUSH, null);
+                    tts.speak(bottomTextToTranslate.getText().toString(), TextToSpeech.QUEUE_FLUSH, null);
                 });
             }
-
         });
 
+        //Translate Button w/ Down Arrow Icon
         translateDownButton.setOnClickListener(v -> {
             //Set Language Codes
             translateFrom = ChosenLanguage(languagesFrom.getSelectedItemPosition());
             translateTo = ChosenLanguage(languagesTo.getSelectedItemPosition());
 
             //Translate
-            Translate(Objects.requireNonNull(textToTranslateFrom.getText()).toString(), translateFrom,translateTo, textToTranslateTo);
+            Translate(Objects.requireNonNull(topTextToTranslate.getText()).toString(), translateFrom,translateTo, bottomTextToTranslate);
         });
         translateUpButton.setOnClickListener(v -> {
             //Set Language Codes
@@ -142,34 +153,39 @@ public class TranslatorActivity extends AppCompatActivity {
             translateTo = ChosenLanguage(languagesFrom.getSelectedItemPosition());
 
             //Translate
-            Translate(Objects.requireNonNull(textToTranslateTo.getText()).toString(), translateFrom,translateTo, textToTranslateFrom);
+            Translate(Objects.requireNonNull(bottomTextToTranslate.getText()).toString(), translateFrom,translateTo, topTextToTranslate);
         });
     }
 
     private void OpenMicrophone(String language){
+            //Initialize Mic Intent
             Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
             intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+            //Set Language to Listen From
             intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, language);
             intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Say Something!");
+            //Starts Intent
             startActivityForResult(intent, SPEECH_CODE);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        //if no Error Starts Microphone Intent
         if (requestCode == SPEECH_CODE && resultCode == RESULT_OK && data != null){
             String [] result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS).toArray(new String[0]);
+
             if(usingFirstMic) {
                 //textToTranslateFrom.setText(result[0]);
                 // Append the new recognized text to the existing text
                 recognizedTextBuilder.append(result[0]).append(" ");
-                textToTranslateFrom.setText(recognizedTextBuilder.toString());
+                topTextToTranslate.setText(recognizedTextBuilder.toString());
                 OpenMicrophone(ChosenLanguage(languagesFrom.getSelectedItemPosition()));
             }
             else{
                 //textToTranslateTo.setText(result[0]);
                 recognizedTextBuilder.append(result[0]).append(" ");
-                textToTranslateTo.setText(recognizedTextBuilder.toString());
+                bottomTextToTranslate.setText(recognizedTextBuilder.toString());
                 OpenMicrophone(ChosenLanguage(languagesTo.getSelectedItemPosition()));
             }
         }
@@ -177,15 +193,20 @@ public class TranslatorActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        //If Trying to Request Mic Permission
         if (requestCode == REQUEST_MICROPHONE_PERMISSION) {
+
+            //If Granted
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permission granted, proceed with the microphone functionality
+                // Depending on With Mic User Wants to Use
                 if(usingFirstMic) {
                     OpenMicrophone(ChosenLanguage(languagesFrom.getSelectedItemPosition()));
                 }
                 else{
                     OpenMicrophone(ChosenLanguage(languagesTo.getSelectedItemPosition()));
                 }
+                //Else Not Granted
             } else {
                 // Permission denied, show a message to the user
                 Toast.makeText(this, "Microphone permission is required to record audio", Toast.LENGTH_SHORT).show();
@@ -193,7 +214,7 @@ public class TranslatorActivity extends AppCompatActivity {
         }
     }
 
-    //TODO
+    //Converts Spinner Item Position(int) to Their Associated Language Code
     private String ChosenLanguage(int language) {
         switch (language){
 
@@ -223,7 +244,11 @@ public class TranslatorActivity extends AppCompatActivity {
                 return "en";
         }
     }
+
+
+    //Translate (Text to Translate From, Language to Translate From, Language to Translate To, Text to Modify with Translated Text)
     private void Translate(String _textToTranslate, String _from, String _to, TextInputEditText _textTranslated) {
+        //If There is no Text to Translate
         if(_textToTranslate.isEmpty())
         {
             Toast.makeText(this, "No text to translate. ", Toast.LENGTH_LONG).show();
@@ -248,6 +273,8 @@ public class TranslatorActivity extends AppCompatActivity {
                 .Builder()
                 .requireWifi()
                 .build();
+
+        //Translate And Set Text
         translator.downloadModelIfNeeded(conditions)
                 .addOnSuccessListener(unused -> translator.translate(_textToTranslate)
                         .addOnSuccessListener(translation -> {
