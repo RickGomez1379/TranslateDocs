@@ -93,7 +93,10 @@ public class Home extends AppCompatActivity {
         settingsCardView.setOnClickListener(v -> {
             Intent intent = new Intent(this, Settings.class);
             startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
+
+        //Sets Bottom Text View for Clarify what Text Recognizer User is Using
         preferences = getSharedPreferences("AppPreferences", Context.MODE_PRIVATE);
         if(preferences.getString("preferred_recognizer", "Latin").equals("Chinese")){
             recognizerTextView.setText(R.string.using_chinese_recognizer);
@@ -110,6 +113,7 @@ public class Home extends AppCompatActivity {
     private void StartTranslatorActivity() {
         Intent intent = new Intent(this, TranslatorActivity.class);
         startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
     private void OpenCamera() {
@@ -123,6 +127,7 @@ public class Home extends AppCompatActivity {
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
             startActivityForResult(intent, START_CAMERA_CODE);
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -131,6 +136,7 @@ public class Home extends AppCompatActivity {
     private void OpenGallery() {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent, 1);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
     @Override
@@ -143,11 +149,13 @@ public class Home extends AppCompatActivity {
             Intent intent = new Intent(Home.this, Extraction.class);
             intent.putExtra("galleryUri", selectedImageUri.toString());
             startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         }
         else if (requestCode == START_CAMERA_CODE && resultCode == RESULT_OK){
             Intent intent = new Intent(this, Extraction.class);
             intent.putExtra("photoBitmap", currentPhotoPath);
             startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         }
     }
 
@@ -157,7 +165,7 @@ public class Home extends AppCompatActivity {
         if (requestCode == REQUEST_READ_EXTERNAL_STORAGE) {
             if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
                 // Permission denied, show a message to the user
-                // You might want to explain why the permission is needed and ask again
+                // Explain Why User need to Grant Permission
                 Toast.makeText(this, "You need to Grant Gallery Permission to Proceed", Toast.LENGTH_SHORT).show();
             } else {
                 // Permission granted, open the gallery
@@ -171,6 +179,7 @@ public class Home extends AppCompatActivity {
                 OpenCamera();
             } else {
                 // Permissions denied, show a message to the user
+                // Explain Why User need to Grant Permission
                 Toast.makeText(this, "Camera permissions are required to take pictures", Toast.LENGTH_SHORT).show();
             }
         }
