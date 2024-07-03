@@ -96,13 +96,13 @@ public class Home extends AppCompatActivity {
         });
         preferences = getSharedPreferences("AppPreferences", Context.MODE_PRIVATE);
         if(preferences.getString("preferred_recognizer", "Latin").equals("Chinese")){
-            recognizerTextView.setText("Using Chinese Text Recognizer");
+            recognizerTextView.setText(R.string.using_chinese_recognizer);
         }
         else if(preferences.getString("preferred_recognizer", "Latin").equals("Japanese")){
-            recognizerTextView.setText("Using Japanese Text Recognizer");
+            recognizerTextView.setText(R.string.using_japanese_recognizer);
         }
         else{
-            recognizerTextView.setText("Using Latin Text Recognizer");
+            recognizerTextView.setText(R.string.using_latin_recognizer);
         }
 
     }

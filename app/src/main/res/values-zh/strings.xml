@@ -14,6 +14,9 @@
     <string name="translated_text">翻译文本</string>
     <string name="language_saved_message">首选语言已保存: %s</string>
     <string name="preference_reset">重置偏好</string>
+    <string name="select_preferred_language">选择首选语言</string>
+    <string name="save">保存</string>
+    <string name="reset_preferences">重置偏好</string>
 
     <string name="language_english">英语</string>
     <string name="language_spanish">西班牙语</string>
@@ -28,10 +31,11 @@
     <string name="language_arabic">阿拉伯语</string>
     <string name="language_hindi">印地语</string>
 
-    <string name="select_preferred_language">选择首选语言</string>
-    <string name="save">保存</string>
-    <string name="reset_preferences">重置偏好</string>
     <string name="set_text_recognizer">设置文本识别器</string>
+    <string name="using_latin_recognizer">使用拉丁文字识别器</string>
+    <string name="using_japanese_recognizer">使用日文字识别器</string>
+    <string name="using_chinese_recognizer">使用中文字识别器</string>
+
 
     <string-array name="language_array">
         <item>@string/language_english</item>

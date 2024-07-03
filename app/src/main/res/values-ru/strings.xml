@@ -14,6 +14,9 @@
     <string name="translated_text">Переведённый текст</string>
     <string name="language_saved_message">Выбранный язык сохранён: %s</string>
     <string name="preference_reset">Сброс настроек</string>
+    <string name="select_preferred_language">Выберите предпочитаемый язык</string>
+    <string name="save">Сохранить</string>
+    <string name="reset_preferences">Сбросить настройки</string>
 
     <string name="language_english">Английский</string>
     <string name="language_spanish">Испанский</string>
@@ -28,10 +31,11 @@
     <string name="language_arabic">Арабский</string>
     <string name="language_hindi">Хинди</string>
 
-    <string name="select_preferred_language">Выберите предпочитаемый язык</string>
-    <string name="save">Сохранить</string>
-    <string name="reset_preferences">Сбросить настройки</string>
     <string name="set_text_recognizer">Настроить распознаватель текста</string>
+    <string name="using_latin_recognizer">Использование распознавателя латинского текста</string>
+    <string name="using_japanese_recognizer">Использование распознавателя японского текста</string>
+    <string name="using_chinese_recognizer">Использование распознавателя китайского текста</string>
+
 
     <string-array name="language_array">
         <item>@string/language_english</item>

@@ -30,6 +30,9 @@
     <string name="save">Save</string>
     <string name="reset_preferences">Reset Preferences</string>
     <string name="set_text_recognizer">Set Text Recognizer</string>
+    <string name="using_latin_recognizer">"Using Latin Text Recognizer"</string>
+    <string name="using_japanese_recognizer">"Using Japanese Text Recognizer"</string>
+    <string name="using_chinese_recognizer">"Using Chinese Text Recognizer"</string>
 
     <string-array name="language_array">
         <item>@string/language_english</item>

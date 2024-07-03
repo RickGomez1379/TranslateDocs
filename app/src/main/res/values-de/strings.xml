@@ -32,6 +32,10 @@
     <string name="language_hindi">Hindi</string>
 
     <string name="set_text_recognizer">Text-Erkenner einstellen</string>
+    <string name="using_latin_recognizer">Verwendung des lateinischen Texterkenners</string>
+    <string name="using_japanese_recognizer">Verwendung des japanischen Texterkenners</string>
+    <string name="using_chinese_recognizer">Verwendung des chinesischen Texterkenners</string>
+
 
     <string-array name="language_array">
         <item>@string/language_english</item>

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
+import android.speech.tts.TextToSpeech;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -27,6 +28,7 @@ import com.google.mlkit.nl.translate.Translation;
 import com.google.mlkit.nl.translate.Translator;
 import com.google.mlkit.nl.translate.TranslatorOptions;
 
+import java.util.Locale;
 import java.util.Objects;
 //TODO: Change variable names to avoid/reduce confusion
 public class TranslatorActivity extends AppCompatActivity {
@@ -44,7 +46,10 @@ public class TranslatorActivity extends AppCompatActivity {
     final int SPEECH_CODE = 102;
     final int REQUEST_MICROPHONE_PERMISSION = 101;
     boolean usingFirstMic = true;
-    private StringBuilder recognizedTextBuilder = new StringBuilder();
+    private final StringBuilder recognizedTextBuilder = new StringBuilder();
+    ImageView topSpeaker;
+    ImageView bottomSpeaker;
+    TextToSpeech tts;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,12 +58,14 @@ public class TranslatorActivity extends AppCompatActivity {
 
         translateDownButton = findViewById(R.id.translate_down_button);
         translateUpButton = findViewById(R.id.translate_up_button);
-        firstMic = findViewById(R.id.microphone_start);
+        firstMic = findViewById(R.id.microphone_top);
         secondMic = findViewById(R.id.microphone_respond);
-        languagesFrom = findViewById(R.id.languages_From_Spinner);
+        languagesFrom = findViewById(R.id.spinner_top);
         languagesTo = findViewById(R.id.languages_To_Spinner);
         textToTranslateTo = findViewById(R.id.text_To_Translate_To);
         textToTranslateFrom = findViewById(R.id.text_To_Translate);
+        topSpeaker = findViewById(R.id.speaker_top);
+        bottomSpeaker = findViewById(R.id.speaker_bottom);
 
         //Setup TopBar
         nav = findViewById(R.id.TopBar);
@@ -99,6 +106,26 @@ public class TranslatorActivity extends AppCompatActivity {
                 String language = ChosenLanguage(languagesTo.getSelectedItemPosition());
                 OpenMicrophone(language);
             }
+        });
+
+        topSpeaker.setOnClickListener(v -> {
+            if(!textToTranslateFrom.getText().toString().isEmpty()){
+                tts = new TextToSpeech(this, status -> {
+                    tts.setLanguage(Locale.forLanguageTag((ChosenLanguage(languagesFrom.getSelectedItemPosition()))));
+                    tts.speak(textToTranslateFrom.getText().toString(), TextToSpeech.QUEUE_FLUSH, null);
+                });
+            }
+
+        });
+
+        bottomSpeaker.setOnClickListener(v -> {
+            if(!textToTranslateTo.getText().toString().isEmpty()){
+                tts = new TextToSpeech(this, status -> {
+                    tts.setLanguage(Locale.forLanguageTag((ChosenLanguage(languagesTo.getSelectedItemPosition()))));
+                    tts.speak(textToTranslateTo.getText().toString(), TextToSpeech.QUEUE_FLUSH, null);
+                });
+            }
+
         });
 
         translateDownButton.setOnClickListener(v -> {
@@ -182,6 +209,16 @@ public class TranslatorActivity extends AppCompatActivity {
                 return "it";
             case 6:
                 return "ro";
+            case 7:
+                return "ja";
+            case 8:
+                return "zh";
+            case 9:
+                return "ru";
+            case 10:
+                return "ar";
+            case 11:
+                return "hi";
             default:
                 return "en";
         }

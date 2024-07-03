@@ -14,6 +14,9 @@
     <string name="translated_text">翻訳されたテキスト</string>
     <string name="language_saved_message">選択した言語が保存されました：%s</string>
     <string name="preference_reset">設定のリセット</string>
+    <string name="select_preferred_language">好みの言語を選択</string>
+    <string name="save">保存</string>
+    <string name="reset_preferences">設定をリセット</string>
 
     <string name="language_english">英語</string>
     <string name="language_spanish">スペイン語</string>
@@ -28,10 +31,11 @@
     <string name="language_arabic">アラビア語</string>
     <string name="language_hindi">ヒンディー語</string>
 
-    <string name="select_preferred_language">好みの言語を選択</string>
-    <string name="save">保存</string>
-    <string name="reset_preferences">設定をリセット</string>
     <string name="set_text_recognizer">テキスト認識器を設定する</string>
+    <string name="using_latin_recognizer">ラテン文字認識を使用</string>
+    <string name="using_japanese_recognizer">日本語文字認識を使用</string>
+    <string name="using_chinese_recognizer">中国語文字認識を使用</string>
+
 
     <string-array name="language_array">
         <item>@string/language_english</item>

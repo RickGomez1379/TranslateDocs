@@ -14,6 +14,9 @@
     <string name="translated_text">النص المترجم</string>
     <string name="language_saved_message">تم حفظ اللغة المفضلة: %s</string>
     <string name="preference_reset">إعادة تعيين التفضيلات</string>
+    <string name="select_preferred_language">اختر اللغة المفضلة</string>
+    <string name="save">حفظ</string>
+    <string name="reset_preferences">إعادة تعيين التفضيلات</string>
 
     <string name="language_english">الإنجليزية</string>
     <string name="language_spanish">الإسبانية</string>
@@ -28,10 +31,11 @@
     <string name="language_arabic">العربية</string>
     <string name="language_hindi">الهندية</string>
 
-    <string name="select_preferred_language">اختر اللغة المفضلة</string>
-    <string name="save">حفظ</string>
-    <string name="reset_preferences">إعادة تعيين التفضيلات</string>
     <string name="set_text_recognizer">تعيين مُعرف النص</string>
+    <string name="using_latin_recognizer">استخدام مُعرف النصوص اللاتينية</string>
+    <string name="using_japanese_recognizer">استخدام مُعرف النصوص اليابانية</string>
+    <string name="using_chinese_recognizer">استخدام مُعرف النصوص الصينية</string>
+
 
     <string-array name="language_array">
         <item>@string/language_english</item>
