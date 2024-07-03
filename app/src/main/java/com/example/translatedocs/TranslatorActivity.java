@@ -31,26 +31,26 @@ import com.google.mlkit.nl.translate.TranslatorOptions;
 
 import java.util.Locale;
 import java.util.Objects;
-//TODO: Change variable names to avoid/reduce confusion
 public class TranslatorActivity extends AppCompatActivity {
     Button translateDownButton;
     Button translateUpButton;
     ImageView firstMic;
     ImageView secondMic;
-    Spinner languagesFrom;
-    Spinner languagesTo;
-    String translateFrom;
-    String translateTo;
+    Spinner languagesTop;
+    Spinner languagesBottom;
+    String translateTop;
+    String translateBottom;
     TextInputEditText bottomTextToTranslate;
     TextInputEditText topTextToTranslate;
+    ImageView topSpeaker;
+    ImageView bottomSpeaker;
+    TextToSpeech tts;
     Toolbar nav;
     final int SPEECH_CODE = 102;
     final int REQUEST_MICROPHONE_PERMISSION = 101;
     boolean usingFirstMic = true;
     private final StringBuilder recognizedTextBuilder = new StringBuilder();
-    ImageView topSpeaker;
-    ImageView bottomSpeaker;
-    TextToSpeech tts;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,8 +61,8 @@ public class TranslatorActivity extends AppCompatActivity {
         translateUpButton = findViewById(R.id.translate_up_button);
         firstMic = findViewById(R.id.microphone_top);
         secondMic = findViewById(R.id.microphone_bottom);
-        languagesFrom = findViewById(R.id.top_languages_spinner);
-        languagesTo = findViewById(R.id.bottom_languages_spinner);
+        languagesTop = findViewById(R.id.top_languages_spinner);
+        languagesBottom = findViewById(R.id.bottom_languages_spinner);
         bottomTextToTranslate = findViewById(R.id.bottom_text_to_translate);
         topTextToTranslate = findViewById(R.id.top_text_to_translate);
         topSpeaker = findViewById(R.id.speaker_top);
@@ -88,7 +88,7 @@ public class TranslatorActivity extends AppCompatActivity {
             else {
                 // Permission already granted, proceed with the microphone functionality
                 usingFirstMic = true;
-                String language = ChosenLanguage(languagesFrom.getSelectedItemPosition());
+                String language = ChosenLanguage(languagesTop.getSelectedItemPosition());
                 OpenMicrophone(language);
             }
         });
@@ -108,7 +108,7 @@ public class TranslatorActivity extends AppCompatActivity {
             else {
                 // Permission already granted, proceed with the microphone functionality
                 usingFirstMic = false;
-                String language = ChosenLanguage(languagesTo.getSelectedItemPosition());
+                String language = ChosenLanguage(languagesBottom.getSelectedItemPosition());
                 OpenMicrophone(language);
             }
         });
@@ -120,7 +120,7 @@ public class TranslatorActivity extends AppCompatActivity {
             if(!Objects.requireNonNull(topTextToTranslate.getText()).toString().isEmpty()){
                 //Initialize Text-To-Speech with Bottom Language Spinner and Speaks
                 tts = new TextToSpeech(this, status -> {
-                    tts.setLanguage(Locale.forLanguageTag((ChosenLanguage(languagesFrom.getSelectedItemPosition()))));
+                    tts.setLanguage(Locale.forLanguageTag((ChosenLanguage(languagesTop.getSelectedItemPosition()))));
                     tts.speak(topTextToTranslate.getText().toString(), TextToSpeech.QUEUE_FLUSH, null);
                 });
             }
@@ -133,7 +133,7 @@ public class TranslatorActivity extends AppCompatActivity {
             if(!Objects.requireNonNull(bottomTextToTranslate.getText()).toString().isEmpty()){
                 //Initialize Text-To-Speech with Bottom Language Spinner and Speaks
                 tts = new TextToSpeech(this, status -> {
-                    tts.setLanguage(Locale.forLanguageTag((ChosenLanguage(languagesTo.getSelectedItemPosition()))));
+                    tts.setLanguage(Locale.forLanguageTag((ChosenLanguage(languagesBottom.getSelectedItemPosition()))));
                     tts.speak(bottomTextToTranslate.getText().toString(), TextToSpeech.QUEUE_FLUSH, null);
                 });
             }
@@ -142,19 +142,19 @@ public class TranslatorActivity extends AppCompatActivity {
         //Translate Button w/ Down Arrow Icon
         translateDownButton.setOnClickListener(v -> {
             //Set Language Codes
-            translateFrom = ChosenLanguage(languagesFrom.getSelectedItemPosition());
-            translateTo = ChosenLanguage(languagesTo.getSelectedItemPosition());
+            translateTop = ChosenLanguage(languagesTop.getSelectedItemPosition());
+            translateBottom = ChosenLanguage(languagesBottom.getSelectedItemPosition());
 
             //Translate
-            Translate(Objects.requireNonNull(topTextToTranslate.getText()).toString(), translateFrom,translateTo, bottomTextToTranslate);
+            Translate(Objects.requireNonNull(topTextToTranslate.getText()).toString(), translateTop, translateBottom, bottomTextToTranslate);
         });
         translateUpButton.setOnClickListener(v -> {
             //Set Language Codes
-            translateFrom = ChosenLanguage(languagesTo.getSelectedItemPosition());
-            translateTo = ChosenLanguage(languagesFrom.getSelectedItemPosition());
+            translateTop = ChosenLanguage(languagesBottom.getSelectedItemPosition());
+            translateBottom = ChosenLanguage(languagesTop.getSelectedItemPosition());
 
             //Translate
-            Translate(Objects.requireNonNull(bottomTextToTranslate.getText()).toString(), translateFrom,translateTo, topTextToTranslate);
+            Translate(Objects.requireNonNull(bottomTextToTranslate.getText()).toString(), translateTop, translateBottom, topTextToTranslate);
         });
     }
 
@@ -181,13 +181,13 @@ public class TranslatorActivity extends AppCompatActivity {
                 // Append the new recognized text to the existing text
                 recognizedTextBuilder.append(result[0]).append(" ");
                 topTextToTranslate.setText(recognizedTextBuilder.toString());
-                OpenMicrophone(ChosenLanguage(languagesFrom.getSelectedItemPosition()));
+                OpenMicrophone(ChosenLanguage(languagesTop.getSelectedItemPosition()));
             }
             else{
                 //textToTranslateTo.setText(result[0]);
                 recognizedTextBuilder.append(result[0]).append(" ");
                 bottomTextToTranslate.setText(recognizedTextBuilder.toString());
-                OpenMicrophone(ChosenLanguage(languagesTo.getSelectedItemPosition()));
+                OpenMicrophone(ChosenLanguage(languagesBottom.getSelectedItemPosition()));
             }
         }
     }
@@ -202,10 +202,10 @@ public class TranslatorActivity extends AppCompatActivity {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Depending on With Mic User Wants to Use
                 if(usingFirstMic) {
-                    OpenMicrophone(ChosenLanguage(languagesFrom.getSelectedItemPosition()));
+                    OpenMicrophone(ChosenLanguage(languagesTop.getSelectedItemPosition()));
                 }
                 else{
-                    OpenMicrophone(ChosenLanguage(languagesTo.getSelectedItemPosition()));
+                    OpenMicrophone(ChosenLanguage(languagesBottom.getSelectedItemPosition()));
                 }
                 //Else Not Granted
             } else {
