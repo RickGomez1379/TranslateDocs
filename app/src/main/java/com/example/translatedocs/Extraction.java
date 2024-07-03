@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -204,5 +205,15 @@ public class Extraction extends AppCompatActivity {
             }
         }
         translatedTView.setText(translatedText.toString().trim());
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == android.R.id.home) {
+            // Finish the activity and Apply Animation
+            finish();
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+            return true;
+        }
+        else{ return super.onOptionsItemSelected(item); }
     }
 }

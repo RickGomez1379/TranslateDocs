@@ -5,6 +5,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -283,5 +284,17 @@ public class TranslatorActivity extends AppCompatActivity {
                                     }))
                 .addOnFailureListener(e ->
                         Toast.makeText(TranslatorActivity.this, "Fail to Download: " + e,Toast.LENGTH_LONG).show());
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == android.R.id.home) {
+                // Finish the activity and Apply Animation
+                finish();
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                return true;
+        }
+        else{ return super.onOptionsItemSelected(item); }
     }
 }

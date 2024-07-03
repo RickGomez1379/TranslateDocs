@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -136,6 +137,16 @@ public class Settings extends AppCompatActivity {
             }
         }
         return 0; // Value not found // Value not found
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == android.R.id.home) {
+            // Finish the activity and Apply Animation
+            finish();
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+            return true;
+        }
+        else{ return super.onOptionsItemSelected(item); }
     }
 
 }
