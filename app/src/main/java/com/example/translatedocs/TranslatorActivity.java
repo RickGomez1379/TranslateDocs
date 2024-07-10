@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 import android.Manifest;
@@ -21,6 +23,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.mlkit.common.model.DownloadConditions;
 import com.google.mlkit.common.model.RemoteModelManager;
 import com.google.mlkit.nl.translate.TranslateLanguage;
@@ -41,10 +44,13 @@ public class TranslatorActivity extends AppCompatActivity {
     Spinner languagesBottom;
     TextInputEditText bottomTextToTranslate;
     TextInputEditText topTextToTranslate;
+    TextInputLayout bottomTextInputLayout;
+    TextInputLayout topTextInputLayout;
     ImageView topSpeaker;
     ImageView bottomSpeaker;
     Toolbar nav;
-
+    ProgressBar topProgressBar;
+    ProgressBar bottomProgressBar;
     TextToSpeech tts;
     final int SPEECH_CODE = 102;
     final int REQUEST_MICROPHONE_PERMISSION = 101;
@@ -67,6 +73,10 @@ public class TranslatorActivity extends AppCompatActivity {
         topTextToTranslate = findViewById(R.id.top_text_to_translate);
         topSpeaker = findViewById(R.id.speaker_top);
         bottomSpeaker = findViewById(R.id.speaker_bottom);
+        topProgressBar = findViewById(R.id.top_progress_bar);
+        bottomProgressBar = findViewById(R.id.bottom_progress_bar);
+        topTextInputLayout = findViewById(R.id.top_text_input_layout);
+        bottomTextInputLayout = findViewById(R.id.bottom_text_input_layout);
 
         //Setup TopBar
         nav = findViewById(R.id.TopBar);
@@ -96,16 +106,21 @@ public class TranslatorActivity extends AppCompatActivity {
         String fromLanguage, toLanguage;
 
         //If Translating into Bottom Text Input
-        if (isTranslateDown) {
+        if (isTranslateDown && !Objects.requireNonNull(topTextToTranslate.getText()).toString().isEmpty()) {
             fromLanguage = ChosenLanguage(languagesTop.getSelectedItemPosition());
             toLanguage = ChosenLanguage(languagesBottom.getSelectedItemPosition());
-            Translate(topTextToTranslate.getText().toString(), fromLanguage, toLanguage, bottomTextToTranslate);
+            Translate(topTextToTranslate.getText().toString(), fromLanguage, toLanguage, bottomTextToTranslate, bottomTextInputLayout, bottomProgressBar);
+            bottomTextInputLayout.setVisibility(View.INVISIBLE);
+            bottomProgressBar.setVisibility(View.VISIBLE);
+
         }
         //Else Translating into Top Text Input
-        else {
+        else if(!Objects.requireNonNull(bottomTextToTranslate.getText()).toString().isEmpty()){
             fromLanguage = ChosenLanguage(languagesBottom.getSelectedItemPosition());
             toLanguage = ChosenLanguage(languagesTop.getSelectedItemPosition());
-            Translate(bottomTextToTranslate.getText().toString(), fromLanguage, toLanguage, topTextToTranslate);
+            Translate(bottomTextToTranslate.getText().toString(), fromLanguage, toLanguage, topTextToTranslate, topTextInputLayout, topProgressBar);
+            topTextInputLayout.setVisibility(View.INVISIBLE);
+            topProgressBar.setVisibility(View.VISIBLE);
         }
     }
 
@@ -153,7 +168,7 @@ public class TranslatorActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         //if no Error Starts Microphone Intent
         if (requestCode == SPEECH_CODE && resultCode == RESULT_OK && data != null){
-            String [] result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS).toArray(new String[0]);
+            String [] result = Objects.requireNonNull(data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)).toArray(new String[0]);
 
             if(usingFirstMic) {
                 //textToTranslateFrom.setText(result[0]);
@@ -227,7 +242,7 @@ public class TranslatorActivity extends AppCompatActivity {
 
 
     //Translate (Text to Translate From, Language to Translate From, Language to Translate To, Text to Modify with Translated Text)
-    private void Translate(String _textToTranslate, String _from, String _to, TextInputEditText _textTranslated) {
+    private void Translate(String _textToTranslate, String _from, String _to, TextInputEditText _textTranslated, TextInputLayout textInputLayout, ProgressBar progressBar) {
         //If There is no Text to Translate
         if(_textToTranslate.isEmpty())
         {
@@ -259,10 +274,13 @@ public class TranslatorActivity extends AppCompatActivity {
                 .addOnSuccessListener(unused -> translator.translate(_textToTranslate)
                         .addOnSuccessListener(translation -> {
                             //If Successful Set Text
-                            Toast.makeText(TranslatorActivity.this, "Successfully Translated",Toast.LENGTH_LONG).show();
                             _textTranslated.setText(translation.toLowerCase());
+                            progressBar.setVisibility(View.INVISIBLE);
+                            textInputLayout.setVisibility(View.VISIBLE);
+                            Toast.makeText(TranslatorActivity.this, "Successfully Translated",Toast.LENGTH_LONG).show();
                                     }))
-                .addOnFailureListener(e -> Toast.makeText(TranslatorActivity.this, "Fail to Download: " + e,Toast.LENGTH_LONG).show()); }
+                .addOnFailureListener(e -> Toast.makeText(TranslatorActivity.this, "Fail to Download: " + e,Toast.LENGTH_LONG).show());
+    }
 
 
     @Override

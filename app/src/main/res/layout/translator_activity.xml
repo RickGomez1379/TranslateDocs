@@ -36,9 +36,27 @@
         android:contentDescription="@string/app_name"
         android:focusable="true"
         android:src="@drawable/microphoneicon25"
+        android:background="@drawable/border" />
+
+    <ImageView
+        android:id="@+id/speaker_top"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/speaker_50"
+        android:layout_marginStart="32dp"
         android:background="@drawable/border"/>
 
+    <ProgressBar
+        android:id="@+id/top_progress_bar"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        style="@android:style/Widget.ProgressBar.Small"/>
+
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/top_text_input_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -57,15 +75,6 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <ImageView
-        android:id="@+id/speaker_top"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:contentDescription="@string/app_name"
-        android:src="@drawable/speaker_50"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/border"/>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -127,10 +136,18 @@
         android:layout_marginStart="32dp"
         android:background="@drawable/border"/>
 
+    <ProgressBar
+        android:id="@+id/bottom_progress_bar"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        style="@android:style/Widget.ProgressBar.Small"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:id="@+id/bottom_text_input_layout">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/bottom_text_to_translate"
