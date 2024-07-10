@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:text="@string/detected_text"
             android:textStyle="bold"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="20dp"
             android:gravity="center"/>
         <TextView
             android:id="@+id/extracted_Text"
@@ -45,8 +45,8 @@
             android:layout_height="wrap_content"
             android:text="@string/translated_text"
             android:textStyle="bold"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="5dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="10dp"
             android:gravity="center"/>
         <ProgressBar
             android:id="@+id/translated_text_progress_bar"

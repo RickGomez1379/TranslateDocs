@@ -145,7 +145,12 @@ public class Extraction extends AppCompatActivity {
                             Translate(text);
                         }
                         extractedTView.append(stringBuilder.toString().trim());
-                    }})
+                    }
+                else{
+                        translatedTextProgressBar.setVisibility(View.INVISIBLE);
+                        translatedTView.setVisibility(View.VISIBLE);
+                }
+                })
                 .addOnFailureListener(e -> {
                     // Recognition failed, try the next recognizer
                     Toast.makeText(this, "Text recognition failed: " + e,Toast.LENGTH_LONG).show();
