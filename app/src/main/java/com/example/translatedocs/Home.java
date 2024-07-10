@@ -25,20 +25,27 @@ import androidx.core.content.FileProvider;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 
 public class Home extends AppCompatActivity {
+    // Request/Activity Codes
     final int REQUEST_READ_EXTERNAL_STORAGE = 101;
     final int REQUEST_CAMERA_PERMISSION = 102;
     final int START_CAMERA_CODE = 2;
+    final int START_GALLERY_CODE = 1;
+    //CardViews
     CardView galleryCardView;
     CardView translatorCardView;
     CardView photoCardView;
     CardView settingsCardView;
+    //User's Preferences
+    SharedPreferences preferences;
+    //TopBar
     Toolbar nav;
     String currentPhotoPath;
     TextView recognizerTextView;
-    SharedPreferences preferences;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +62,33 @@ public class Home extends AppCompatActivity {
         nav = findViewById(R.id.topbar);
         setSupportActionBar(nav);
 
+        //Sets OnClick Listeners for CardViews
+        SetupCardViewListeners();
+
+        //Set TextView For User's Knowledge on What Recognizer TranslateDocs is Using
+        SetTextRecognizerTextView();
+
+    }
+
+    //Set TextView For User's Knowledge on What Recognizer TranslateDocs is Using
+    private void SetTextRecognizerTextView() {
+        preferences = getSharedPreferences("AppPreferences", Context.MODE_PRIVATE);
+        String recognizerPreference = preferences.getString("preferred_recognizer", "Latin");
+
+        if(recognizerPreference.equals("Chinese")){
+            recognizerPreference = getString(R.string.using_chinese_recognizer);
+        }
+        else if(recognizerPreference.equals("Japanese")){
+            recognizerPreference = getString(R.string.using_japanese_recognizer);
+        }
+        else{
+            recognizerPreference = getString(R.string.using_latin_recognizer);
+        }
+        recognizerTextView.setText(recognizerPreference);
+    }
+
+    //Sets OnClick Listeners for CardViews
+    private void SetupCardViewListeners() {
         //Choose From Gallery
         galleryCardView.setOnClickListener(v -> {
             //Check if READ_EXTERNAL_STORAGE permissions are granted to Access Gallery
@@ -64,13 +98,11 @@ public class Home extends AppCompatActivity {
                         new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                         REQUEST_READ_EXTERNAL_STORAGE);
             }
-            else {
-                OpenGallery();
-            }
+            // Permissions already granted, Open Gallery Intent
+            else { OpenGallery(); }
         });
 
-        //Take Photo
-        //Navigate to User's Camera
+        //Listener to Start User's Camera Intent
         photoCardView.setOnClickListener(v -> {
             // Check if the CAMERA and WRITE_EXTERNAL_STORAGE permissions are granted
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
@@ -79,40 +111,32 @@ public class Home extends AppCompatActivity {
                         new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE},
                         REQUEST_CAMERA_PERMISSION);
             }
-            else {
-                // Permissions already granted, you can proceed with the camera functionality
-                OpenCamera();
-            }
+            // Permissions already granted, Open Camera Intent
+            else { OpenCamera(); }
         });
-
         //Translator
         //Starts Translator Activity
         translatorCardView.setOnClickListener(v -> StartTranslatorActivity());
 
+        //Settings
         //Starts Setting Activity
-        settingsCardView.setOnClickListener(v -> {
-            Intent intent = new Intent(this, Settings.class);
-            startActivity(intent);
-            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-        });
+        settingsCardView.setOnClickListener(v -> StartSettingsActivity());
+    }
 
-        //Sets Bottom Text View for Clarify what Text Recognizer User is Using
-        preferences = getSharedPreferences("AppPreferences", Context.MODE_PRIVATE);
-        if(preferences.getString("preferred_recognizer", "Latin").equals("Chinese")){
-            recognizerTextView.setText(R.string.using_chinese_recognizer);
-        }
-        else if(preferences.getString("preferred_recognizer", "Latin").equals("Japanese")){
-            recognizerTextView.setText(R.string.using_japanese_recognizer);
-        }
-        else{
-            recognizerTextView.setText(R.string.using_latin_recognizer);
-        }
-
+    private void StartSettingsActivity() {
+        Intent intent = new Intent(this, Settings.class);
+        startActivity(intent);
+        //Finish Activity, In Case Settings has Changed
+        finish();
+        //Animation
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
     private void StartTranslatorActivity() {
         Intent intent = new Intent(this, TranslatorActivity.class);
         startActivity(intent);
+
+        //Animation
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
@@ -120,13 +144,17 @@ public class Home extends AppCompatActivity {
         String fileName = "photo";
         File storageDirectory = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         try {
+            //Create File for ImageUri
             File imageFile = File.createTempFile(fileName, ".jpg", storageDirectory);
             currentPhotoPath = imageFile.getAbsolutePath();
             Uri imageUri = FileProvider.getUriForFile(this,"com.example.translatedocs", imageFile);
 
+            //Starts Camera Intent
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
             startActivityForResult(intent, START_CAMERA_CODE);
+
+            //Animation
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -135,26 +163,35 @@ public class Home extends AppCompatActivity {
 
     private void OpenGallery() {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(intent, 1);
+        startActivityForResult(intent, START_GALLERY_CODE);
+
+        //Animation
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
-            Uri selectedImageUri = data.getData();
 
-            // Pass the selected image URI to the next activity
+        //Gallery Result
+        if (requestCode == START_GALLERY_CODE && resultCode == RESULT_OK && data != null) {
+            // Pass the Selected ImageUri to Extraction Activity
+            Uri selectedImageUri = data.getData();
             Intent intent = new Intent(Home.this, Extraction.class);
-            intent.putExtra("galleryUri", selectedImageUri.toString());
+            intent.putExtra("galleryUri", Objects.requireNonNull(selectedImageUri).toString());
             startActivity(intent);
+
+            //Animation
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         }
+        //Camera Result
         else if (requestCode == START_CAMERA_CODE && resultCode == RESULT_OK){
+            // Pass the Image File Path to Extraction Activity
             Intent intent = new Intent(this, Extraction.class);
             intent.putExtra("photoBitmap", currentPhotoPath);
             startActivity(intent);
+
+            //Animation
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         }
     }
@@ -166,20 +203,16 @@ public class Home extends AppCompatActivity {
             if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
                 // Permission denied, show a message to the user
                 // Explain Why User need to Grant Permission
-                Toast.makeText(this, "You need to Grant Gallery Permission to Proceed", Toast.LENGTH_SHORT).show();
-            } else {
-                // Permission granted, open the gallery
-                OpenGallery();
-
+                Toast.makeText(this, "Gallery permissions are required to choose picture from gallery", Toast.LENGTH_SHORT).show();
             }
+            // Permission granted, open the gallery
+            else { OpenGallery(); }
         }
         else if (requestCode == REQUEST_CAMERA_PERMISSION){
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permissions granted, you can proceed with the camera functionality
-                OpenCamera();
-            } else {
+            // Permissions granted, proceed with the camera functionality
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) { OpenCamera(); }
+            else {
                 // Permissions denied, show a message to the user
-                // Explain Why User need to Grant Permission
                 Toast.makeText(this, "Camera permissions are required to take pictures", Toast.LENGTH_SHORT).show();
             }
         }
