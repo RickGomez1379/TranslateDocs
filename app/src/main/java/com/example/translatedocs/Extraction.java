@@ -6,7 +6,9 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +41,8 @@ public class Extraction extends AppCompatActivity {
     TextView extractedTView;
     TextView translatedTView;
     ImageView imageView;
+    ProgressBar detectedTextProgressBar;
+    ProgressBar translatedTextProgressBar;
     Uri imageUri;
     Toolbar nav;
     TextRecognizer textRecognizer;
@@ -71,6 +75,8 @@ public class Extraction extends AppCompatActivity {
         imageView = findViewById(R.id.user_Photo);
         extractedTView = findViewById(R.id.extracted_Text);
         translatedTView = findViewById(R.id.translated_Text);
+        detectedTextProgressBar = findViewById(R.id.detected_text_progress_bar);
+        translatedTextProgressBar = findViewById(R.id.translated_text_progress_bar);
 
         nav = findViewById(R.id.TopBar);
         setSupportActionBar(nav);
@@ -144,6 +150,8 @@ public class Extraction extends AppCompatActivity {
                     // Recognition failed, try the next recognizer
                     Toast.makeText(this, "Text recognition failed: " + e,Toast.LENGTH_LONG).show();
                 });
+        detectedTextProgressBar.setVisibility(View.INVISIBLE);
+        extractedTView.setVisibility(View.VISIBLE);
     }
 
 
@@ -205,6 +213,8 @@ public class Extraction extends AppCompatActivity {
             }
         }
         translatedTView.setText(translatedText.toString().trim());
+        translatedTextProgressBar.setVisibility(View.INVISIBLE);
+        translatedTView.setVisibility(View.VISIBLE);
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
