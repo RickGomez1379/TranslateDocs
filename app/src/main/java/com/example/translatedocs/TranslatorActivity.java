@@ -32,20 +32,20 @@ import com.google.mlkit.nl.translate.TranslatorOptions;
 import java.util.Locale;
 import java.util.Objects;
 public class TranslatorActivity extends AppCompatActivity {
+    //UI
     Button translateDownButton;
     Button translateUpButton;
     ImageView firstMic;
     ImageView secondMic;
     Spinner languagesTop;
     Spinner languagesBottom;
-    String translateTop;
-    String translateBottom;
     TextInputEditText bottomTextToTranslate;
     TextInputEditText topTextToTranslate;
     ImageView topSpeaker;
     ImageView bottomSpeaker;
-    TextToSpeech tts;
     Toolbar nav;
+
+    TextToSpeech tts;
     final int SPEECH_CODE = 102;
     final int REQUEST_MICROPHONE_PERMISSION = 101;
     boolean usingFirstMic = true;
@@ -74,88 +74,67 @@ public class TranslatorActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         //Top Mic Button Click
-        firstMic.setOnClickListener(v -> {
-
-            // Check if the RECORD_AUDIO permission is granted
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
-                    != PackageManager.PERMISSION_GRANTED) {
-                usingFirstMic = true;
-                // If permission is not granted, request the permission
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.RECORD_AUDIO},
-                        REQUEST_MICROPHONE_PERMISSION);
-            }
-            else {
-                // Permission already granted, proceed with the microphone functionality
-                usingFirstMic = true;
-                String language = ChosenLanguage(languagesTop.getSelectedItemPosition());
-                OpenMicrophone(language);
-            }
-        });
+        firstMic.setOnClickListener(v -> CheckMicrophonePermissionAndOpenMicrophone(true, languagesTop));
 
         //Bottom Mic Button Click
-        secondMic.setOnClickListener(v -> {
-
-            // Check if the RECORD_AUDIO permission is granted
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
-                    != PackageManager.PERMISSION_GRANTED) {
-                usingFirstMic = false;
-                // If permission is not granted, request the permission
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.RECORD_AUDIO},
-                        REQUEST_MICROPHONE_PERMISSION);
-            }
-            else {
-                // Permission already granted, proceed with the microphone functionality
-                usingFirstMic = false;
-                String language = ChosenLanguage(languagesBottom.getSelectedItemPosition());
-                OpenMicrophone(language);
-            }
-        });
+        secondMic.setOnClickListener(v -> CheckMicrophonePermissionAndOpenMicrophone(false, languagesBottom));
 
         //Top Speaker Icon Click
-        topSpeaker.setOnClickListener(v -> {
-
-            //if Text View is not Empty, Set-up and Active Text-To-Speech
-            if(!Objects.requireNonNull(topTextToTranslate.getText()).toString().isEmpty()){
-                //Initialize Text-To-Speech with Bottom Language Spinner and Speaks
-                tts = new TextToSpeech(this, status -> {
-                    tts.setLanguage(Locale.forLanguageTag((ChosenLanguage(languagesTop.getSelectedItemPosition()))));
-                    tts.speak(topTextToTranslate.getText().toString(), TextToSpeech.QUEUE_FLUSH, null);
-                });
-            }
-        });
+        topSpeaker.setOnClickListener(v -> Speaker(topTextToTranslate, languagesTop));
 
         //Bottom Speaker Icon Click
-        bottomSpeaker.setOnClickListener(v -> {
-
-            //if Text View is not Empty, Set-up and Active Text-To-Speech
-            if(!Objects.requireNonNull(bottomTextToTranslate.getText()).toString().isEmpty()){
-                //Initialize Text-To-Speech with Bottom Language Spinner and Speaks
-                tts = new TextToSpeech(this, status -> {
-                    tts.setLanguage(Locale.forLanguageTag((ChosenLanguage(languagesBottom.getSelectedItemPosition()))));
-                    tts.speak(bottomTextToTranslate.getText().toString(), TextToSpeech.QUEUE_FLUSH, null);
-                });
-            }
-        });
+        bottomSpeaker.setOnClickListener(v -> Speaker(bottomTextToTranslate, languagesBottom));
 
         //Translate Button w/ Down Arrow Icon
-        translateDownButton.setOnClickListener(v -> {
-            //Set Language Codes
-            translateTop = ChosenLanguage(languagesTop.getSelectedItemPosition());
-            translateBottom = ChosenLanguage(languagesBottom.getSelectedItemPosition());
+        translateDownButton.setOnClickListener(v -> TranslateButtonClick(true));
 
-            //Translate
-            Translate(Objects.requireNonNull(topTextToTranslate.getText()).toString(), translateTop, translateBottom, bottomTextToTranslate);
-        });
-        translateUpButton.setOnClickListener(v -> {
-            //Set Language Codes
-            translateTop = ChosenLanguage(languagesBottom.getSelectedItemPosition());
-            translateBottom = ChosenLanguage(languagesTop.getSelectedItemPosition());
+        //Translate Button w/ Up Arrow Icon
+        translateUpButton.setOnClickListener(v -> TranslateButtonClick(false));
+    }
 
-            //Translate
-            Translate(Objects.requireNonNull(bottomTextToTranslate.getText()).toString(), translateTop, translateBottom, topTextToTranslate);
-        });
+    private void TranslateButtonClick(boolean isTranslateDown) {
+        String fromLanguage, toLanguage;
+
+        //If Translating into Bottom Text Input
+        if (isTranslateDown) {
+            fromLanguage = ChosenLanguage(languagesTop.getSelectedItemPosition());
+            toLanguage = ChosenLanguage(languagesBottom.getSelectedItemPosition());
+            Translate(topTextToTranslate.getText().toString(), fromLanguage, toLanguage, bottomTextToTranslate);
+        }
+        //Else Translating into Top Text Input
+        else {
+            fromLanguage = ChosenLanguage(languagesBottom.getSelectedItemPosition());
+            toLanguage = ChosenLanguage(languagesTop.getSelectedItemPosition());
+            Translate(bottomTextToTranslate.getText().toString(), fromLanguage, toLanguage, topTextToTranslate);
+        }
+    }
+
+    private void Speaker(TextInputEditText bottomTextToTranslate, Spinner languagesBottom) {
+        // If not Empty, Set-up and Active Text-To-Speech
+        if (!Objects.requireNonNull(bottomTextToTranslate.getText()).toString().isEmpty()) {
+            //Initialize Text-To-Speech with Language Spinner and Speaks
+            tts = new TextToSpeech(this, status -> {
+                tts.setLanguage(Locale.forLanguageTag((ChosenLanguage(languagesBottom.getSelectedItemPosition()))));
+                tts.speak(bottomTextToTranslate.getText().toString(), TextToSpeech.QUEUE_FLUSH, null, null);
+            });
+        }
+    }
+
+    private void CheckMicrophonePermissionAndOpenMicrophone(boolean isFirstMic, Spinner languageSpinner) {
+        usingFirstMic = isFirstMic;
+        // Check if the RECORD_AUDIO permission is granted
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
+                != PackageManager.PERMISSION_GRANTED) {
+            // If permission is not granted, request the permission
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.RECORD_AUDIO},
+                    REQUEST_MICROPHONE_PERMISSION);
+        }
+        else {
+            // Permission already granted, proceed with the microphone functionality
+            String language = ChosenLanguage(languageSpinner.getSelectedItemPosition());
+            OpenMicrophone(language);
+        }
     }
 
     private void OpenMicrophone(String language){
@@ -279,12 +258,11 @@ public class TranslatorActivity extends AppCompatActivity {
         translator.downloadModelIfNeeded(conditions)
                 .addOnSuccessListener(unused -> translator.translate(_textToTranslate)
                         .addOnSuccessListener(translation -> {
+                            //If Successful Set Text
                             Toast.makeText(TranslatorActivity.this, "Successfully Translated",Toast.LENGTH_LONG).show();
-                            _textTranslated.setText(translation);
+                            _textTranslated.setText(translation.toLowerCase());
                                     }))
-                .addOnFailureListener(e ->
-                        Toast.makeText(TranslatorActivity.this, "Fail to Download: " + e,Toast.LENGTH_LONG).show());
-    }
+                .addOnFailureListener(e -> Toast.makeText(TranslatorActivity.this, "Fail to Download: " + e,Toast.LENGTH_LONG).show()); }
 
 
     @Override
