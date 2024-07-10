@@ -49,6 +49,7 @@ public class TranslatorActivity extends AppCompatActivity {
     ImageView topSpeaker;
     ImageView bottomSpeaker;
     Toolbar nav;
+
     ProgressBar topProgressBar;
     ProgressBar bottomProgressBar;
     TextToSpeech tts;
@@ -73,10 +74,11 @@ public class TranslatorActivity extends AppCompatActivity {
         topTextToTranslate = findViewById(R.id.top_text_to_translate);
         topSpeaker = findViewById(R.id.speaker_top);
         bottomSpeaker = findViewById(R.id.speaker_bottom);
-        topProgressBar = findViewById(R.id.top_progress_bar);
-        bottomProgressBar = findViewById(R.id.bottom_progress_bar);
         topTextInputLayout = findViewById(R.id.top_text_input_layout);
         bottomTextInputLayout = findViewById(R.id.bottom_text_input_layout);
+
+        topProgressBar = findViewById(R.id.top_progress_bar);
+        bottomProgressBar = findViewById(R.id.bottom_progress_bar);
 
         //Setup TopBar
         nav = findViewById(R.id.TopBar);

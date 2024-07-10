@@ -38,13 +38,15 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 public class Extraction extends AppCompatActivity {
+    //UI
     TextView extractedTView;
     TextView translatedTView;
     ImageView imageView;
+    Toolbar nav;
+
     ProgressBar detectedTextProgressBar;
     ProgressBar translatedTextProgressBar;
     Uri imageUri;
-    Toolbar nav;
     TextRecognizer textRecognizer;
     List<String> originalTexts = new ArrayList<>();
     Map<String,String> translatedTexts = new LinkedHashMap<>();
@@ -54,8 +56,19 @@ public class Extraction extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.extraction_activity);
-        preferences = getSharedPreferences("AppPreferences", MODE_PRIVATE);
 
+        // Assign UI Accordingly
+        imageView = findViewById(R.id.user_Photo);
+        extractedTView = findViewById(R.id.extracted_Text);
+        translatedTView = findViewById(R.id.translated_Text);
+        nav = findViewById(R.id.TopBar);
+        setSupportActionBar(nav);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+
+        detectedTextProgressBar = findViewById(R.id.detected_text_progress_bar);
+        translatedTextProgressBar = findViewById(R.id.translated_text_progress_bar);
+
+        preferences = getSharedPreferences("AppPreferences", MODE_PRIVATE);
         String currentRecognizer = preferences.getString("preferred_recognizer", "Latin");
 
         if (currentRecognizer.equals("Latin")) {
@@ -69,63 +82,46 @@ public class Extraction extends AppCompatActivity {
             textRecognizer = TextRecognition.getClient(new ChineseTextRecognizerOptions.Builder().build());
         }
 
-
-
-        // Assign Views Accordingly
-        imageView = findViewById(R.id.user_Photo);
-        extractedTView = findViewById(R.id.extracted_Text);
-        translatedTView = findViewById(R.id.translated_Text);
-        detectedTextProgressBar = findViewById(R.id.detected_text_progress_bar);
-        translatedTextProgressBar = findViewById(R.id.translated_text_progress_bar);
-
-        nav = findViewById(R.id.TopBar);
-        setSupportActionBar(nav);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-
-        //If User decide to use their Gallery
+        //If User Used Gallery
         if (getIntent().getStringExtra("galleryUri") != null) {
-            // Retrieve Image URI passed from Home
+            // Retrieve Image URI From Home
             String galleryUri = getIntent().getStringExtra("galleryUri");
 
-            //Convert Image from Uri
+            //Convert Image from Uri and Set ImageView
             imageUri = Uri.parse(galleryUri);
-            // Set Image to ImageView
             imageView.setImageURI(imageUri);
-            //Convert Bitmap from Uri
-            Bitmap galleryBitmap = getBitmapFromUri(imageUri);
 
-            // Process text from image and translate
+            //Convert Bitmap and Process for Translation
+            Bitmap galleryBitmap = getBitmapFromUri(imageUri);
             FirebaseDetectText(galleryBitmap);
         }
 
         //Else if User decides to use Camera
         else if(getIntent().getStringExtra("photoBitmap") != null ){
-            String filePath = getIntent().getStringExtra("photoBitmap");
 
-            //Extract passed data from Home
+            //Extract File and Convert to Bitmap
+            String filePath = getIntent().getStringExtra("photoBitmap");
             Bitmap photoBitmap = BitmapFactory.decodeFile(filePath);
             // Set Image to ImageView
             imageView.setImageBitmap(photoBitmap);
 
-            // Process text from image and translate
+            // Process and Translate
             FirebaseDetectText(photoBitmap);
         }
     }
 
     public Bitmap getBitmapFromUri(Uri uri) {
         try {
-            // Use ContentResolver to open an InputStream from the URI
+            // Open an InputStream from Uri
             InputStream inputStream = getContentResolver().openInputStream(uri);
-            // Decode the InputStream into a Bitmap using BitmapFactory
+            // Decode InputStream into Bitmap
             Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-            // Close the InputStream
+            // Close the InputStream and Return Bitmap
             assert inputStream != null;
             inputStream.close();
-            // Return the Bitmap
             return bitmap;
         } catch (IOException e) {
             Toast.makeText(this, e.toString(),Toast.LENGTH_SHORT).show();
-            // Handle any errors that may occur
             return null;
         }
     }
@@ -135,10 +131,12 @@ public class Extraction extends AppCompatActivity {
 
         textRecognizer.process(image)
                 .addOnSuccessListener(visionText -> {
+                    // Successfully Recognized Text
                     if (!visionText.getTextBlocks().isEmpty()) {
                         StringBuilder stringBuilder = new StringBuilder();
                         for(Text.TextBlock textBlock : visionText.getTextBlocks()) {
-                            // Successfully recognized text
+                            //TODO
+                            //Append Detected Text to String Builder
                             String text = textBlock.getText();
                             stringBuilder.append(text).append('\n');
                             originalTexts.add(text);
@@ -146,15 +144,18 @@ public class Extraction extends AppCompatActivity {
                         }
                         extractedTView.append(stringBuilder.toString().trim());
                     }
-                else{
+                    //If No Text Then set Visibility Accordingly
+                    else{
                         translatedTextProgressBar.setVisibility(View.INVISIBLE);
                         translatedTView.setVisibility(View.VISIBLE);
-                }
+                    }
                 })
                 .addOnFailureListener(e -> {
-                    // Recognition failed, try the next recognizer
+                    // Recognition failed
                     Toast.makeText(this, "Text recognition failed: " + e,Toast.LENGTH_LONG).show();
                 });
+
+        //Switch Visibility
         detectedTextProgressBar.setVisibility(View.INVISIBLE);
         extractedTView.setVisibility(View.VISIBLE);
     }
@@ -166,22 +167,23 @@ public class Extraction extends AppCompatActivity {
             Toast.makeText(this, "No Text to Translate", Toast.LENGTH_LONG).show();
             return;
         }
-        LanguageIdentifier languageIdentifier = LanguageIdentification.getClient();
 
+        LanguageIdentifier languageIdentifier = LanguageIdentification.getClient();
         languageIdentifier.identifyPossibleLanguages(textToTranslate)
                 .addOnSuccessListener(identifiedLanguages -> {
+                    //Translate Text With Detected Language
                     if (!identifiedLanguages.isEmpty()) {
                         String detectedLanguage = identifiedLanguages.get(0).getLanguageTag();
-                        if (!detectedLanguage.equals("und")) {
-                            translateText(textToTranslate, detectedLanguage);
-                        }
+                        if (!detectedLanguage.equals("und")) { translateText(textToTranslate, detectedLanguage); }
                     }
                 })
                 .addOnFailureListener(e -> Toast.makeText(this, "Language identification failed."+ e,Toast.LENGTH_LONG).show());
     }
     private void translateText(String text, String sourceLang) {
+        //Get User's Preferred Language
         String preferredLanguage = preferences.getString("preferred_languages", Locale.getDefault().getLanguage());
 
+        //Create Translator Object
         TranslatorOptions options = new TranslatorOptions.Builder()
                 .setSourceLanguage(sourceLang)
                 .setTargetLanguage(preferredLanguage)
@@ -192,12 +194,12 @@ public class Extraction extends AppCompatActivity {
                 .addOnSuccessListener(unused -> translator.translate(text)
                         .addOnSuccessListener(translatedText -> {
                             runOnUiThread(() -> {
-                                // Store the translation in the map
+                                // Store Translation in Map
                                 translatedTexts.put(text, translatedText);
-
-                                // Update translatedTView with all translations
+                                // Update translatedTView with Translations
                                 updateTranslatedTextView();
                             });
+                            //Close Translator
                             translator.close();
                         })
                         .addOnFailureListener(e -> {
@@ -210,6 +212,7 @@ public class Extraction extends AppCompatActivity {
     private void updateTranslatedTextView() {
         StringBuilder translatedText = new StringBuilder();
         if(originalTexts.size() == translatedTexts.size()) {
+            //Iterate Through All Translations and Append to StringBuilder
             for (String text : originalTexts) {
                 String translation = translatedTexts.get(text);
                 if (translation != null) {
@@ -217,6 +220,7 @@ public class Extraction extends AppCompatActivity {
                 }
             }
         }
+        //Set Text and Switch Visibility
         translatedTView.setText(translatedText.toString().trim());
         translatedTextProgressBar.setVisibility(View.INVISIBLE);
         translatedTView.setVisibility(View.VISIBLE);
