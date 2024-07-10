@@ -47,14 +47,11 @@ public class Settings extends AppCompatActivity {
         languageList.add(new IconAndStringItem("IT", R.drawable.flag_it));
         languageList.add(new IconAndStringItem("PO", R.drawable.flag_br));
         languageList.add(new IconAndStringItem("RO", R.drawable.flag_ro));
-
         languageList.add(new IconAndStringItem("AR", R.drawable.flag_sa));
         languageList.add(new IconAndStringItem("HI", R.drawable.flag_in));
         languageList.add(new IconAndStringItem("JA", R.drawable.flag_ja));
         languageList.add(new IconAndStringItem("RU", R.drawable.flag_ru));
         languageList.add(new IconAndStringItem("ZH", R.drawable.flag_chi));
-
-
 
         textRecognizer.add(new IconAndStringItem("Latin", R.drawable.latin_a));
         textRecognizer.add(new IconAndStringItem("Japanese", R.drawable.hiragana_a));
@@ -119,6 +116,7 @@ public class Settings extends AppCompatActivity {
         Intent refresh = new Intent(this, Settings.class);
         startActivity(refresh);
         finish();
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
     private void applySavedLanguage() {
         SharedPreferences sharedPreferences = getSharedPreferences("AppPreferences", Context.MODE_PRIVATE);
@@ -132,7 +130,7 @@ public class Settings extends AppCompatActivity {
 
     private int getSpinnerPosition(CustomSpinnerAdapter _adapter, String language){
         for (int i = 0; i < _adapter.getCount(); i++) {
-            if (_adapter.getItem(i).getString().toUpperCase().equals(language.toUpperCase())) {
+            if (Objects.requireNonNull(_adapter.getItem(i)).getString().equalsIgnoreCase(language)) {
                 return i;
             }
         }
@@ -142,6 +140,8 @@ public class Settings extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == android.R.id.home) {
             // Finish the activity and Apply Animation
+            Intent intent = new Intent(this, Home.class);
+            startActivity(intent);
             finish();
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
             return true;
