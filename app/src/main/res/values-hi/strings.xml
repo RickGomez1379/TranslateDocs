@@ -37,6 +37,7 @@
     <string name="using_chinese_recognizer">चीनी टेक्स्ट पहचानकर्ता का उपयोग कर रहे हैं</string>
     <string name="my_email">RickDev1379@gmail.com</string>
     <string name="contact_me">मुझसे संपर्क करें</string>
+    <string name="reset_button">ResetButton</string>
 
 
     <string-array name="language_array">

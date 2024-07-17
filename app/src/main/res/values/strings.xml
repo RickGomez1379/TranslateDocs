@@ -35,6 +35,7 @@
     <string name="using_chinese_recognizer">"Using Chinese Text Recognizer"</string>
     <string name="my_email">RickDev1379@gmail.com</string>
     <string name="contact_me">Contact Me</string>
+    <string name="reset_button">ResetButton</string>
 
     <string-array name="language_array">
         <item>@string/language_english</item>
