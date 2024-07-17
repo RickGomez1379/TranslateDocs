@@ -35,6 +35,8 @@
     <string name="using_latin_recognizer">Usando o Reconhecedor de Texto Latino</string>
     <string name="using_japanese_recognizer">Usando o Reconhecedor de Texto Japonês</string>
     <string name="using_chinese_recognizer">Usando o Reconhecedor de Texto Chinês</string>
+    <string name="my_email">RickDev1379@gmail.com</string>
+    <string name="contact_me">Contate-me</string>
 
 
     <string-array name="language_array">

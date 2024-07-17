@@ -35,6 +35,8 @@
     <string name="using_latin_recognizer">Utilizând Recunoașterea Textului Latin</string>
     <string name="using_japanese_recognizer">Utilizând Recunoașterea Textului Japonez</string>
     <string name="using_chinese_recognizer">Utilizând Recunoașterea Textului Chinezesc</string>
+    <string name="my_email">RickDev1379@gmail.com</string>
+    <string name="contact_me">Contactează-mă</string>
 
 
     <string-array name="language_array">

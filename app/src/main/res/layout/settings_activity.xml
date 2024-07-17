@@ -46,4 +46,18 @@
         android:layout_height="wrap_content"
         android:text="@string/reset_preferences"
         android:layout_gravity="center"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/contact_me"
+
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/my_email"/>
+
 </LinearLayout>

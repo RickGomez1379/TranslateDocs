@@ -35,6 +35,8 @@
     <string name="using_latin_recognizer">लैटिन टेक्स्ट पहचानकर्ता का उपयोग कर रहे हैं</string>
     <string name="using_japanese_recognizer">जापानी टेक्स्ट पहचानकर्ता का उपयोग कर रहे हैं</string>
     <string name="using_chinese_recognizer">चीनी टेक्स्ट पहचानकर्ता का उपयोग कर रहे हैं</string>
+    <string name="my_email">RickDev1379@gmail.com</string>
+    <string name="contact_me">मुझसे संपर्क करें</string>
 
 
     <string-array name="language_array">

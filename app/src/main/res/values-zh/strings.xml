@@ -35,6 +35,8 @@
     <string name="using_latin_recognizer">使用拉丁文字识别器</string>
     <string name="using_japanese_recognizer">使用日文字识别器</string>
     <string name="using_chinese_recognizer">使用中文字识别器</string>
+    <string name="my_email">RickDev1379@gmail.com</string>
+    <string name="contact_me">联系我</string>
 
 
     <string-array name="language_array">

@@ -33,6 +33,8 @@
     <string name="using_latin_recognizer">"Using Latin Text Recognizer"</string>
     <string name="using_japanese_recognizer">"Using Japanese Text Recognizer"</string>
     <string name="using_chinese_recognizer">"Using Chinese Text Recognizer"</string>
+    <string name="my_email">RickDev1379@gmail.com</string>
+    <string name="contact_me">Contact Me</string>
 
     <string-array name="language_array">
         <item>@string/language_english</item>

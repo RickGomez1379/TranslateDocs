@@ -35,6 +35,9 @@
     <string name="using_latin_recognizer">استخدام مُعرف النصوص اللاتينية</string>
     <string name="using_japanese_recognizer">استخدام مُعرف النصوص اليابانية</string>
     <string name="using_chinese_recognizer">استخدام مُعرف النصوص الصينية</string>
+    <string name="my_email">RickDev1379@gmail.com</string>
+    <string name="contact_me">اتصل بي</string>
+
 
 
     <string-array name="language_array">
