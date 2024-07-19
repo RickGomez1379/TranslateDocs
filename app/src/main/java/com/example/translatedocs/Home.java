@@ -58,7 +58,7 @@ public class Home extends AppCompatActivity {
     //Reset Image View
     ImageButton reset;
 
-    //
+    //User's Preferences and Saved Them in String for Later Use
     String recognizerPreference;
     String userCurrentLanguageCode;
     String userDeviceLanguageCode;
@@ -100,40 +100,42 @@ public class Home extends AppCompatActivity {
         //TODO: Accessibility
         reset.setOnTouchListener((v, event) -> {
             Resources res = getResources();
+            //Changes Language Accordingly Depending if Pressed or Released
             switch (event.getAction()) {
+                //When Pressed Down
                 case MotionEvent.ACTION_DOWN:
                     setLocale(userDeviceLanguageCode);
-                    galleryText.setText(res.getString(R.string.choose_picture_from_gallery));
-                    photoText.setText(res.getString(R.string.take_photo));
-                    translatorText.setText(res.getString(R.string.translator));
-                    settingsText.setText(res.getString(R.string.settings));
-                    return true; // If you want to handle the touch event
+                    SetTextViews(res);
+                    SetTextRecognizerTextView();
+                    return true;
+                    //When Button is Released
                 case MotionEvent.ACTION_UP:
-                    // Do something when button is released
                     setLocale(userCurrentLanguageCode);
-                    galleryText.setText(res.getString(R.string.choose_picture_from_gallery));
-                    photoText.setText(res.getString(R.string.take_photo));
-                    translatorText.setText(res.getString(R.string.translator));
-                    settingsText.setText(res.getString(R.string.settings));
-                    return true; // If you want to handle the touch event
+                    SetTextViews(res);
+                    SetTextRecognizerTextView();
+                    return true;
             }
             return false;
         });
 
-//        reset.setOnLongClickListener(v -> {
-//            Toast.makeText(this, "Reset", Toast.LENGTH_SHORT).show();
-//            setLocale(Locale.getDefault().getLanguage());
-//            return true;
-//        });
 
     }
+
+    //Set Text of the Text Views, Used When User Press Reset Button
+    private void SetTextViews(Resources res) {
+        galleryText.setText(res.getString(R.string.choose_picture_from_gallery));
+        photoText.setText(res.getString(R.string.take_photo));
+        translatorText.setText(res.getString(R.string.translator));
+        settingsText.setText(res.getString(R.string.settings));
+    }
+
+    //Set Locale Language, Used When User Press Reset Button
     private void setLocale(String _languageCode) {
         Locale locale = new Locale(_languageCode);
         Locale.setDefault(locale);
         Configuration config = new Configuration();
         config.setLocale(locale);
         getResources().updateConfiguration(config, getResources().getDisplayMetrics());
-
     }
 
     //Set TextView For User's Knowledge on What Recognizer TranslateDocs is Using
