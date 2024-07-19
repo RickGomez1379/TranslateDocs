@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TranslateDocs</string>
+    <string name="choose_picture_from_gallery">Diné bizaad bináá’ náhást’éí nitsékees</string>
+    <string name="take_photo">Át’ééhjí</string>
+    <string name="translator">Navajo Translator</string>
+    <string name="settings">Doo yá’át’ééh</string>
+    <string name="user_s_photo">Yáhoot’éego</string>
+    <string name="enter_text_to_translate">Díí bitoodnáádáá’ yá’át’éeh</string>
+    <string name="language_of_text">Bitoodnáádáá’</string>
+    <string name="text_translation_here">Díí bitoodnáádáá’ yá’át’éeh</string>
+    <string name="translate">Yá’át’éeh</string>
+    <string name="detected_text">Díí bitoodnáádáá’</string>
+    <string name="translated_text">Díí bitoodnáádáá’ yá’át’éeh</string>
+    <string name="language_saved_message">Díí bizaad hólǫ́ holne’ yił yaa éí %s</string>
+    <string name="preference_reset">Doo yá’át’éeh</string>
+
+    <string name="language_english">Diné Bizaad</string>
+    <string name="language_spanish">Diné bizaad bináá’</string>
+    <string name="language_french">Diné bizaad bináá’</string>
+    <string name="language_german">Diné bizaad bináá’</string>
+    <string name="language_portuguese">Diné bizaad bináá’</string>
+    <string name="language_italian">Diné bizaad bináá’</string>
+    <string name="language_romanian">Diné bizaad bináá’</string>
+    <string name="language_japanese">Diné bizaad bináá’</string>
+    <string name="language_chinese">Diné bizaad bináá’</string>
+    <string name="language_russian">Diné bizaad bináá’</string>
+    <string name="language_arabic">Diné bizaad bináá’</string>
+    <string name="language_hindi">Diné bizaad bináá’</string>
+    <string name="select_preferred_language">Díí bizaad hólǫ́ hólǫ́</string>
+    <string name="save">Hólǫ́</string>
+    <string name="reset_preferences">Doo yá’át’éeh</string>
+    <string name="set_text_recognizer">Díí bitoodnáádáá’ ádá\'ííł</string>
+    <string name="using_latin_recognizer">"Diné bizaad ádá'ííł"</string>
+    <string name="using_japanese_recognizer">"Diné bizaad ádá'ííł"</string>
+    <string name="using_chinese_recognizer">"Diné bizaad ádá'ííł"</string>
+    <string name="my_email">RickDev1379@gmail.com</string>
+    <string name="contact_me">Ákót’éego</string>
+    <string name="reset_button">Doo yá’át’éeh</string>
+
+    <string-array name="language_array">
+        <item>@string/language_english</item>
+        <item>@string/language_spanish</item>
+        <item>@string/language_french</item>
+        <item>@string/language_german</item>
+        <item>@string/language_portuguese</item>
+        <item>@string/language_italian</item>
+        <item>@string/language_romanian</item>
+        <item>@string/language_japanese</item>
+        <item>@string/language_chinese</item>
+        <item>@string/language_russian</item>
+        <item>@string/language_arabic</item>
+        <item>@string/language_hindi</item>
+    </string-array>
+    <string-array name="time_intervals">
+        <item>5 tseeb</item>
+        <item>15 tseeb</item>
+        <item>1 minute</item>
+        <item>3 minutes</item>
+    </string-array>
+</resources>

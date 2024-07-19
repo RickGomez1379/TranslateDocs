@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TranslateDocs</string>
+    <string name="choose_picture_from_gallery">Pumili ng Larawan mula sa Galeriya</string>
+    <string name="take_photo">Kumuha ng Larawan</string>
+    <string name="translator">Tagasalin</string>
+    <string name="settings">Mga Setting</string>
+    <string name="user_s_photo">Larawan ng Gumagamit</string>
+    <string name="enter_text_to_translate">Ilagay ang Teksto na I-Dedeksiyon</string>
+    <string name="language_of_text">Wika ng Teksto</string>
+    <string name="text_translation_here">Pagsasalin ng Teksto Dito</string>
+    <string name="translate">Isalin</string>
+    <string name="detected_text">Nakitang Teksto</string>
+    <string name="translated_text">Isinaling Teksto</string>
+    <string name="language_saved_message">Nai-save ang ninanais na wika: %s</string>
+    <string name="preference_reset">I-reset ang Mga Kagustuhan</string>
+
+    <string name="language_english">Ingles</string>
+    <string name="language_spanish">Espanyol</string>
+    <string name="language_french">Pranses</string>
+    <string name="language_german">Alemán</string>
+    <string name="language_portuguese">Portugues</string>
+    <string name="language_italian">Italyano</string>
+    <string name="language_romanian">Rumano</string>
+    <string name="language_japanese">Hapones</string>
+    <string name="language_chinese">Tsino</string>
+    <string name="language_russian">Ruso</string>
+    <string name="language_arabic">Arabo</string>
+    <string name="language_hindi">Hindi</string>
+    <string name="select_preferred_language">Pumili ng Ninanais na Wika</string>
+    <string name="save">I-save</string>
+    <string name="reset_preferences">I-reset ang Mga Kagustuhan</string>
+    <string name="set_text_recognizer">Itakda ang Tagatanggap ng Teksto</string>
+    <string name="using_latin_recognizer">"Gamit ang Latin na Tagatanggap ng Teksto"</string>
+    <string name="using_japanese_recognizer">"Gamit ang Tagatanggap ng Teksto ng Hapones"</string>
+    <string name="using_chinese_recognizer">"Gamit ang Tagatanggap ng Teksto ng Tsino"</string>
+    <string name="my_email">RickDev1379@gmail.com</string>
+    <string name="contact_me">Makipag-ugnayan sa Akin</string>
+    <string name="reset_button">I-reset na Button</string>
+
+    <string-array name="language_array">
+        <item>@string/language_english</item>
+        <item>@string/language_spanish</item>
+        <item>@string/language_french</item>
+        <item>@string/language_german</item>
+        <item>@string/language_portuguese</item>
+        <item>@string/language_italian</item>
+        <item>@string/language_romanian</item>
+        <item>@string/language_japanese</item>
+        <item>@string/language_chinese</item>
+        <item>@string/language_russian</item>
+        <item>@string/language_arabic</item>
+        <item>@string/language_hindi</item>
+    </string-array>
+    <string-array name="time_intervals">
+        <item>5 segundo</item>
+        <item>15 segundo</item>
+        <item>1 minuto</item>
+        <item>3 minuto</item>
+    </string-array>
+</resources>
