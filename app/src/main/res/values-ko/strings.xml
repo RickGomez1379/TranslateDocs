@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TranslateDocs</string>
+    <string name="choose_picture_from_gallery">갤러리에서 사진 선택하기</string>
+    <string name="take_photo">사진 찍기</string>
+    <string name="translator">번역기</string>
+    <string name="settings">설정</string>
+    <string name="user_s_photo">사용자의 사진</string>
+    <string name="enter_text_to_translate">번역할 텍스트 입력하기</string>
+    <string name="language_of_text">텍스트의 언어</string>
+    <string name="text_translation_here">여기 텍스트 번역</string>
+    <string name="translate">번역</string>
+    <string name="detected_text">감지된 텍스트</string>
+    <string name="translated_text">번역된 텍스트</string>
+    <string name="language_saved_message">선호하는 언어가 저장되었습니다: %s</string>
+    <string name="preference_reset">설정 초기화</string>
+
+    <string name="language_english">영어</string>
+    <string name="language_spanish">스페인어</string>
+    <string name="language_french">프랑스어</string>
+    <string name="language_german">독일어</string>
+    <string name="language_portuguese">포르투갈어</string>
+    <string name="language_italian">이탈리아어</string>
+    <string name="language_romanian">루마니아어</string>
+    <string name="language_japanese">일본어</string>
+    <string name="language_chinese">중국어</string>
+    <string name="language_russian">러시아어</string>
+    <string name="language_arabic">아랍어</string>
+    <string name="language_hindi">힌디어</string>
+    <string name="select_preferred_language">선호하는 언어 선택하기</string>
+    <string name="save">저장</string>
+    <string name="reset_preferences">설정 초기화</string>
+    <string name="set_text_recognizer">텍스트 인식기 설정하기</string>
+    <string name="using_latin_recognizer">"라틴 문자 텍스트 인식기 사용 중"</string>
+    <string name="using_japanese_recognizer">"일본어 텍스트 인식기 사용 중"</string>
+    <string name="using_chinese_recognizer">"중국어 텍스트 인식기 사용 중"</string>
+    <string name="my_email">RickDev1379@gmail.com</string>
+    <string name="contact_me">연락하기</string>
+    <string name="reset_button">리셋 버튼</string>
+
+    <string-array name="language_array">
+        <item>@string/language_english</item>
+        <item>@string/language_spanish</item>
+        <item>@string/language_french</item>
+        <item>@string/language_german</item>
+        <item>@string/language_portuguese</item>
+        <item>@string/language_italian</item>
+        <item>@string/language_romanian</item>
+        <item>@string/language_japanese</item>
+        <item>@string/language_chinese</item>
+        <item>@string/language_russian</item>
+        <item>@string/language_arabic</item>
+        <item>@string/language_hindi</item>
+    </string-array>
+    <string-array name="time_intervals">
+        <item>5초</item>
+        <item>15초</item>
+        <item>1분</item>
+        <item>3분</item>
+    </string-array>
+</resources>

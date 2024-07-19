@@ -134,7 +134,7 @@ public class Settings extends AppCompatActivity {
                 return i;
             }
         }
-        return 0; // Value not found // Value not found
+        return 0; // Value not found
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

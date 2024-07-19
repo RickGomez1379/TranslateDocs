@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TranslateDocs</string>
+    <string name="choose_picture_from_gallery">Chọn ảnh từ thư viện</string>
+    <string name="take_photo">Chụp ảnh</string>
+    <string name="translator">Người dịch</string>
+    <string name="settings">Cài đặt</string>
+    <string name="user_s_photo">Ảnh của người dùng</string>
+    <string name="enter_text_to_translate">Nhập văn bản để dịch</string>
+    <string name="language_of_text">Ngôn ngữ của văn bản</string>
+    <string name="text_translation_here">Dịch văn bản ở đây</string>
+    <string name="translate">Dịch</string>
+    <string name="detected_text">Văn bản được phát hiện</string>
+    <string name="translated_text">Văn bản đã dịch</string>
+    <string name="language_saved_message">Ngôn ngữ ưa thích đã được lưu: %s</string>
+    <string name="preference_reset">Cài đặt lại</string>
+
+    <string name="language_english">Tiếng Anh</string>
+    <string name="language_spanish">Tiếng Tây Ban Nha</string>
+    <string name="language_french">Tiếng Pháp</string>
+    <string name="language_german">Tiếng Đức</string>
+    <string name="language_portuguese">Tiếng Bồ Đào Nha</string>
+    <string name="language_italian">Tiếng Ý</string>
+    <string name="language_romanian">Tiếng Rumani</string>
+    <string name="language_japanese">Tiếng Nhật</string>
+    <string name="language_chinese">Tiếng Trung</string>
+    <string name="language_russian">Tiếng Nga</string>
+    <string name="language_arabic">Tiếng Ả Rập</string>
+    <string name="language_hindi">Tiếng Hindi</string>
+    <string name="select_preferred_language">Chọn ngôn ngữ ưa thích</string>
+    <string name="save">Lưu</string>
+    <string name="reset_preferences">Cài đặt lại</string>
+    <string name="set_text_recognizer">Cài đặt nhận diện văn bản</string>
+    <string name="using_latin_recognizer">"Đang sử dụng nhận diện văn bản Latin"</string>
+    <string name="using_japanese_recognizer">"Đang sử dụng nhận diện văn bản Nhật"</string>
+    <string name="using_chinese_recognizer">"Đang sử dụng nhận diện văn bản Trung Quốc"</string>
+    <string name="my_email">RickDev1379@gmail.com</string>
+    <string name="contact_me">Liên hệ với tôi</string>
+    <string name="reset_button">Nút đặt lại</string>
+
+    <string-array name="language_array">
+        <item>@string/language_english</item>
+        <item>@string/language_spanish</item>
+        <item>@string/language_french</item>
+        <item>@string/language_german</item>
+        <item>@string/language_portuguese</item>
+        <item>@string/language_italian</item>
+        <item>@string/language_romanian</item>
+        <item>@string/language_japanese</item>
+        <item>@string/language_chinese</item>
+        <item>@string/language_russian</item>
+        <item>@string/language_arabic</item>
+        <item>@string/language_hindi</item>
+    </string-array>
+    <string-array name="time_intervals">
+        <item>5 giây</item>
+        <item>15 giây</item>
+        <item>1 phút</item>
+        <item>3 phút</item>
+    </string-array>
+</resources>

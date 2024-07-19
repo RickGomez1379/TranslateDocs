@@ -1,15 +1,20 @@
 package com.example.translatedocs;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.view.MotionEvent;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +30,7 @@ import androidx.core.content.FileProvider;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Locale;
 import java.util.Objects;
 
 
@@ -34,29 +40,52 @@ public class Home extends AppCompatActivity {
     final int REQUEST_CAMERA_PERMISSION = 102;
     final int START_CAMERA_CODE = 2;
     final int START_GALLERY_CODE = 1;
-    //CardViews
+    //CardViews and TextViews
     CardView galleryCardView;
     CardView translatorCardView;
     CardView photoCardView;
     CardView settingsCardView;
+    TextView galleryText;
+    TextView photoText;
+    TextView translatorText;
+    TextView settingsText;
     //User's Preferences
     SharedPreferences preferences;
     //TopBar
     Toolbar nav;
     String currentPhotoPath;
     TextView recognizerTextView;
+    //Reset Image View
+    ImageButton reset;
 
+    //
+    String recognizerPreference;
+    String userCurrentLanguageCode;
+    String userDeviceLanguageCode;
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_activity);
 
+        //User's Preferences (Language, Text Detector)
+        preferences = getSharedPreferences("AppPreferences", Context.MODE_PRIVATE);
+        recognizerPreference = preferences.getString("preferred_recognizer", "Latin");
+        userCurrentLanguageCode = preferences.getString("preferred_languages", "EN");
+        userDeviceLanguageCode = Locale.getDefault().getLanguage();
+
         //Assigned CardView Accordingly
         galleryCardView = findViewById(R.id.gallery_Card_View);
+        galleryText = findViewById(R.id.gallery_text_view);
         photoCardView = findViewById(R.id.take_Photo_Card_View);
+        photoText = findViewById(R.id.take_photo_text_view);
         translatorCardView = findViewById(R.id.translator_Card_View);
+        translatorText = findViewById(R.id.translator_text_view);
         settingsCardView = findViewById(R.id.settings_Card_View);
+        settingsText = findViewById(R.id.settings_text_view);
+
         recognizerTextView = findViewById(R.id.recognizer_in_use);
+        reset = findViewById(R.id.home_reset);
 
         //Setup TopBar
         nav = findViewById(R.id.topbar);
@@ -68,12 +97,47 @@ public class Home extends AppCompatActivity {
         //Set TextView For User's Knowledge on What Recognizer TranslateDocs is Using
         SetTextRecognizerTextView();
 
+        //TODO: Accessibility
+        reset.setOnTouchListener((v, event) -> {
+            Resources res = getResources();
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    setLocale(userDeviceLanguageCode);
+                    galleryText.setText(res.getString(R.string.choose_picture_from_gallery));
+                    photoText.setText(res.getString(R.string.take_photo));
+                    translatorText.setText(res.getString(R.string.translator));
+                    settingsText.setText(res.getString(R.string.settings));
+                    return true; // If you want to handle the touch event
+                case MotionEvent.ACTION_UP:
+                    // Do something when button is released
+                    setLocale(userCurrentLanguageCode);
+                    galleryText.setText(res.getString(R.string.choose_picture_from_gallery));
+                    photoText.setText(res.getString(R.string.take_photo));
+                    translatorText.setText(res.getString(R.string.translator));
+                    settingsText.setText(res.getString(R.string.settings));
+                    return true; // If you want to handle the touch event
+            }
+            return false;
+        });
+
+//        reset.setOnLongClickListener(v -> {
+//            Toast.makeText(this, "Reset", Toast.LENGTH_SHORT).show();
+//            setLocale(Locale.getDefault().getLanguage());
+//            return true;
+//        });
+
+    }
+    private void setLocale(String _languageCode) {
+        Locale locale = new Locale(_languageCode);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.setLocale(locale);
+        getResources().updateConfiguration(config, getResources().getDisplayMetrics());
+
     }
 
     //Set TextView For User's Knowledge on What Recognizer TranslateDocs is Using
     private void SetTextRecognizerTextView() {
-        preferences = getSharedPreferences("AppPreferences", Context.MODE_PRIVATE);
-        String recognizerPreference = preferences.getString("preferred_recognizer", "Latin");
 
         if(recognizerPreference.equals("Chinese")){
             recognizerPreference = getString(R.string.using_chinese_recognizer);
