@@ -3,6 +3,7 @@ package com.example.translatedocs;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
 import android.view.MenuItem;
@@ -57,7 +58,7 @@ public class TranslatorActivity extends AppCompatActivity {
     final int REQUEST_MICROPHONE_PERMISSION = 101;
     boolean usingFirstMic = true;
     private final StringBuilder recognizedTextBuilder = new StringBuilder();
-
+    Handler handler = new Handler();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -111,18 +112,22 @@ public class TranslatorActivity extends AppCompatActivity {
         if (isTranslateDown && !Objects.requireNonNull(topTextToTranslate.getText()).toString().isEmpty()) {
             fromLanguage = ChosenLanguage(languagesTop.getSelectedItemPosition());
             toLanguage = ChosenLanguage(languagesBottom.getSelectedItemPosition());
-            Translate(topTextToTranslate.getText().toString(), fromLanguage, toLanguage, bottomTextToTranslate, bottomTextInputLayout, bottomProgressBar);
+//            Translate(topTextToTranslate.getText().toString(), fromLanguage, toLanguage, bottomTextToTranslate, bottomTextInputLayout, bottomProgressBar);
             bottomTextInputLayout.setVisibility(View.INVISIBLE);
             bottomProgressBar.setVisibility(View.VISIBLE);
+            Runnable runnable = () -> Translate(topTextToTranslate.getText().toString(), fromLanguage, toLanguage, bottomTextToTranslate, bottomTextInputLayout, bottomProgressBar);
+            handler.postDelayed(runnable, 2000);
 
         }
         //Else Translating into Top Text Input
         else if(!Objects.requireNonNull(bottomTextToTranslate.getText()).toString().isEmpty()){
             fromLanguage = ChosenLanguage(languagesBottom.getSelectedItemPosition());
             toLanguage = ChosenLanguage(languagesTop.getSelectedItemPosition());
-            Translate(bottomTextToTranslate.getText().toString(), fromLanguage, toLanguage, topTextToTranslate, topTextInputLayout, topProgressBar);
+            //Translate(bottomTextToTranslate.getText().toString(), fromLanguage, toLanguage, topTextToTranslate, topTextInputLayout, topProgressBar);
             topTextInputLayout.setVisibility(View.INVISIBLE);
             topProgressBar.setVisibility(View.VISIBLE);
+            Runnable runnable = () -> Translate(bottomTextToTranslate.getText().toString(), fromLanguage, toLanguage, topTextToTranslate, topTextInputLayout, topProgressBar);
+            handler.postDelayed(runnable, 2000);
         }
     }
 

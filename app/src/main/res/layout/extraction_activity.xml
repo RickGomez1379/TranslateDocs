@@ -39,7 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            style="@android:style/Widget.ProgressBar.Small"/>
+            style="@android:style/Widget.ProgressBar.Large"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -48,12 +48,7 @@
             android:layout_marginTop="12dp"
             android:layout_marginBottom="10dp"
             android:gravity="center"/>
-        <ProgressBar
-            android:id="@+id/translated_text_progress_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            style="@android:style/Widget.ProgressBar.Small"/>
+
         <TextView
             android:id="@+id/translated_Text"
             android:layout_width="match_parent"
@@ -64,5 +59,11 @@
             android:background="@drawable/border"
             android:padding="10dp"
             android:visibility="gone"/>
+        <ProgressBar
+            android:id="@+id/translated_text_progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            style="@android:style/Widget.ProgressBar.Large"/>
     </LinearLayout>
 </ScrollView>

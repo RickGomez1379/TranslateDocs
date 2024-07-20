@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -51,6 +52,8 @@ public class Extraction extends AppCompatActivity {
     List<String> originalTexts = new ArrayList<>();
     Map<String,String> translatedTexts = new LinkedHashMap<>();
     SharedPreferences preferences;
+    //Add Timer for Consistency
+    Handler handler = new Handler();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -154,10 +157,12 @@ public class Extraction extends AppCompatActivity {
                     // Recognition failed
                     Toast.makeText(this, "Text recognition failed: " + e,Toast.LENGTH_LONG).show();
                 });
-
-        //Switch Visibility
-        detectedTextProgressBar.setVisibility(View.INVISIBLE);
-        extractedTView.setVisibility(View.VISIBLE);
+        Runnable runnable = () -> {
+            //Switch Visibility
+            detectedTextProgressBar.setVisibility(View.INVISIBLE);
+            extractedTView.setVisibility(View.VISIBLE);
+        };
+        handler.postDelayed(runnable, 2000);
     }
 
 
@@ -222,8 +227,11 @@ public class Extraction extends AppCompatActivity {
         }
         //Set Text and Switch Visibility
         translatedTView.setText(translatedText.toString().trim());
-        translatedTextProgressBar.setVisibility(View.INVISIBLE);
-        translatedTView.setVisibility(View.VISIBLE);
+        Runnable runnable = () -> {
+            translatedTextProgressBar.setVisibility(View.INVISIBLE);
+            translatedTView.setVisibility(View.VISIBLE);
+        };
+        handler.postDelayed(runnable, 2000);
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
